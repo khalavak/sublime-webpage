@@ -9,20 +9,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
-        :root {
-            --sofecta-dark-bg: #0a192f;
-            --sofecta-navy: #112240;
-            --sofecta-light-navy: #233554;
+         :root {
+            --sofecta-deep-dark: #020c1b;      /* New darkest color for header/footer */
+            --sofecta-dark-bg: #0a192f;       /* Main content background (lighter than header) */
+            --sofecta-navy: #112240;          /* Card background (lightest dark shade) */
+            --sofecta-light-navy: #233554;    /* Border and hover color */
+            
             --sofecta-accent-yellow: #FFC107;
             --sofecta-accent-blue: #FFC107;
-            --sofecta-text-light: #e6f1ff;
+            
+            --sofecta-text-light: #ccd6f6;
             --sofecta-text-medium: #8892b0;
             --sofecta-white: #e6f1ff;
+            
             --sofecta-border-radius: 8px;
             --font-family-main: 'Roboto', sans-serif;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
+
+        body { 
+            background-color: var(--sofecta-dark-bg); 
+            color: var(--sofecta-text-light); 
+            font-family: var(--font-family-main); 
+            line-height: 1.6; 
+        }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
         h1 { font-size: 3.2rem; }
@@ -31,7 +43,15 @@
         p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
         section { padding: 60px 0; }
         .text-accent { color: var(--sofecta-accent-yellow); }
-        .main-header { background-color: var(--sofecta-dark-bg); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
+
+        .main-header { 
+            background-color: var(--sofecta-deep-dark);
+            padding: 15px 0; 
+            border-bottom: 1px solid var(--sofecta-light-navy); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
         .logo img { height: 50px; }
         .main-nav ul { display: flex; list-style: none; align-items: center; }
@@ -39,7 +59,7 @@
         .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
         .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
         .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
-        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-dark-bg); border-color: var(--sofecta-accent-blue); }
+        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
         
         .info-card {
@@ -52,7 +72,20 @@
         }
 
         .pricing-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
-        .tier-card { background-color: var(--sofecta-navy); padding: 40px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; display: flex; flex-direction: column; }
+        .tier-card { 
+            background-color: var(--sofecta-navy); 
+            padding: 40px; 
+            border-radius: var(--sofecta-border-radius); 
+            border: 1px solid var(--sofecta-light-navy); 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(2, 12, 27, 0.7);
+        }
         .tier-card h3 { color: var(--sofecta-white); }
         .tier-card p { flex-grow: 1; }
         .tier-card .card-icon { font-size: 3rem; margin-bottom: 20px; color: var(--sofecta-accent-blue); }
@@ -60,7 +93,14 @@
         .tier-card .feature-list li { margin-bottom: 10px; padding-left: 30px; position: relative; }
         .tier-card .feature-list i { position: absolute; left: 0; top: 5px; color: var(--sofecta-accent-blue); }
 
-        .main-footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+        .main-footer { 
+            background-color: var(--sofecta-deep-dark);
+            padding: 40px 0; 
+            text-align: center; 
+            border-top: 1px solid var(--sofecta-light-navy); 
+            font-size: 0.9rem; 
+            color: var(--sofecta-text-medium);
+        }
     </style>
 </head>
 <body>
@@ -133,7 +173,7 @@
             </div>
         </section>
 
-        <section class="cta-section">
+        <section class="cta-section" style="padding-bottom: 80px;">
             <div class="container">
                 <div class="info-card">
                     <h2>Not Sure Where to Start?</h2>
