@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Plans | Sofecta Labs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sofecta-dark-bg: #0a192f;
+            --sofecta-navy: #112240;
+            --sofecta-light-navy: #233554;
+            --sofecta-accent-yellow: #FFC107;
+            --sofecta-accent-blue: #FFC107;
+            --sofecta-text-light: #e6f1ff;
+            --sofecta-text-medium: #8892b0;
+            --sofecta-white: #e6f1ff;
+            --sofecta-border-radius: 8px;
+            --font-family-main: 'Roboto', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        h1 { font-size: 3.2rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.5rem; }
+        p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
+        section { padding: 80px 0; }
+        .text-accent { color: var(--sofecta-accent-yellow); }
+        .main-header { background-color: var(--sofecta-dark-bg); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 50px; }
+        .main-nav ul { display: flex; list-style: none; align-items: center; }
+        .main-nav li { margin-left: 25px; }
+        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-dark-bg); border-color: var(--sofecta-accent-blue); }
+        .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
+        .page-header { text-align: center; padding: 80px 0; background-color: var(--sofecta-navy); }
+        .page-header h1 { margin-bottom: 10px; }
+        .pricing-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
+        .tier-card { background-color: var(--sofecta-navy); padding: 40px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
+        .tier-card h3 { color: var(--sofecta-accent-blue); }
+        .tier-card ul { list-style: none; margin: 30px 0; color: var(--sofecta-text-medium); }
+        .tier-card ul li { margin-bottom: 10px; }
+        .cta-section { background-color: var(--sofecta-navy); text-align: center; }
+        .main-footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="managed-sublime.html">Managed Sublime</a></li>
+                    <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
+                    <li><a href="pricing.html" class="active">Pricing</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Request a Demo</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Transparent Pricing for <span class="text-accent">Comprehensive Protection</span></h1>
+                <p>Our service is tailored to your unique needs. We provide custom quotes to ensure you only pay for what you need.</p>
+            </div>
+        </section>
+
+        <section id="plans">
+            <div class="container">
+                <h2 style="text-align: center;">Find the Right Plan for Your Team</h2>
+                <div class="pricing-tiers">
+                    <div class="tier-card">
+                        <h3>Managed Detection & Response</h3>
+                        <p>Our core offering for comprehensive email security management.</p>
+                        <ul>
+                            <li>✓ 24/7 Monitoring & Triage</li>
+                            <li>✓ Custom Rule Deployment</li>
+                            <li>✓ Automated Remediation</li>
+                            <li>✓ Standard Reporting</li>
+                        </ul>
+                        <a href="contact.html" class="btn btn-primary">Request a Quote</a>
+                    </div>
+                    <div class="tier-card" style="border-color: var(--sofecta-accent-yellow);">
+                        <h3>Advanced Threat Hunting</h3>
+                        <p>For organizations requiring proactive defense and deeper customization.</p>
+                        <ul>
+                            <li>✓ All MDR Features</li>
+                            <li>✓ Proactive Threat Hunting</li>
+                            <li>✓ Advanced Custom Rule Engineering</li>
+                            <li>✓ Dedicated Analyst Reviews</li>
+                        </ul>
+                        <a href="contact.html" class="btn btn-primary">Request a Quote</a>
+                    </div>
+                    <div class="tier-card">
+                        <h3>Enterprise Suite</h3>
+                        <p>A fully bespoke solution for large or complex environments.</p>
+                        <ul>
+                            <li>✓ All Advanced Features</li>
+                            <li>✓ Bespoke Integrations (SOAR)</li>
+                            <li>✓ Dedicated Analyst Time</li>
+                            <li>✓ Executive Threat Briefings</li>
+                        </ul>
+                        <a href="contact.html" class="btn btn-primary">Request a Quote</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Not Sure Where to Start?</h2>
+                <p>Begin with our <span class="text-accent">Free 30-Day Proof of Value</span>. Our team provides a 100% free, no-obligation "white glove" evaluation to demonstrate the value in your own environment before you commit. [14]</p>
+                <a href="contact.html" class="btn btn-primary">Start My Free Evaluation</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Sofecta Labs | Managed Security Experts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sofecta-dark-bg: #0a192f;
+            --sofecta-navy: #112240;
+            --sofecta-light-navy: #233554;
+            --sofecta-accent-yellow: #FFC107;
+            --sofecta-accent-blue: #FFC107;
+            --sofecta-text-light: #e6f1ff;
+            --sofecta-text-medium: #8892b0;
+            --sofecta-white: #e6f1ff;
+            --sofecta-border-radius: 8px;
+            --font-family-main: 'Roboto', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        h1 { font-size: 3.2rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.5rem; }
+        p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
+        section { padding: 80px 0; }
+        .text-accent { color: var(--sofecta-accent-yellow); }
+        .main-header { background-color: var(--sofecta-dark-bg); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 50px; }
+        .main-nav ul { display: flex; list-style: none; align-items: center; }
+        .main-nav li { margin-left: 25px; }
+        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-dark-bg); border-color: var(--sofecta-accent-blue); }
+        .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
+        .page-header { text-align: center; padding: 80px 0; background-color: var(--sofecta-navy); }
+        .page-header h1 { margin-bottom: 10px; }
+        .process-section { text-align: center; }
+        .process-flow { display: flex; justify-content: space-around; margin-top: 50px; gap: 30px; }
+        .process-step { max-width: 300px; }
+        .process-step .step-number { font-size: 3rem; font-weight: 700; color: var(--sofecta-accent-blue); margin-bottom: 10px; }
+        .process-step h3 { color: var(--sofecta-white); }
+        .two-col-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .cta-section { background-color: var(--sofecta-navy); text-align: center; }
+        .main-footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="managed-sublime.html">Managed Sublime</a></li>
+                    <li><a href="why-sofecta-labs.html" class="active">Why Sofecta Labs</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Request a Demo</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>The Right Security Partner <span class="text-accent">Changes Everything</span></h1>
+                <p>Great technology is not enough. You need a partner with deep operational expertise to maximize its value.</p>
+            </div>
+        </section>
+
+        <section id="expertise">
+            <div class="container">
+                 <div class="two-col-layout">
+                    <div>
+                         <h2>Practitioners, <span class="text-accent">Not Resellers</span></h2>
+                         <p>Sofecta Labs was built by security practitioners. We don't just sell technology; we use it every day in our global Security Operations Center (SOC) to defend our clients.</p>
+                         <p>We understand that the best platforms are only as effective as the team managing them. Our partnership with Sublime gives you the best of both worlds: a revolutionary email security platform and a dedicated team of experts ensuring it’s tuned to perfection and monitored 24/7.</p>
+                    </div>
+                     <div style="text-align: center;">
+                         <img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Icon" style="height: 200px;">
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section" style="background-color: var(--sofecta-navy);">
+            <div class="container">
+                <h2>Our Simple, Proven Process</h2>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Assess & Consult</h3>
+                        <p>We start by understanding your current email infrastructure, risk profile, and security gaps with a free, no-obligation threat assessment.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Deploy & Customize</h3>
+                        <p>Our team handles the seamless, API-based integration of Sublime and begins tuning custom MQL rules for your specific threat landscape.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Manage & Protect</h3>
+                        <p>We provide continuous 24/7/365 protection through active monitoring, threat hunting, rapid remediation, and regular performance reporting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section" style="background-color: var(--sofecta-dark-bg);">
+            <div class="container">
+                <h2>Partner With Cyber Defense Experts</h2>
+                <p>Stop managing tools and start improving your security posture. Let our team show you the difference a true security partner can make.</p>
+                <a href="contact.html" class="btn btn-primary">Let's Talk</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
