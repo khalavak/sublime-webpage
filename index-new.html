@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sofecta Labs | Managed Sublime Security (New Design)</title>
+    <title>Sofecta Labs | Managed Sublime Security</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -35,6 +35,11 @@
             line-height: 1.6; 
         }
 
+        /* Prevent scroll when mobile menu is open */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
         h1 { font-size: 3.2rem; }
@@ -53,42 +58,114 @@
             z-index: 1000; 
         }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo img { height: 50px; }
+        .logo img { height: 45px; }
+        
+        /* Desktop Navigation */
+        .main-nav { display: none; } /* Hide by default, show on desktop */
         .main-nav ul { display: flex; list-style: none; align-items: center; }
         .main-nav li { margin-left: 25px; }
         .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
         .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+
+        /* --- RESPONSIVE: Mobile Menu & Hamburger --- */
+        .menu-toggle {
+            display: block; /* Show on mobile */
+            font-size: 2rem;
+            color: var(--sofecta-text-light);
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen */
+            width: 100%;
+            height: 100vh;
+            background-color: var(--sofecta-deep-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.5s ease-in-out;
+            z-index: 1050;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-nav li {
+            margin: 20px 0;
+        }
+
+        .mobile-nav a {
+            color: var(--sofecta-white);
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        
         .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
         .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
         
-        .hero { text-align: center; padding: 80px 0; }
+        .hero { text-align: center; padding: 60px 0; }
         .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 700px; margin: 0 auto 30px auto; }
         .hero .partner-logos { margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 25px; }
         .hero .partner-logos .plus { font-weight: bold; font-size: 2.5rem; color: var(--sofecta-text-medium); }
 
-        .info-card { background-color: var(--sofecta-navy); padding: 50px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 850px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 850px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
         .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
         .grid-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(2, 12, 27, 0.7); }
         .grid-card h3 { color: var(--sofecta-white); }
         .card-icon { font-size: 3rem; color: var(--sofecta-accent-blue); margin-bottom: 20px; }
         
-        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 1rem; background-color: var(--sofecta-navy); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); overflow: hidden;}
-        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--sofecta-light-navy); }
-        .comparison-table th { color: var(--sofecta-white); }
-        .comparison-table td { color: var(--sofecta-text-medium); }
-        .comparison-table tr:last-child td { border-bottom: none; }
-        .comparison-table tr th:last-child, .comparison-table tr td:last-child { background-color: rgba(64, 182, 230, 0.1); }
+        /* --- RESPONSIVE: Comparison Table --- */
+        .comparison-table { width: 100%; margin-top: 40px; border-radius: var(--sofecta-border-radius); background-color: var(--sofecta-navy); border: 1px solid var(--sofecta-light-navy); }
+        .comparison-table thead { display: none; } /* Hide table head on mobile */
+        .comparison-table, .comparison-table tbody, .comparison-table tr, .comparison-table td { display: block; width: 100%; }
+        .comparison-table tr { margin-bottom: 15px; border-radius: var(--sofecta-border-radius); overflow: hidden; border: 1px solid var(--sofecta-light-navy); }
+        .comparison-table td { padding: 15px; text-align: right; position: relative; border-bottom: 1px solid var(--sofecta-light-navy); }
+        .comparison-table td:last-child { border-bottom: none; }
+        .comparison-table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            font-weight: bold;
+            color: var(--sofecta-white);
+        }
         .comparison-table .check-mark { color: var(--sofecta-accent-blue); font-weight: bold; }
 
-        .main-footer { 
-            background-color: var(--sofecta-deep-dark);
-            padding: 40px 0; 
-            text-align: center; 
-            border-top: 1px solid var(--sofecta-light-navy); 
-            font-size: 0.9rem; 
-            color: var(--sofecta-text-medium);
+        .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+
+        /* --- RESPONSIVE: Media Queries for Desktop --- */
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .main-nav { display: block; }
+
+            h1 { font-size: 3.2rem; }
+            h2 { font-size: 2.5rem; }
+            section { padding: 80px 0; }
+
+            .grid { grid-template-columns: repeat(3, 1fr); }
+
+            /* Restore table for desktop */
+            .comparison-table { border-collapse: collapse; overflow: hidden; }
+            .comparison-table thead { display: table-header-group; }
+            .comparison-table tbody, .comparison-table tr { display: table-row-group; }
+            .comparison-table td { display: table-cell; text-align: left; padding: 20px; }
+            .comparison-table td::before { display: none; }
+            .comparison-table tr th:last-child, .comparison-table tr td:last-child { background-color: rgba(64, 182, 230, 0.1); }
+            .comparison-table tr:last-child td { border-bottom: none; }
         }
     </style>
 </head>
@@ -96,6 +173,8 @@
     <header class="main-header">
         <div class="container">
             <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            
+            <!-- Desktop Navigation -->
             <nav class="main-nav">
                 <ul>
                     <li><a href="index-new.html" class="active">Home</a></li>
@@ -105,16 +184,34 @@
                     <li><a href="contact.html" class="btn btn-primary">Request a Demo</a></li>
                 </ul>
             </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="ri-menu-line"></i>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation Panel -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="index-new.html">Home</a></li>
+            <li><a href="managed-sublime.html">Managed Sublime</a></li>
+            <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request a Demo</a></li>
+        </ul>
+    </nav>
+
     <main>
         <section id="home" class="hero">
             <div class="container">
-                <h1><span class="text-accent">Sublime</span> Protection. Sofecta Managed. Total Email Security.</h1>
+                <h1><span class="text-accent">Sublime</span> Protection. Sofecta Managed.</h1>
                 <p class="subtitle">Next-generation email defense, powered by Sublime Security's open platform and delivered as a seamless, 24/7 managed service by Sofecta Labs.</p>
                 <a href="contact.html" class="btn btn-primary">Schedule a Free Threat Assessment</a>
                 <div class="partner-logos">
-                    <img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs" style="height: 45px;">
+                    <!-- FIX: Corrected partner logos -->
+                    <img src="assets/sofecta-logo-icon.png" alt="Sofecta Labs" style="height: 45px;">
                     <span class="plus">+</span>
                     <img src="assets/sublime-logo.svg" alt="Sublime Security" style="height: 35px;">
                 </div>
@@ -125,7 +222,7 @@
             <div class="container">
                 <div class="info-card">
                     <h2>Your Defense Needs an Upgrade From the <span class="text-accent">"Black Box"</span></h2>
-                    <p>Legacy email security from Microsoft 365 and Google Workspace is opaque, slow to update, and overwhelms your team with false positives. You have zero visibility into why threats are missed, leaving you vulnerable to sophisticated attacks.</p>
+                    <p>Legacy email security from Microsoft 365 and Google Workspace is opaque, slow to update, and overwhelms your team with false positives.</p>
                 </div>
             </div>
         </section>
@@ -137,17 +234,17 @@
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-shield-star-line"></i></div>
                         <h3>High-Fidelity Detection</h3>
-                        <p>We leverage Sublime's Detection-as-Code (MQL) to write and deploy custom rules that detect advanced threats like BEC, QR phishing, and supply chain attacks that "black boxes" miss.</p>
+                        <p>We leverage Sublime's Detection-as-Code (MQL) to write and deploy custom rules that detect advanced threats.</p>
                     </div>
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-headset-line"></i></div>
                         <h3>24/7/365 Expert Response</h3>
-                        <p>Our global SOC acts as an extension of your team, providing around-the-clock monitoring, expert triage of every alert, and immediate remediation.</p>
+                        <p>Our global SOC acts as an extension of your team, providing around-the-clock monitoring and immediate remediation.</p>
                     </div>
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-settings-3-line"></i></div>
                         <h3>Seamless & Transparent</h3>
-                        <p>Sublime's API-first platform integrates directly into your email environment without disruption, providing full transparency into detection logic and performance.</p>
+                        <p>Sublime's API-first platform integrates directly into your email environment without disruption.</p>
                     </div>
                 </div>
             </div>
@@ -165,11 +262,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Visibility</td><td>Opaque "Black Box" with no insight.</td><td class="check-mark">Transparent with full query access.</td></tr>
-                        <tr><td>Customization</td><td>Limited, static rules.</td><td class="check-mark">Total control via Detection-as-Code (MQL).</td></tr>
-                        <tr><td>Speed to Detect</td><td>Slow, vendor-dependent updates.</td><td class="check-mark">Instant rule deployment by our experts.</td></tr>
-                        <tr><td>Analyst Workflow</td><td>High alert fatigue and manual triage.</td><td class="check-mark">Autonomous, 1-click triage managed 24/7.</td></tr>
-                        <tr><td>Management Burden</td><td>Significant staff time for tuning/response.</td><td class="check-mark">Zero burden. We manage everything.</td></tr>
+                        <!-- RESPONSIVE: Added data-label attributes for mobile view -->
+                        <tr>
+                            <td data-label="Feature">Visibility</td>
+                            <td data-label="Legacy SEG">Opaque "Black Box"</td>
+                            <td data-label="Managed Sublime" class="check-mark">Transparent & Full Access</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Feature">Customization</td>
+                            <td data-label="Legacy SEG">Limited, static rules</td>
+                            <td data-label="Managed Sublime" class="check-mark">Detection-as-Code (MQL)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Feature">Speed to Detect</td>
+                            <td data-label="Legacy SEG">Slow, vendor-dependent</td>
+                            <td data-label="Managed Sublime" class="check-mark">Instant rule deployment</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Feature">Analyst Workflow</td>
+                            <td data-label="Legacy SEG">High alert fatigue</td>
+                            <td data-label="Managed Sublime" class="check-mark">24/7 Managed Triage</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Feature">Management Burden</td>
+                            <td data-label="Legacy SEG">Significant staff time</td>
+                            <td data-label="Managed Sublime" class="check-mark">Zero burden</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -188,5 +306,26 @@
     <footer class="main-footer">
         <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
     </footer>
+
+    <!-- RESPONSIVE: JavaScript for mobile menu toggle -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            // Change icon between menu and close
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('ri-menu-line')) {
+                icon.classList.remove('ri-menu-line');
+                icon.classList.add('ri-close-line');
+            } else {
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            }
+        });
+    </script>
 </body>
 </html>
