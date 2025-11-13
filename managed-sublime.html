@@ -63,7 +63,6 @@
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
         
         .info-card { background-color: var(--sofecta-navy); padding: 50px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
         .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
         .grid-card h3 { color: var(--sofecta-white); }
         .two-col-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
@@ -73,6 +72,14 @@
         .feature-list li { margin-bottom: 15px; padding-left: 35px; position: relative; text-align: left; }
         .feature-list i { position: absolute; left: 0; top: 5px; font-size: 1.2rem; color: var(--sofecta-accent-blue); }
         
+        /* FIX: New class specifically for a non-wrapping 4-column grid */
+        .grid-four-col {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
+            gap: 20px; /* Reduced gap slightly for better fit */
+            margin-top: 40px;
+        }
+
         .main-footer { 
             background-color: var(--sofecta-deep-dark);
             padding: 40px 0; 
@@ -86,10 +93,10 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <a href="index-new.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index-new.html">Home</a></li>
                     <li><a href="managed-sublime.html" class="active">Managed Sublime</a></li>
                     <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
                     <li><a href="pricing.html">Pricing</a></li>
@@ -107,7 +114,6 @@
                 </div>
             </div>
         </section>
-
         <section id="sublime-tech">
             <div class="container">
                 <div class="two-col-layout">
@@ -135,26 +141,26 @@
             <div class="container">
                 <h2 style="text-align: center;">The Service: Expertly Managed by <span class="text-accent">Sofecta Labs</span></h2>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto;">Technology is only half the solution. Our expert team provides the 24/7 operational horsepower to maximize your defense and remove the management burden entirely.</p>
-                <div class="grid">
+                <div class="grid-four-col">
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-rocket-2-line"></i></div>
                         <h3>Onboarding & Integration</h3>
-                        <p>Our team handles the entire fast, API-based setup and integration process, ensuring a seamless deployment with zero disruption.</p>
+                        <p>Our team handles the entire fast, API-based setup and integration process, ensuring a seamless deployment.</p>
                     </div>
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-pencil-ruler-2-line"></i></div>
                         <h3>Custom Rule Engineering</h3>
-                        <p>Our certified threat hunters use Sublime's MQL to write and maintain bespoke detection rules tailored to your specific threat landscape.</p>
+                        <p>Our certified threat hunters use Sublime's MQL to write and maintain bespoke detection rules for your specific threat landscape.</p>
                     </div>
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-shield-user-line"></i></div>
                         <h3>24/7 Monitoring & Triage</h3>
-                        <p>We act as your dedicated SOC for email. Every high-priority alert is immediately investigated by a human expert for rapid containment.</p>
+                        <p>We act as your dedicated SOC for email. Every high-priority alert is immediately investigated by a human expert.</p>
                     </div>
                     <div class="grid-card">
                         <div class="card-icon"><i class="ri-line-chart-line"></i></div>
                         <h3>Threat Hunting & Reporting</h3>
-                        <p>Our service includes proactive threat hunting and provides clear, actionable reports on threats, remediations, and performance.</p>
+                        <p>Our service includes proactive threat hunting and provides clear, actionable reports on threats and remediations.</p>
                     </div>
                 </div>
             </div>
