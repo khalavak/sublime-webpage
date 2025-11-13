@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
         :root {
             --sofecta-dark-bg: #0a192f;
@@ -28,7 +29,7 @@
         h2 { font-size: 2.5rem; }
         h3 { font-size: 1.5rem; }
         p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
-        section { padding: 80px 0; }
+        section { padding: 60px 0; }
         .text-accent { color: var(--sofecta-accent-yellow); }
         .main-header { background-color: var(--sofecta-dark-bg); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
@@ -40,14 +41,25 @@
         .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
         .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-dark-bg); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
-        .page-header { text-align: center; padding: 80px 0; background-color: var(--sofecta-navy); }
-        .page-header h1 { margin-bottom: 10px; }
+        
+        .info-card {
+            background-color: var(--sofecta-navy);
+            padding: 50px;
+            border-radius: var(--sofecta-border-radius);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
         .pricing-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
-        .tier-card { background-color: var(--sofecta-navy); padding: 40px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
-        .tier-card h3 { color: var(--sofecta-accent-blue); }
-        .tier-card ul { list-style: none; margin: 30px 0; color: var(--sofecta-text-medium); }
-        .tier-card ul li { margin-bottom: 10px; }
-        .cta-section { background-color: var(--sofecta-navy); text-align: center; }
+        .tier-card { background-color: var(--sofecta-navy); padding: 40px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; display: flex; flex-direction: column; }
+        .tier-card h3 { color: var(--sofecta-white); }
+        .tier-card p { flex-grow: 1; }
+        .tier-card .card-icon { font-size: 3rem; margin-bottom: 20px; color: var(--sofecta-accent-blue); }
+        .tier-card .feature-list { list-style: none; margin: 30px 0; color: var(--sofecta-text-medium); text-align: left; }
+        .tier-card .feature-list li { margin-bottom: 10px; padding-left: 30px; position: relative; }
+        .tier-card .feature-list i { position: absolute; left: 0; top: 5px; color: var(--sofecta-accent-blue); }
+
         .main-footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
     </style>
 </head>
@@ -68,10 +80,12 @@
     </header>
 
     <main>
-        <section class="page-header">
+        <section class="page-header-section">
             <div class="container">
-                <h1>Transparent Pricing for <span class="text-accent">Comprehensive Protection</span></h1>
-                <p>Our service is tailored to your unique needs. We provide custom quotes to ensure you only pay for what you need.</p>
+                <div class="info-card">
+                    <h1>Transparent Pricing for <span class="text-accent">Comprehensive Protection</span></h1>
+                    <p>Our service is tailored to your unique needs. We provide custom quotes to ensure you only pay for what you need.</p>
+                </div>
             </div>
         </section>
 
@@ -80,35 +94,38 @@
                 <h2 style="text-align: center;">Find the Right Plan for Your Team</h2>
                 <div class="pricing-tiers">
                     <div class="tier-card">
+                        <div class="card-icon"><i class="ri-shield-line"></i></div>
                         <h3>Managed Detection & Response</h3>
                         <p>Our core offering for comprehensive email security management.</p>
-                        <ul>
-                            <li>✓ 24/7 Monitoring & Triage</li>
-                            <li>✓ Custom Rule Deployment</li>
-                            <li>✓ Automated Remediation</li>
-                            <li>✓ Standard Reporting</li>
+                        <ul class="feature-list">
+                            <li><i class="ri-checkbox-circle-line"></i>24/7 Monitoring & Triage</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Custom Rule Deployment</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Automated Remediation</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Standard Reporting</li>
                         </ul>
                         <a href="contact.html" class="btn btn-primary">Request a Quote</a>
                     </div>
-                    <div class="tier-card" style="border-color: var(--sofecta-accent-yellow);">
+                    <div class="tier-card" style="border-color: var(--sofecta-accent-yellow); transform: scale(1.05);">
+                        <div class="card-icon"><i class="ri-shield-star-line"></i></div>
                         <h3>Advanced Threat Hunting</h3>
                         <p>For organizations requiring proactive defense and deeper customization.</p>
-                        <ul>
-                            <li>✓ All MDR Features</li>
-                            <li>✓ Proactive Threat Hunting</li>
-                            <li>✓ Advanced Custom Rule Engineering</li>
-                            <li>✓ Dedicated Analyst Reviews</li>
+                        <ul class="feature-list">
+                            <li><i class="ri-checkbox-circle-line"></i>All MDR Features</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Proactive Threat Hunting</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Advanced Custom Rule Engineering</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Dedicated Analyst Reviews</li>
                         </ul>
                         <a href="contact.html" class="btn btn-primary">Request a Quote</a>
                     </div>
                     <div class="tier-card">
+                        <div class="card-icon"><i class="ri-building-4-line"></i></div>
                         <h3>Enterprise Suite</h3>
                         <p>A fully bespoke solution for large or complex environments.</p>
-                        <ul>
-                            <li>✓ All Advanced Features</li>
-                            <li>✓ Bespoke Integrations (SOAR)</li>
-                            <li>✓ Dedicated Analyst Time</li>
-                            <li>✓ Executive Threat Briefings</li>
+                        <ul class="feature-list">
+                            <li><i class="ri-checkbox-circle-line"></i>All Advanced Features</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Bespoke Integrations (SOAR)</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Dedicated Analyst Time</li>
+                            <li><i class="ri-checkbox-circle-line"></i>Executive Threat Briefings</li>
                         </ul>
                         <a href="contact.html" class="btn btn-primary">Request a Quote</a>
                     </div>
@@ -118,9 +135,11 @@
 
         <section class="cta-section">
             <div class="container">
-                <h2>Not Sure Where to Start?</h2>
-                <p>Begin with our <span class="text-accent">Free 30-Day Proof of Value</span>. Our team provides a 100% free, no-obligation "white glove" evaluation to demonstrate the value in your own environment before you commit. [14]</p>
-                <a href="contact.html" class="btn btn-primary">Start My Free Evaluation</a>
+                <div class="info-card">
+                    <h2>Not Sure Where to Start?</h2>
+                    <p>Begin with our <span class="text-accent">Free 30-Day Proof of Value</span>. Our team provides a 100% free, no-obligation "white glove" evaluation to demonstrate the value in your own environment before you commit.</p>
+                    <a href="contact.html" class="btn btn-primary" style="margin-top:20px;">Start My Free Evaluation</a>
+                </div>
             </div>
         </section>
     </main>
