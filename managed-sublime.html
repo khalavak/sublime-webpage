@@ -9,19 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
-         :root {
-            --sofecta-deep-dark: #020c1b;      /* New darkest color for header/footer */
-            --sofecta-dark-bg: #0a192f;       /* Main content background (lighter than header) */
-            --sofecta-navy: #112240;          /* Card background (lightest dark shade) */
+        :root {
+            --sofecta-deep-dark: #020c1b;  
+            --sofecta-dark-bg: #0a192f; 
+            --sofecta-navy: #112240;
             --sofecta-light-navy: #233554;    /* Border and hover color */
-            
             --sofecta-accent-yellow: #FFC107;
             --sofecta-accent-blue: #FFC107;
-            
             --sofecta-text-light: #ccd6f6;
             --sofecta-text-medium: #8892b0;
             --sofecta-white: #e6f1ff;
-            
             --sofecta-border-radius: 8px;
             --font-family-main: 'Roboto', sans-serif;
         }
@@ -35,10 +32,12 @@
             line-height: 1.6; 
         }
 
+        body.no-scroll { overflow: hidden; }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
-        h1 { font-size: 3.2rem; }
-        h2 { font-size: 2.5rem; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
         h3 { font-size: 1.5rem; }
         p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
         section { padding: 60px 0; }
@@ -53,33 +52,39 @@
             z-index: 1000; 
         }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo img { height: 50px; }
+        .logo img { height: 45px; }
+        
+        .main-nav { display: none; }
         .main-nav ul { display: flex; list-style: none; align-items: center; }
         .main-nav li { margin-left: 25px; }
         .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
         .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+
+        .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
+        .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav ul { list-style: none; text-align: center; }
+        .mobile-nav li { margin: 20px 0; }
+        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.8rem; font-weight: 500; }
+        
         .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
         .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
         
-        .info-card { background-color: var(--sofecta-navy); padding: 50px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
+        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
         .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
         .grid-card h3 { color: var(--sofecta-white); }
-        .two-col-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        /* RESPONSIVE: Layouts are 1 column on mobile */
+        .two-col-layout { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+        .grid-four-col { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+
         .card-icon { font-size: 3rem; color: var(--sofecta-accent-blue); margin-bottom: 20px; }
         
         .feature-list { list-style: none; }
         .feature-list li { margin-bottom: 15px; padding-left: 35px; position: relative; text-align: left; }
         .feature-list i { position: absolute; left: 0; top: 5px; font-size: 1.2rem; color: var(--sofecta-accent-blue); }
         
-        /* FIX: New class specifically for a non-wrapping 4-column grid */
-        .grid-four-col {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
-            gap: 20px; /* Reduced gap slightly for better fit */
-            margin-top: 40px;
-        }
-
         .main-footer { 
             background-color: var(--sofecta-deep-dark);
             padding: 40px 0; 
@@ -88,23 +93,51 @@
             font-size: 0.9rem; 
             color: var(--sofecta-text-medium);
         }
+
+        /* --- Media Queries for Desktop --- */
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .main-nav { display: block; }
+            .logo img { height: 50px; }
+            h1 { font-size: 3.2rem; }
+            h2 { font-size: 2.5rem; }
+            .info-card { padding: 50px; }
+            .two-col-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
+            .grid-four-col { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        }
     </style>
 </head>
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="index-new.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index-new.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="managed-sublime.html" class="active">Managed Sublime</a></li>
                     <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
                     <li><a href="pricing.html">Pricing</a></li>
                     <li><a href="contact.html" class="btn btn-primary">Request a Demo</a></li>
                 </ul>
             </nav>
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="ri-menu-line"></i>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation Panel -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="managed-sublime.html">Managed Sublime</a></li>
+            <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request a Demo</a></li>
+        </ul>
+    </nav>
+
     <main>
         <section class="page-header-section">
             <div class="container">
@@ -169,5 +202,25 @@
     <footer class="main-footer">
         <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
     </footer>
+
+    <!-- JavaScript for mobile menu toggle -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('ri-menu-line')) {
+                icon.classList.remove('ri-menu-line');
+                icon.classList.add('ri-close-line');
+            } else {
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            }
+        });
+    </script>
 </body>
 </html>
