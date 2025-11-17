@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+     <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --sofecta-deep-dark: #020c1b;
@@ -103,6 +105,48 @@
             .use-case-cols { grid-template-columns: 1fr 1fr; }
             .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
         }
+        /* Custom CSS to define the donut chart appearance */
+        .donut-chart-container {
+            /* Ensures the chart div is circular and contains the gradient */
+            width: 100%;
+            padding-bottom: 100%; /* Creates a 1:1 aspect ratio container */
+            position: relative;
+            border-radius: 9999px; /* Fully rounded */
+            overflow: hidden; /* Important to clip the conic gradient */
+            background-color: transparent;
+        }
+
+        .donut-chart-segment {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .donut-hole {
+            /* Creates the hole in the center */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; /* Size of the hole */
+            height: 60%;
+            border-radius: 50%;
+            /* Using a subtle dark background in case the host site uses patterns */
+            background-color: #111827; 
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            color: #f3f4f6; /* Light gray text */
+        }
     </style>
 </head>
 <body>
@@ -156,11 +200,49 @@
                     <span class="plus">+</span>
                     <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 35px;">
                 </div>
+
+            </div>
+        </section>
+        <section>
+            <section id="infographic" class="hero">
                 <div>
                     <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" style="height: 500px;">
-
                 </div>
-            </div>
+
+                <div id="infographic" class="p-4 mx-auto max-w-4xl text-white">
+                    <!-- Title and Footnote -->
+                    <h2 class="text-xl sm:text-2xl font-bold text-center mb-6 text-white">
+                        Financial Fraud Claims by Entry Vector, 2024
+                    </h2>
+
+                    <div class="flex flex-col lg:flex-row items-start justify-center lg:space-x-8">
+                        
+                        <!-- Chart Container (Left/Top) -->
+                        <div class="w-full max-w-xs mx-auto lg:w-1/2 mb-8 lg:mb-0">
+                            <div id="chart-container" class="donut-chart-container shadow-2xl shadow-blue-900/50">
+                                <div id="segments" class="donut-chart-segment"></div>
+                                <div class="donut-hole"></div>
+                                <div class="center-text">
+                                    <div id="main-stat-pct" class="text-5xl font-extrabold text-[#87CEEB] leading-none">83%</div>
+                                    <div class="text-lg font-medium mt-1">Email</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legend Container (Right/Bottom) -->
+                        <div class="w-full lg:w-1/2">
+                            <div class="mb-4 text-lg font-semibold text-gray-300 border-b border-gray-700 pb-2">Entry Vectors</div>
+                            <div id="legend" class="space-y-3">
+                                <!-- Legend items will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-500 text-center mt-6">
+                        *VPN, RDP, or Remote Access Tools
+                    </p>
+                </div>
+            </section>
         </section>
 
         <section id="challenge">
