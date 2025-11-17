@@ -97,8 +97,8 @@
             .logo img { height: 50px; }
             h1 { font-size: 3.2rem; }
             h2 { font-size: 2.2rem; }
-            .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-            .grid.five-col { grid-template-columns: repeat(5, 1fr); }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; } /* UPDATED FOR 5 COLUMNS */
             .use-case-container { grid-template-columns: repeat(2, 1fr); }
             .use-case-cols { grid-template-columns: 1fr 1fr; }
             .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
@@ -141,31 +141,31 @@
             <div class="container">
                 <h1>Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
                 <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
-                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
             </div>
         </section>
 
+        <!-- UPDATED SECTION -->
         <section id="challenge">
             <div class="container">
                 <div class="info-card">
                     <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
                     <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
-                    <div class="grid">
-                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-forbid-line"></i></div><p>94% of breaches start with an email.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rule-based systems.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted and insider threats.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours triaging alerts.</p></div>
+                    <div class="grid five-col">
+                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-danger-line"></i></div><p>94% of breaches start with an email.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
                     </div>
                 </div>
             </div>
         </section>
+        <!-- END OF UPDATED SECTION -->
 
         <section id="solution">
             <div class="container" style="text-align: center;">
                 <h2>Our Solution</h2>
                 <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
-                
-                <!-- RE-INSERTED CONTENT: How It Works 5-Step Process -->
                 <h3 style="margin-top: 40px;">How It Works</h3>
                 <div class="grid five-col">
                     <div class="grid-card"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
@@ -175,7 +175,6 @@
                     <div class="grid-card"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
                 </div>
                 <p style="margin-top: 40px; font-size: 1.2rem; color: var(--sofecta-text-light);">You get continuous protection, clear reporting, and zero operational burden.</p>
-
             </div>
         </section>
 
@@ -219,7 +218,6 @@
             <div class="container">
                 <h2 style="text-align:center;">Built on Sublime Security — Enterprise-Grade Technology</h2>
                 <p style="text-align:center;">We deliver a modern, open, and extensible detection and response engine that provides enterprise-grade protection without the complexity and cost.</p>
-                <!-- Further feature details can be added here if needed -->
             </div>
         </section>
 
