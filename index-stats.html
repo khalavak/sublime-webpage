@@ -12,7 +12,7 @@
     <!-- Link to Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
+   <style>
     /* --- MASTER STYLESHEET --- */
 
     :root {
@@ -29,7 +29,7 @@
         --sofecta-border-radius: 8px;
         --font-family-main: 'Roboto', sans-serif;
         
-        /* -- MERGED: New variables from stats style -- */
+        /* -- MERGED: New variables for bar charts -- */
         --brand-linkedin: #0a66c2;
         --brand-dhl: #f37521;
         --brand-google: #4285f4;
@@ -61,13 +61,13 @@
     .main-header .container { display: flex; justify-content: space-between; align-items: center; }
     .logo img { height: 45px; }
 
-    .main-nav { /* display: none; */ /* Tailwind handles responsiveness */ }
+    .main-nav { display: none; } /* Hidden by default for mobile-first */
     .main-nav ul { display: flex; list-style: none; align-items: center; }
     .main-nav li { margin-left: 25px; }
     .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
     .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
 
-    .menu-toggle { /* display: block; */ /* Tailwind handles responsiveness */ font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
+    .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
     .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
     .mobile-nav.active { right: 0; }
     .mobile-nav ul { list-style: none; text-align: center; }
@@ -91,8 +91,7 @@
     .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
 
     /* Grid layouts */
-    .grid { display: grid; gap: 30px; margin-top: 40px; }
-    .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
     .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
     .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
 
@@ -102,9 +101,9 @@
     .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
 
     /* Use Cases */
-    .use-case-container { display: grid; gap: 30px; margin-top: 40px; }
+    .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
     .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
-    .use-case-cols { display: grid; gap: 20px; }
+    .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
     .use-case-cols .fail i { color: #e57373; }
     .use-case-cols .success i { color: #81c784; }
@@ -117,7 +116,7 @@
     .faq-item h4 { color: var(--sofecta-accent-yellow); }
 
     /* Contact Form */
-    .contact-layout { display: grid; gap: 40px; }
+    .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
     .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
     .contact-form textarea { resize: vertical; min-height: 100px; }
 
@@ -169,10 +168,9 @@
         .use-case-container { grid-template-columns: repeat(2, 1fr); }
         .use-case-cols { grid-template-columns: 1fr 1fr; }
         .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
-    }
-    </style>    
+    }    
 
-    <!-- Configure Tailwind to use our custom colors -->
+    <!-- Configure Tailwind to use our custom colors
     <script>
         tailwind.config = {
             theme: {
@@ -255,7 +253,7 @@
 
                 <div id="infographic" class="p-4 mx-auto max-w-6xl text-text-light">
                     <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 text-text-light">
-                        Cyber Fraud & Phishing Trend Analysis, 2024
+                        Email Security Statistics
                     </h2>
 
                     <!-- SECTION 1: Top Attack Vectors and Industries (1x2 Grid) -->
