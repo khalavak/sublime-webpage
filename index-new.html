@@ -274,7 +274,6 @@
                             <!-- Brand Imitation Bar Chart content will be injected here -->
                         </div>
                         <p class="text-xs text-sofecta-text-medium mt-6">
-                            Source: AAG IT & Check Point (Q1 2022 data)
                         </p>
                     </div>
 
@@ -290,7 +289,6 @@
                             The average cost of a successful 'Whaling' (C-Level target) phishing attack.
                         </p>
                         <p class="text-sm text-sofecta-text-medium mt-3">
-                            (Source: FACC 2015 Incident, as reported in AAG IT)
                         </p>
                     </div>
 
@@ -704,9 +702,11 @@
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderDonutChart();
-            // Call renderBarChart for both industry and brand charts
+            // Calls for bar charts:
             renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
-            renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color');
+            // --- ADD THIS LINE ---
+            renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
+            // --- END ADDITION ---
             animateAllBars(); // This should animate all bars rendered by renderBarChart
         });
     </script>
