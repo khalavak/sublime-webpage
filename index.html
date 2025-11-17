@@ -3,61 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sofecta Labs | Managed Sublime Security</title>
+    <title>Sofecta Labs | Managed Email Protection with Sublime</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
         :root {
-            --sofecta-deep-dark: #020c1b;  
-            --sofecta-dark-bg: #0a192f; 
+            --sofecta-deep-dark: #020c1b;
+            --sofecta-dark-bg: #0a192f;
             --sofecta-navy: #112240;
-            --sofecta-light-navy: #233554;    /* Border and hover color */
+            --sofecta-light-navy: #233554;
             --sofecta-accent-yellow: #FFC107;
-            --sofecta-accent-blue: #FFC107;
+            --sofecta-accent-blue: #FFC107; /* Set to yellow as requested */
             --sofecta-text-light: #ccd6f6;
             --sofecta-text-medium: #8892b0;
+            --sofecta-heart: #CC1100;
             --sofecta-white: #e6f1ff;
             --sofecta-border-radius: 8px;
             --font-family-main: 'Roboto', sans-serif;
         }
 
+        html { scroll-behavior: smooth; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { 
-            background-color: var(--sofecta-dark-bg); 
-            color: var(--sofecta-text-light); 
-            font-family: var(--font-family-main); 
-            line-height: 1.6; 
-        }
-
+        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
         body.no-scroll { overflow: hidden; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        h1, h2, h3 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
-        h1 { font-size: 2.5rem; } /* Adjusted for mobile first */
-        h2 { font-size: 2rem; }
-        h3 { font-size: 1.5rem; }
+        h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2.2rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
         p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
-        section { padding: 60px 0; }
+        section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
+        section:last-of-type, .hero { border-bottom: none; }
         .text-accent { color: var(--sofecta-accent-yellow); }
 
-        .main-header { 
-            background-color: var(--sofecta-deep-dark); 
-            padding: 15px 0; 
-            border-bottom: 1px solid var(--sofecta-light-navy); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
+        .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
         .logo img { height: 45px; }
-        
+
         .main-nav { display: none; }
         .main-nav ul { display: flex; list-style: none; align-items: center; }
         .main-nav li { margin-left: 25px; }
-        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
         .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
 
         .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
@@ -65,102 +56,163 @@
         .mobile-nav.active { right: 0; }
         .mobile-nav ul { list-style: none; text-align: center; }
         .mobile-nav li { margin: 20px 0; }
-        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.8rem; font-weight: 500; }
-        
-        .btn { display: inline-block; padding: 12px 24px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
+
+        .partner-logos {
+            display: flex; /* Aligns items in a row */
+            justify-content: center; /* Centers the whole group horizontally */
+            align-items: center; /* Vertically aligns items to the middle */
+            gap: 25px; /* Creates space between the logos and the heart */
+        }
+
+        .partner-logos .ri-heart-fill {
+            font-size: 60px; /* Sets the heart's size */
+            color: var(--sofecta-heart); /* Uses your brand's heart color */
+        }
+
+        .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
         .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
-        
-        .hero { text-align: center; padding: 60px 0; }
-        .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 700px; margin: 0 auto 30px auto; }
-        .hero .partner-logos { margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .hero .partner-logos .plus { font-weight: bold; font-size: 2.5rem; color: var(--sofecta-text-medium); }
 
-        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 850px; margin: 0 auto; }
+        .hero { text-align: center; padding: 80px 0; }
+        .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
+
+        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-        .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
-        .grid-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(2, 12, 27, 0.7); }
-        .grid-card h3 { color: var(--sofecta-white); }
-        .card-icon { font-size: 3rem; color: var(--sofecta-accent-blue); margin-bottom: 20px; }
-        
-        .table-wrapper {
-            overflow-x: auto;
-            background: linear-gradient(to right, var(--sofecta-navy), var(--sofecta-navy) 95%, rgba(17, 34, 64, 0));
-        }
+        .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
+        .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
 
-        .comparison-table { 
-            width: 100%; 
-            margin-top: 40px; 
-            border-collapse: collapse; 
-            background-color: var(--sofecta-navy);
-            border-radius: var(--sofecta-border-radius);
-            min-width: 600px; /* Force scroll on small screens */
-        }
-        .comparison-table th, .comparison-table td { 
-            padding: 20px; 
-            text-align: left; 
-            border-bottom: 1px solid var(--sofecta-light-navy); 
-        }
-        .comparison-table th { color: var(--sofecta-white); white-space: nowrap; }
-        .comparison-table td { color: var(--sofecta-text-medium); }
-        .comparison-table tr:last-child td { border-bottom: none; }
-        .comparison-table tr th:last-child, .comparison-table tr td:last-child { background-color: rgba(64, 182, 230, 0.1); }
-        .comparison-table .check-mark { color: var(--sofecta-accent-blue); font-weight: bold; }
+        .table-wrapper { overflow-x: auto; }
+        .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
+        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
+
+        .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+        .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
+        .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .use-case-cols .fail i { color: #e57373; }
+        .use-case-cols .success i { color: #81c784; }
+
+        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; }
+
+        .faq-item { margin-bottom: 30px; }
+        .faq-item h4 { color: var(--sofecta-accent-yellow); }
+
+        .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .contact-form input, .contact-form select { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
+        .btn-full { width: 100%; }
 
         .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
 
-        /* --- Media Queries for Desktop --- */
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
             .main-nav { display: block; }
             .logo img { height: 50px; }
             h1 { font-size: 3.2rem; }
-            h2 { font-size: 2.5rem; }
-            section { padding: 80px 0; }
-            .grid { grid-template-columns: repeat(3, 1fr); }
-            .table-wrapper { background: none; } /* Remove gradient on desktop */
+            h2 { font-size: 2.2rem; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; } /* UPDATED FOR 5 COLUMNS */
+            .use-case-container { grid-template-columns: repeat(2, 1fr); }
+            .use-case-cols { grid-template-columns: 1fr 1fr; }
+            .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
+        }
+
+        /* Custom CSS to define the donut chart appearance */
+        .donut-chart-container {
+            width: 100%;
+            padding-bottom: 100%; 
+            position: relative;
+            border-radius: 9999px; 
+            overflow: hidden; 
+            background-color: transparent;
+            /* Applying a subtle background color for the container edge, using light-navy */
+            box-shadow: 0 0 0 8px var(--sofecta-light-navy); 
+        }
+
+        .donut-chart-segment {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .donut-hole {
+            /* Creates the hole in the center */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; 
+            height: 60%;
+            border-radius: 50%;
+            /* Using the main dark background color for the hole */
+            background-color: var(--sofecta-dark-bg); 
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            color: var(--sofecta-text-light); 
         }
     </style>
 </head>
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <a href="#hero" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index-new.html" class="active">Home</a></li>
-                    <li><a href="managed-sublime.html">Managed Sublime</a></li>
-                    <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="contact.html" class="btn btn-primary">Request a Demo</a></li>
+                    <li><a href="#challenge">The Challenge</a></li>
+                    <li><a href="#solution">Our Solution</a></li>
+                    <li><a href="#benefits">Key Benefits</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#trust">Trust</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+
                 </ul>
             </nav>
-            <button class="menu-toggle" id="menu-toggle">
-                <i class="ri-menu-line"></i>
-            </button>
+            <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
         </div>
     </header>
 
     <nav class="mobile-nav" id="mobile-nav">
         <ul>
-            <li><a href="index-new.html">Home</a></li>
-            <li><a href="managed-sublime.html">Managed Sublime</a></li>
-            <li><a href="why-sofecta-labs.html">Why Sofecta Labs</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="contact.html">Request a Demo</a></li>
+            <li><a href="#challenge">The Challenge</a></li>
+            <li><a href="#solution">Our Solution</a></li>
+            <li><a href="#benefits">Key Benefits</a></li>
+            <li><a href="#why-us">Why Us</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#use-cases">Use Cases</a></li>
+            <li><a href="#trust">Trust</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
+            <li><a href="#faq">FAQ</a></li>
         </ul>
     </nav>
 
     <main>
-        <section id="home" class="hero">
+        <section id="hero" class="hero">
             <div class="container">
-                <h1><span class="text-accent">Sublime</span> Protection. Sofecta Managed.</h1>
-                <p class="subtitle">Next-generation email defense, powered by Sublime Security's open platform and delivered as a seamless, 24/7 managed service by Sofecta Labs.</p>
-                <a href="contact.html" class="btn btn-primary">Schedule a Free Threat Assessment</a>
+                <h1>Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
+                <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
                 <div class="partner-logos">
-                    <img src="assets/sofecta-logo-icon.png" alt="Sofecta Labs" style="height: 45px;">
-                    <span class="plus">+</span>
-                    <img src="assets/sublime-logo.svg" alt="Sublime Security" style="height: 35px;">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 70px;">
+                    <i class="ri-heart-fill"></i>
+                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 45px;">
                 </div>
             </div>
         </section>

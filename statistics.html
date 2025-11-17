@@ -2,309 +2,423 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sofecta Labs | Managed Email Protection with Sublime</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <meta name="viewport" content="content="width=device-width, initial-scale=1.0">
+    <title>Phishing Statistics Infographic</title>
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Define the custom color scheme as CSS variables */
         :root {
             --sofecta-deep-dark: #020c1b;
             --sofecta-dark-bg: #0a192f;
             --sofecta-navy: #112240;
             --sofecta-light-navy: #233554;
             --sofecta-accent-yellow: #FFC107;
-            --sofecta-accent-blue: #FFC107;
             --sofecta-text-light: #ccd6f6;
             --sofecta-text-medium: #8892b0;
-            --sofecta-heart: #CC1100;
             --sofecta-white: #e6f1ff;
             --sofecta-border-radius: 8px;
             --font-family-main: 'Roboto', sans-serif;
+            /* Brand Colors for the new chart */
+            --brand-linkedin: #0a66c2;
+            --brand-dhl: #f37521;
+            --brand-google: #4285f4;
+            --brand-microsoft: #f25022;
+            --brand-fedex: #660099;
         }
 
-        html { scroll-behavior: smooth; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Custom CSS for Donut Chart */
+        .donut-chart-container {
+            width: 100%;
+            padding-bottom: 100%; 
+            position: relative;
+            border-radius: 9999px; 
+            overflow: visible; /* Must be visible to allow absolute positioned labels */
+            background-color: transparent;
+            box-shadow: 0 0 0 8px var(--sofecta-light-navy); 
+        }
 
-        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
-        body.no-scroll { overflow: hidden; }
+        .donut-chart-segment {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
-        h1 { font-size: 2.5rem; }
-        h2 { font-size: 2.2rem; }
-        h3 { font-size: 1.8rem; }
-        h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
-        p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
-        section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
-        section:last-of-type, .hero { border-bottom: none; }
-        .text-accent { color: var(--sofecta-accent-yellow); }
+        .donut-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; 
+            height: 60%;
+            border-radius: 50%;
+            background-color: var(--sofecta-dark-bg); 
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); 
+        }
 
-        .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
-        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo img { height: 45px; }
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            color: var(--sofecta-text-light); 
+        }
 
-        .main-nav ul { display: flex; list-style: none; align-items: center; }
-        .main-nav li { margin-left: 25px; }
-        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
-        .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
-
-        .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
-        .mobile-nav.active { right: 0; }
-        .mobile-nav ul { list-style: none; text-align: center; }
-        .mobile-nav li { margin: 20px 0; }
-        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
-
-        .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .partner-logos .ri-heart-fill { font-size: 60px; color: var(--sofecta-heart); }
-
-        .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
-        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
-        .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
-        .btn-full { width: 100%; }
-
-        .hero { text-align: center; padding: 80px 0; }
-        .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
-
-        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
-
-        .grid { display: grid; gap: 30px; margin-top: 40px; }
-        .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
-        .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
-
-        .table-wrapper { overflow-x: auto; }
-        .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
-        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
-
-        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
-        blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
-
-        .faq-item { margin-bottom: 30px; }
-
-        .contact-layout { display: grid; gap: 40px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
-
-        /* Custom CSS for Charts */
-        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: hidden; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
-        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
-        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
-        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
-
-        .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
-
-        @media (min-width: 769px) {
-            .logo img { height: 50px; }
-            h1 { font-size: 3.2rem; }
-            h2 { font-size: 2.2rem; }
-            .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-            .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
-            .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
+        /* Generic Bar Chart styles (used by Industry and Brand charts) */
+        .chart-bar-container {
+            width: 100%;
+            background-color: var(--sofecta-light-navy);
+            border-radius: 9999px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .chart-bar {
+            height: 100%;
+            transition: width 1s ease-out;
+            border-radius: 9999px;
         }
     </style>
+    <!-- Configure Tailwind to use our custom colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'accent-yellow': 'var(--sofecta-accent-yellow)',
+                        'text-light': 'var(--sofecta-text-light)',
+                        'text-medium': 'var(--sofecta-text-medium)',
+                        'dark-bg': 'var(--sofecta-dark-bg)',
+                        'light-navy': 'var(--sofecta-light-navy)',
+                        'brand-linkedin': 'var(--brand-linkedin)',
+                        'brand-dhl': 'var(--brand-dhl)',
+                        'brand-google': 'var(--brand-google)',
+                        'brand-microsoft': 'var(--brand-microsoft)',
+                        'brand-fedex': 'var(--brand-fedex)',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-sofecta-dark-bg text-sofecta-text-light">
-    <header class="main-header">
-        <div class="container">
-            <a href="#hero" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
-            <nav class="main-nav hidden md:block">
-                <ul>
-                    <li><a href="#challenge">The Challenge</a></li>
-                    <li><a href="#solution">Our Solution</a></li>
-                    <li><a href="#benefits">Key Benefits</a></li>
-                    <li><a href="#why-us">Why Us</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#results">Results</a></li>
-                    <li><a href="#statistics">Statistics</a></li>
-                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
-                </ul>
-            </nav>
-            <button class="menu-toggle md:hidden" id="menu-toggle"><i class="ri-menu-line"></i></button>
-        </div>
-    </header>
+<body class="bg-transparent font-sans">
+    <div id="infographic" class="p-4 mx-auto max-w-6xl text-text-light">
+        <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 text-text-light">
+            Cyber Fraud & Phishing Trend Analysis, 2024
+        </h2>
 
-    <nav class="mobile-nav" id="mobile-nav">
-        <ul>
-            <li><a href="#challenge">The Challenge</a></li>
-            <li><a href="#solution">Our Solution</a></li>
-            <li><a href="#benefits">Key Benefits</a></li>
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#results">Results</a></li>
-            <li><a href="#statistics">Statistics</a></li>
-            <li><a href="#contact">Schedule a Demo</a></li>
-        </ul>
-    </nav>
+        <!-- SECTION 1: Top Attack Vectors and Industries (1x2 Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
 
-    <main>
-        <section id="hero" class="hero">
-            <div class="container">
-                <h1 class="font-bold">Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
-                <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
-                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
-                <div class="partner-logos mt-12">
-                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" class="h-16 md:h-20">
-                    <i class="ri-heart-fill"></i>
-                    <img src="assets/sublime-logo.png" alt="Sublime Security" class="h-12 md:h-14">
-                </div>
-            </div>
-        </section>
-
-        <!-- MERGED STATISTICS SECTION -->
-        <section id="statistics">
-            <div class="container">
-                <h2 class="text-3xl font-bold text-center mb-12 text-sofecta-white">The Reality of Email-Based Fraud</h2>
-                <div class="text-center mb-16">
-                    <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" class="max-h-96 mx-auto rounded-lg shadow-lg">
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div id="infographic-donut" class="p-4 mx-auto max-w-xl text-sofecta-text-light">
-                        <h3 class="text-2xl font-bold text-center mb-8 text-sofecta-white">Financial Fraud Claims by Entry Vector, 2024</h3>
-                        <div class="flex flex-col md:flex-row items-center md:items-start justify-center md:space-x-12">
-                            <div class="w-full max-w-xs mx-auto md:w-1/2 mb-10 md:mb-0">
-                                <div class="donut-chart-container">
-                                    <div id="segments-donut" class="donut-chart-segment"></div>
-                                    <div class="donut-hole"></div>
-                                    <div class="center-text">
-                                        <div class="text-5xl font-extrabold text-sofecta-accent-yellow leading-none">83%</div>
-                                        <div class="text-lg font-medium mt-1">Email</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/2">
-                                <div class="mb-4 text-xl font-semibold border-b border-sofecta-light-navy pb-3">Entry Vectors</div>
-                                <div id="legend-donut" class="space-y-4"></div>
+            <!-- 1. DONUT CHART (Financial Fraud by Entry Vector) -->
+            <div class="p-6 bg-dark-bg rounded-xl shadow-2xl shadow-light-navy/50">
+                <h3 class="text-xl font-semibold mb-6 text-text-light border-b border-light-navy pb-3">
+                    Financial Fraud Claims by Entry Vector
+                </h3>
+                <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+                    
+                    <!-- Chart -->
+                    <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] md:max-w-[280px] mb-8 md:mb-0 relative">
+                        <div id="donut-chart-container" class="donut-chart-container">
+                            <div id="donut-segments" class="donut-chart-segment"></div>
+                            <div class="donut-hole"></div>
+                            <!-- Center Text: Shows the dominant Email metric -->
+                            <div class="center-text">
+                                <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-accent-yellow leading-none"></div>
+                                <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-text-light"></div>
                             </div>
                         </div>
-                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*VPN, RDP, or Remote Access Tools</p>
                     </div>
 
-                    <div id="bar-chart-infographic" class="p-4 mx-auto max-w-xl text-sofecta-text-light">
-                        <h3 class="text-2xl font-bold text-center mb-8 text-sofecta-white">BEC Attacks by Type, 2024</h3>
-                        <div class="space-y-6" id="bar-chart-container">
-                            <!-- Bars will be injected here by script -->
+                    <!-- Legend -->
+                    <div class="w-full md:w-1/2">
+                        <div id="donut-legend" class="space-y-4">
+                            <!-- Donut Legend items will be injected here -->
                         </div>
-                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Business Email Compromise</p>
                     </div>
                 </div>
+                <p class="text-xs text-text-medium text-center mt-6">
+                    *Corporate System refers to VPN, RDP, or Remote Access Tools.
+                </p>
             </div>
-        </section>        
-        <!-- END OF MERGED SECTION -->
 
-        <section id="challenge">
-            <div class="container">
-                <div class="info-card">
-                    <h2 class="text-center">The Challenge: Why Legacy Tools Aren't Enough</h2>
-                    <p class="text-center">Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-10">
-                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
-                    </div>
+            <!-- 2. BAR CHART (Phishing Attacks by Targeted Industry) -->
+            <div class="p-6 bg-dark-bg rounded-xl shadow-2xl shadow-light-navy/50">
+                <h3 class="text-xl font-semibold mb-6 text-text-light border-b border-light-navy pb-3">
+                    Phishing Attacks by Targeted Industry (Top 5)
+                </h3>
+                <div id="industry-bar-chart-container" class="space-y-6 pt-2">
+                    <!-- Industry Bar Chart content will be injected here -->
                 </div>
             </div>
-        </section>
 
-        <!-- All other original sections from your file would follow here -->
-        <!-- ... solution, benefits, why-us, features, results, etc. ... -->
+        </div> <!-- End Section 1 Grid -->
 
-    </main>
+        <!-- SECTION 2: Brand Imitation and Impact (1x2 Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- 3. BRAND IMITATION CHART -->
+            <div class="p-6 bg-dark-bg rounded-xl shadow-2xl shadow-light-navy/50">
+                <h3 class="text-xl font-semibold mb-6 text-text-light border-b border-light-navy pb-3">
+                    Top 5 Most Imitated Brands in Phishing (Q1 2022)
+                </h3>
+                <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                    <!-- Brand Imitation Bar Chart content will be injected here -->
+                </div>
+                <p class="text-xs text-text-medium mt-6">
+                    Source: AAG IT & Check Point (Q1 2022 data)
+                </p>
+            </div>
 
-    <footer class="main-footer">
-        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
-    </footer>
+            <!-- 4. COST STAT CALLOUT (Whaling Attack) -->
+            <div class="p-6 bg-dark-bg rounded-xl shadow-2xl shadow-light-navy/50 flex flex-col justify-center items-center text-center">
+                <p class="text-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
+                    Single Attack Cost
+                </p>
+                <div class="text-6xl sm:text-7xl font-extrabold text-accent-yellow leading-tight mb-4">
+                    $47M
+                </div>
+                <p class="text-text-light text-xl font-semibold max-w-sm">
+                    The average cost of a successful 'Whaling' (C-Level target) phishing attack.
+                </p>
+                <p class="text-sm text-text-medium mt-3">
+                    (Source: FACC 2015 Incident, as reported in AAG IT)
+                </p>
+            </div>
+
+        </div> <!-- End Section 2 Grid -->
+
+    </div>
 
     <script>
-        // --- Mobile Navigation Script ---
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileNav = document.getElementById('mobile-nav');
-        const body = document.body;
-        menuToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-            body.classList.toggle('no-scroll');
-            const icon = menuToggle.querySelector('i');
-            if (icon.classList.contains('ri-menu-line')) {
-                icon.classList.remove('ri-menu-line'); icon.classList.add('ri-close-line');
-            } else {
-                icon.classList.remove('ri-close-line'); icon.classList.add('ri-menu-line');
-            }
-        });
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                body.classList.remove('no-scroll');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.remove('ri-close-line'); icon.classList.add('ri-menu-line');
-            });
-        });
+        // --- Data ---
+        const DONUT_DATA = [
+            { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
+            { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
+            { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
+            { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
+            { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+        ];
 
-        // --- ALL CHART SCRIPTS CONSOLIDATED ---
-        document.addEventListener('DOMContentLoaded', () => {
+        const INDUSTRY_BAR_DATA = [
+            { label: 'Financial Institutions', value: 27.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'SaaS Industries', value: 17.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Social Media Platforms', value: 10.4, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Logistics and Shipping', value: 9.0, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Payment Services', value: 6.0, color: 'var(--sofecta-accent-yellow)' }
+        ];
+
+        const BRAND_IMITATION_DATA = [
+            { label: 'LinkedIn', value: 52, color: 'var(--brand-linkedin)' },
+            { label: 'DHL', value: 14, color: 'var(--brand-dhl)' },
+            { label: 'Google', value: 7, color: 'var(--brand-google)' },
+            { label: 'Microsoft', value: 6, color: 'var(--brand-microsoft)' },
+            { label: 'FedEx', value: 6, color: 'var(--brand-fedex)' }
+        ];
+
+        // --- Chart Rendering Functions ---
+
+        /**
+         * Renders the Donut Chart and its legend, adding labels inside the segments.
+         */
+        function renderDonutChart() {
+            const chartSegments = document.getElementById('donut-segments');
+            const legendContainer = document.getElementById('donut-legend');
+            const chartContainer = document.getElementById('donut-chart-wrapper'); 
             
-            // --- Donut Chart Logic ---
-            const donutData = [
-                { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
-                { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
-                { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
-                { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
-                { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
-            ];
-            const donutSegments = document.getElementById('segments-donut');
-            const donutLegend = document.getElementById('legend-donut');
-            if (donutSegments && donutLegend) {
-                let gradientString = 'conic-gradient(';
-                let currentDegree = 0;
-                donutData.forEach((item, index) => {
-                    const degrees = (item.value / 100) * 360;
-                    const startDegree = currentDegree;
-                    const endDegree = currentDegree + degrees;
-                    if (item.value > 0) {
-                        gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
-                        if (index < donutData.length - 1) gradientString += ', ';
-                    }
-                    currentDegree = endDegree;
-                    const legendItem = document.createElement('div');
-                    legendItem.className = 'flex items-center justify-between text-base';
-                    const valueTextColor = item.value === 83 ? 'text-sofecta-accent-yellow' : 'text-sofecta-text-light';
-                    legendItem.innerHTML = `<div class="flex items-center"><span class="w-4 h-4 rounded-sm mr-3" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span><span class="text-sofecta-text-light">${item.label}</span></div><span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>`;
-                    donutLegend.appendChild(legendItem);
-                });
-                if (gradientString.endsWith(', ')) gradientString = gradientString.slice(0, -2);
-                gradientString += ')';
-                donutSegments.style.backgroundImage = gradientString;
+            if (!chartContainer) {
+                console.error("Error: Could not find donut chart wrapper element.");
+                return; 
             }
 
-            // --- Bar Chart Logic ---
-            const barData = [
-                { label: 'Vendor Email Compromise', value: 33 },
-                { label: 'Payroll Diversion', value: 22 },
-                { label: 'Gift Card Scams', value: 17 },
-                { label: 'Invoice Manipulation', value: 12 },
-                { label: 'Credential Phishing', value: 9 },
-                { label: 'Extortion', value: 7 }
-            ];
-            const barContainer = document.getElementById('bar-chart-container');
-            if (barContainer) {
-                const maxValue = Math.max(...barData.map(item => item.value));
-                barData.forEach(item => {
-                    const barWidth = (item.value / maxValue) * 100;
-                    const barElement = document.createElement('div');
-                    barElement.className = 'flex items-center text-sm sm:text-base';
-                    barElement.innerHTML = `
-                        <div class="w-1/3 text-right pr-4 text-sofecta-text-light">${item.label}</div>
-                        <div class="w-2/3">
-                            <div class="bg-sofecta-navy rounded-sm shadow-inner overflow-hidden">
-                                <div class="bg-sofecta-accent-yellow text-right pr-2 font-bold text-sofecta-deep-dark" style="width: ${barWidth}%;">${item.value}%</div>
-                            </div>
-                        </div>
-                    `;
-                    barContainer.appendChild(barElement);
-                });
+            // 1. Set the central Email statistic
+            const emailData = DONUT_DATA.find(d => d.label === 'Email');
+            if (emailData) {
+                document.getElementById('main-stat-pct').textContent = `${emailData.value}%`;
+                document.getElementById('main-stat-label').textContent = emailData.label;
             }
+
+            let gradientString = 'conic-gradient(';
+            let currentDegree = 0;
+
+            // Clear previous legends
+            legendContainer.innerHTML = '';
+            
+            // Remove previous segment labels if any (to prevent duplicates on re-render)
+            Array.from(chartContainer.querySelectorAll('.absolute:not(.center-text):not(#donut-chart-container)')).forEach(el => el.remove());
+
+            DONUT_DATA.forEach((item, index) => {
+                const degrees = (item.value / 100) * 360;
+                const startDegree = currentDegree;
+                const endDegree = currentDegree + degrees;
+                const midDegree = startDegree + degrees / 2;
+
+                // Add segment to the gradient string
+                if (item.value > 0) {
+                    gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
+                    if (index < DONUT_DATA.length - 1) {
+                        gradientString += ', ';
+                    }
+                }
+                
+                currentDegree = endDegree;
+
+                // --- Label Placement Logic (Showing value for ALL segments) ---
+                if (item.value > 0) {
+                    // Convert mid-angle to radians, adjust -90deg so 0 is 12 o'clock (top)
+                    const angleRad = (midDegree - 90) * (Math.PI / 180); 
+
+                    // Position factor (40% radius from center, relative to container)
+                    let radiusFactor = 0.40; 
+                    
+                    // Slightly adjust position for very small slices (like 1% or 2%) to avoid overlap with the center hole
+                    if (item.value <= 2) {
+                        radiusFactor = 0.55; 
+                    }
+
+
+                    // Calculate position (normalized to 0-100% of the chart container)
+                    const x = 50 + radiusFactor * 100 * Math.cos(angleRad);
+                    const y = 50 + radiusFactor * 100 * Math.sin(angleRad);
+
+                    const labelDiv = document.createElement('div');
+                    
+                    // Use a stronger color contrast for text inside the segment
+                    const labelColor = (item.value > 50) 
+                        ? 'text-dark-bg' // Dark text for the large yellow segment
+                        : 'text-text-light'; // Light text for dark segments
+
+                    // Use different font sizes based on segment size
+                    let fontSizeClass = 'text-sm sm:text-lg'; 
+                    if (item.value > 50) {
+                        // Dominant segment
+                        fontSizeClass = 'text-lg sm:text-xl'; 
+                    } else if (item.value <= 4) {
+                        // Smallest segments need tiny text
+                        fontSizeClass = 'text-[0.6rem] sm:text-xs'; 
+                    }
+
+                    labelDiv.className = `absolute text-center transition-opacity duration-300 ${labelColor} pointer-events-none`;
+                    labelDiv.style.opacity = '1';
+                    labelDiv.style.transform = 'translate(-50%, -50%)'; 
+                    labelDiv.style.left = `${x}%`;
+                    labelDiv.style.top = `${y}%`;
+
+                    // ONLY show the percentage value
+                    labelDiv.innerHTML = `
+                        <div class="font-extrabold leading-tight ${fontSizeClass}">${item.value}%</div>
+                    `;
+
+                    // Append label to the chart's parent container
+                    chartContainer.appendChild(labelDiv);
+                }
+
+
+                // --- Legend Item Creation ---
+                const legendItem = document.createElement('div');
+                legendItem.className = 'flex items-center justify-between text-base';
+                
+                // Use a neutral text color for the legend value, since the chart is labeled
+                const valueTextColor = 'text-text-light';
+
+                legendItem.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-sm mr-3 flex-shrink-0" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
+                        <span class="text-text-light text-sm sm:text-base">${item.label}</span>
+                    </div>
+                    <span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>
+                `;
+                legendContainer.appendChild(legendItem);
+            });
+
+            // Clean up the trailing comma and apply gradient
+            if (gradientString.endsWith(', ')) {
+                gradientString = gradientString.slice(0, -2);
+            }
+            gradientString += ')';
+            chartSegments.style.backgroundImage = gradientString;
+        }
+
+        /**
+         * Renders the Horizontal Bar Chart for Industries.
+         */
+        function renderIndustryBarChart() {
+            const container = document.getElementById('industry-bar-chart-container');
+            const maxVal = Math.max(...INDUSTRY_BAR_DATA.map(item => item.value));
+
+            INDUSTRY_BAR_DATA.forEach(item => {
+                // Calculate width relative to the max value
+                const widthPercent = (item.value / maxVal) * 100;
+                
+                const barItem = document.createElement('div');
+                barItem.className = 'group';
+                barItem.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm sm:text-base">
+                        <span class="text-text-light">${item.label}</span>
+                        <span class="font-bold text-accent-yellow">${item.value}%</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="width: 0%; background-color: ${item.color};" data-width="${widthPercent}"></div>
+                    </div>
+                `;
+                container.appendChild(barItem);
+            });
+        }
+
+        /**
+         * Renders the Horizontal Bar Chart for Brand Imitation.
+         */
+        function renderBrandImitationChart() {
+            const container = document.getElementById('brand-bar-chart-container');
+            const maxVal = Math.max(...BRAND_IMITATION_DATA.map(item => item.value));
+
+            BRAND_IMITATION_DATA.forEach(item => {
+                // Calculate width relative to the max value
+                const widthPercent = (item.value / maxVal) * 100;
+                
+                const barItem = document.createElement('div');
+                barItem.className = 'group';
+                barItem.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm sm:text-base">
+                        <span class="text-text-light">${item.label}</span>
+                        <span class="font-bold" style="color: ${item.color};">${item.value}%</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="width: 0%; background-color: ${item.color};" data-width="${widthPercent}"></div>
+                    </div>
+                `;
+                container.appendChild(barItem);
+            });
+        }
+
+        /**
+         * Animates all bars to their final widths.
+         */
+        function animateAllBars() {
+            setTimeout(() => {
+                document.querySelectorAll('.chart-bar').forEach(bar => {
+                    bar.style.width = bar.dataset.width + '%';
+                });
+            }, 100);
+        }
+
+
+        // --- Initialization ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDonutChart();
+            renderIndustryBarChart();
+            renderBrandImitationChart();
+            
+            // Wait briefly before animating to ensure elements are in DOM
+            animateAllBars();
         });
     </script>
 </body>
