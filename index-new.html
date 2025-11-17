@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofecta Labs | Managed Email Protection with Sublime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --sofecta-deep-dark: #020c1b;
+            --sofecta-dark-bg: #0a192f;
+            --sofecta-navy: #112240;
+            --sofecta-light-navy: #233554;
+            --sofecta-accent-yellow: #FFC107;
+            --sofecta-accent-blue: #FFC107; /* Set to yellow as requested */
+            --sofecta-text-light: #ccd6f6;
+            --sofecta-text-medium: #8892b0;
+            --sofecta-heart: #CC1100;
+            --sofecta-white: #e6f1ff;
+            --sofecta-border-radius: 8px;
+            --font-family-main: 'Roboto', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
+        body.no-scroll { overflow: hidden; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2.2rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
+        p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
+        section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
+        section:last-of-type, .hero { border-bottom: none; }
+        .text-accent { color: var(--sofecta-accent-yellow); }
+
+        .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 45px; }
+
+        .main-nav { display: none; }
+        .main-nav ul { display: flex; list-style: none; align-items: center; }
+        .main-nav li { margin-left: 20px; }
+        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
+        .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+
+        .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
+        .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav ul { list-style: none; text-align: center; }
+        .mobile-nav li { margin: 15px 0; }
+        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
+        
+        .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
+        .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
+        .btn-full { width: 100%; }
+
+        .hero { text-align: center; padding: 80px 0; }
+        .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
+        .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
+        .partner-logos .ri-heart-fill { font-size: 35px; color: var(--sofecta-heart); }
+        
+        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+        .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
+        .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
+        
+        .table-wrapper { overflow-x: auto; }
+        .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
+        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
+        
+        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; }
+        
+        .faq-item { margin-bottom: 30px; }
+        
+        .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
+
+        /* Donut Chart Specific */
+        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: hidden; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
+        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
+        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+
+        .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .main-nav { display: block; }
+            .logo img { height: 50px; }
+            h1 { font-size: 3.2rem; }
+            h2 { font-size: 2.2rem; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+            .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
+        }
+    </style>
+</head>
+<body class="bg-sofecta-dark-bg text-sofecta-text-light">
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#challenge">The Challenge</a></li>
+                    <li><a href="#solution">Our Solution</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#statistics">Statistics</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#challenge">The Challenge</a></li>
+            <li><a href="#solution">Our Solution</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+            <li><a href="#contact">Schedule a Demo</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1>Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
+                <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <div class="partner-logos mt-12">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 50px;">
+                    <i class="ri-heart-fill"></i>
+                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 30px;">
+                </div>
+            </div>
+        </section>
+
+        <section id="challenge">
+            <div class="container">
+                <div class="info-card">
+                    <h2 class="text-center">The Challenge: Why Legacy Tools Aren't Enough</h2>
+                    <p class="text-center">Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
+                    <div class="grid five-col">
+                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution">
+            <div class="container text-center">
+                <h2>Our Solution</h2>
+                <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
+                <h3 class="mt-10">How It Works</h3>
+                <div class="grid five-col">
+                    <div class="grid-card"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
+                    <div class="grid-card"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
+                    <div class="grid-card"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
+                    <div class="grid-card"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
+                    <div class="grid-card"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
+                </div>
+                <p class="mt-10 text-lg">You get continuous protection, clear reporting, and zero operational burden.</p>
+            </div>
+        </section>
+
+        <section id="benefits">
+            <div class="container">
+                <h2 class="text-center">Key Benefits</h2>
+                <div class="grid">
+                    <div class="grid-card"><div class="card-icon"><i class="ri-shield-flash-line"></i></div><h4>Lower Your Risk</h4><p>Stop sophisticated attacks like BEC and zero-day phishing that bypass traditional filters.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-user-unfollow-line"></i></div><h4>Lessen Your Burden</h4><p>Eliminate manual triage and maintenance with a fully managed, 24/7 SOC-backed service.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-timer-flash-line"></i></div><h4>Faster Detection</h4><p>Identify and remediate threats in minutes, not hours or days, with automated and human-led responses.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-us">
+            <div class="container">
+                <h2 class="text-center">Why Choose Managed Email Protection?</h2>
+                <p class="text-center max-w-2xl mx-auto mb-10">We don't just provide a platform—we operate email protection for you. Compare your situation to our managed service.</p>
+                <div class="table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr class="bg-sofecta-navy"><th>Challenge</th><th>Questions to Ask Yourself</th><th>Our Managed Service</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Setup & Config</td><td>Are your tools correctly configured? Do you have time to optimize rules?</td><td>Turnkey API deployment. We handle all setup, tuning, and policy optimization.</td></tr>
+                            <tr><td>Monitoring</td><td>Can your team investigate threats 24/7?</td><td>Continuous monitoring by expert analysts around the clock.</td></tr>
+                            <tr><td>Alert Triage</td><td>Are you drowning in false positives or alert fatigue?</td><td>Human-in-the-loop triage ensures accuracy and eliminates alert overload.</td></tr>
+                            <tr><td>Response</td><td>How long does it take to contain and remediate?</td><td>Immediate, AI-enhanced + human response. Messages removed before damage occurs.</td></tr>
+                            <tr><td>Maintenance</td><td>Who updates detection rules and retrains AI models?</td><td>We continuously maintain and optimize your protection, adapting to new attacks.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="container">
+                <h2 class="text-center">Built on Sublime Security — Enterprise-Grade Technology</h2>
+                <p class="text-center max-w-2xl mx-auto mb-10">Our service provides enterprise-grade protection without the complexity and cost, featuring:</p>
+                <div class="grid">
+                    <div class="grid-card"><div class="card-icon"><i class="ri-psychotherapy-line"></i></div><h4>Behavioural Analysis</h4><p>Contextual analysis of content, headers, and sender dynamics.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><h4>AI/ML-Driven Detection</h4><p>Finds sophisticated attacks like BEC, phishing, and ransomware.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-radar-line"></i></div><h4>Emerging Threat Detection</h4><p>Catches zero-day and GenAI-powered phishing attacks.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Abuse Mailbox Automation</h4><p>Automates handling of user-reported phishing emails.</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-eye-line"></i></div><h4>Transparent Verdicts</h4><p>Provides explainable logic, unlike an opaque "black box".</p></div>
+                    <div class="grid-card"><div class="card-icon"><i class="ri-tools-line"></i></div><h4>Customisable Logic</h4><p>Define custom rules tailored to your business needs.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="results">
+            <div class="container">
+                <h2 class="text-center">Results & Outcomes</h2>
+                <div class="info-card text-left mb-10">
+                    <h3>Case 1: Transforming Email Security for a Metal Industry Organization</h3>
+                    <blockquote><p>"The difference was immediate... The Sofecta Labs’ team removed the noise, stopped the targeted attacks, and eliminated our maintenance workload entirely. It feels like we finally have enterprise-level protection—without the enterprise burden."</p><footer>— IT Director, Manufacturing Industry</footer></blockquote>
+                </div>
+                <div class="info-card text-left">
+                    <h3>Case 2: Transforming Email Security for a Multi-Industry Enterprise</h3>
+                    <blockquote><p>"Advanced attacks stopped appearing in user inboxes, and the noise that used to overwhelm our IT teams disappeared almost immediately."</p><footer>— CIO, International Multi-Industry Group</footer></blockquote>
+                </div>
+            </div>
+        </section>
+
+        <section id="statistics">
+            <div class="container">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="p-4 mx-auto max-w-xl">
+                        <h3 class="text-2xl font-bold text-center mb-8">Financial Fraud Claims by Entry Vector</h3>
+                        <div class="flex flex-col md:flex-row items-center md:items-start justify-center md:space-x-12">
+                            <div class="w-full max-w-xs mx-auto md:w-1/2 mb-10 md:mb-0">
+                                <div class="donut-chart-container">
+                                    <div id="segments-donut" class="donut-chart-segment"></div>
+                                    <div class="donut-hole"></div>
+                                    <div class="center-text">
+                                        <div class="text-5xl font-extrabold text-sofecta-accent-yellow leading-none">83%</div>
+                                        <div class="text-lg font-medium mt-1">Email</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <div class="mb-4 text-xl font-semibold border-b border-sofecta-light-navy pb-3">Entry Vectors</div>
+                                <div id="legend-donut" class="space-y-4"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*VPN, RDP, or Remote Access Tools</p>
+                    </div>
+                    <div class="p-4 mx-auto max-w-xl">
+                        <h3 class="text-2xl font-bold text-center mb-8">BEC Attacks by Type</h3>
+                        <div class="space-y-6" id="bar-chart-container"></div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Business Email Compromise</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="info-card">
+                    <h2 class="text-center">Take the Next Step</h2>
+                    <p class="text-center">Ready to see how our Managed Email Protection can shield your business? Talk to our experts or schedule a live demo.</p>
+                    <div class="contact-layout mt-10">
+                        <div class="contact-info text-left">
+                            <h3>Talk to an Expert</h3>
+                            <p>Discuss your specific challenges and learn how our service can be tailored to your needs.</p>
+                            <a href="#" class="btn btn-primary btn-full mt-5">Schedule a Call</a>
+                        </div>
+                        <div class="contact-form">
+                            <h3>Request a Demo</h3>
+                            <form>
+                                <input type="email" name="email" placeholder="Enter your work email" required>
+                                <button type="submit" class="btn btn-primary btn-full">Schedule Demo</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile Navigation
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const body = document.body;
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('ri-menu-line');
+            icon.classList.toggle('ri-close-line');
+        });
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                body.classList.remove('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('ri-menu-line');
+                icon.classList.remove('ri-close-line');
+            });
+        });
+
+        // Chart Scripts
+        document.addEventListener('DOMContentLoaded', () => {
+            const donutData = [
+                { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, { label: "Vendor/Client", value: 1, color: 'var(--sofecta-navy)' }, 
+                { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, { label: 'Misc. Malicious', value: 10, color: 'var(--sofecta-text-medium)' }, 
+                { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+            ];
+            const donutSegments = document.getElementById('segments-donut');
+            const donutLegend = document.getElementById('legend-donut');
+            if(donutSegments && donutLegend) {
+                let gradientString = 'conic-gradient('; let currentDegree = 0;
+                donutData.forEach((item, index) => {
+                    const degrees = (item.value / 100) * 360;
+                    if (item.value > 0) {
+                        gradientString += `${item.color} ${currentDegree}deg ${currentDegree + degrees}deg, `;
+                    }
+                    currentDegree += degrees;
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'flex items-center justify-between text-base';
+                    const valueTextColor = item.value === 83 ? 'text-yellow-400' : 'text-sofecta-text-light';
+                    legendItem.innerHTML = `<div class="flex items-center"><span class="w-4 h-4 rounded-sm mr-3" style="background-color: ${item.color};"></span><span>${item.label}</span></div><span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>`;
+                    donutLegend.appendChild(legendItem);
+                });
+                gradientString = gradientString.slice(0, -2) + ')';
+                donutSegments.style.backgroundImage = gradientString;
+            }
+
+            const barData = [
+                { label: 'Vendor Email Compromise', value: 33 }, { label: 'Payroll Diversion', value: 22 }, { label: 'Gift Card Scams', value: 17 },
+                { label: 'Invoice Manipulation', value: 12 }, { label: 'Credential Phishing', value: 9 }, { label: 'Extortion', value: 7 }
+            ];
+            const barContainer = document.getElementById('bar-chart-container');
+            if(barContainer) {
+                const maxValue = Math.max(...barData.map(item => item.value));
+                barData.forEach(item => {
+                    const barWidth = (item.value / maxValue) * 100;
+                    const barElement = document.createElement('div');
+                    barElement.className = 'flex items-center text-sm sm:text-base';
+                    barElement.innerHTML = `<div class="w-1/3 text-right pr-4">${item.label}</div><div class="w-2/3"><div class="bg-sofecta-light-navy rounded-sm overflow-hidden"><div class="bg-sofecta-accent-yellow text-right pr-2 font-bold text-sofecta-deep-dark" style="width: ${barWidth}%;">${item.value}%</div></div></div>`;
+                    barContainer.appendChild(barElement);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
