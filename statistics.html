@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofecta Labs | Managed Email Protection with Sublime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --sofecta-deep-dark: #020c1b;
+            --sofecta-dark-bg: #0a192f;
+            --sofecta-navy: #112240;
+            --sofecta-light-navy: #233554;
+            --sofecta-accent-yellow: #FFC107;
+            --sofecta-accent-blue: #FFC107;
+            --sofecta-text-light: #ccd6f6;
+            --sofecta-text-medium: #8892b0;
+            --sofecta-heart: #CC1100;
+            --sofecta-white: #e6f1ff;
+            --sofecta-border-radius: 8px;
+            --font-family-main: 'Roboto', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
+        body.no-scroll { overflow: hidden; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2.2rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
+        p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
+        section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
+        section:last-of-type, .hero { border-bottom: none; }
+        .text-accent { color: var(--sofecta-accent-yellow); }
+
+        .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 45px; }
+
+        .main-nav { display: none; }
+        .main-nav ul { display: flex; list-style: none; align-items: center; }
+        .main-nav li { margin-left: 20px; }
+        .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
+        .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
+
+        .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
+        .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav ul { list-style: none; text-align: center; }
+        .mobile-nav li { margin: 15px 0; }
+        .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
+        
+        .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
+        .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
+        .btn-full { width: 100%; }
+
+        .hero { text-align: center; padding: 80px 0; }
+        .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
+        .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
+        .partner-logos .ri-heart-fill { font-size: 35px; color: var(--sofecta-heart); }
+        
+        .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
+        .grid { display: grid; gap: 30px; margin-top: 40px; }
+        .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
+        .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
+        
+        .table-wrapper { overflow-x: auto; }
+        .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
+        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
+        
+        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; }
+        
+        .faq-item { margin-bottom: 30px; }
+        
+        .contact-layout { display: grid; gap: 40px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
+
+        /* Donut Chart Specific */
+        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: hidden; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
+        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
+        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .main-nav { display: block; }
+            .logo img { height: 50px; }
+            h1 { font-size: 3.2rem; }
+            h2 { font-size: 2.2rem; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+            .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
+        }
+    </style>
+</head>
+<body class="bg-sofecta-dark-bg text-sofecta-text-light">
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <nav class="main-nav hidden md:block">
+                <ul>
+                    <li><a href="#challenge">The Challenge</a></li>
+                    <li><a href="#solution">Our Solution</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#statistics">Statistics</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle md:hidden" id="menu-toggle"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#challenge">The Challenge</a></li>
+            <li><a href="#solution">Our Solution</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#why-us">Why Us</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+            <li><a href="#contact">Schedule a Demo</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1 class="font-bold">Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
+                <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <div class="partner-logos mt-12">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 50px;">
+                    <i class="ri-heart-fill"></i>
+                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 30px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- MERGED STATISTICS SECTION -->
+        <section id="statistics">
+            <div class="container">
+                <div class="text-center mb-16">
+                    <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" class="max-h-96 mx-auto">
+                </div>
+
+                <div id="infographic-donut" class="p-4 mx-auto max-w-4xl">
+                    <h2 class="font-bold text-center mb-8">Financial Fraud Claims by Entry Vector, 2024</h2>
+                    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:space-x-12">
+                        <div class="w-full max-w-xs mx-auto lg:w-1/2 mb-10 lg:mb-0">
+                            <div class="donut-chart-container">
+                                <div id="segments-donut" class="donut-chart-segment"></div>
+                                <div class="donut-hole"></div>
+                                <div class="center-text">
+                                    <div class="text-5xl font-extrabold text-sofecta-accent-yellow leading-none">83%</div>
+                                    <div class="text-lg font-medium mt-1">Email</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="mb-4 text-xl font-semibold border-b border-sofecta-light-navy pb-3">Entry Vectors</div>
+                            <div id="legend-donut" class="space-y-4"></div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-sofecta-text-medium text-center mt-8">*VPN, RDP, or Remote Access Tools</p>
+                </div>
+                
+                <!-- NEWLY ADDED BAR CHART SECTION -->
+                <div id="bar-chart-infographic" class="p-4 mx-auto max-w-4xl text-sofecta-text-light mt-24">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-sofecta-white">
+                        BEC Attacks by Type, 2024
+                    </h2>
+                    <div class="space-y-6" id="bar-chart-container">
+                        <!-- Bars will be injected here by script -->
+                    </div>
+                    <p class="text-sm text-sofecta-text-medium text-center mt-8">*Business Email Compromise</p>
+                </div>
+
+            </div>
+        </section>        
+        <!-- END OF MERGED SECTION -->
+
+        <section id="challenge">
+            <div class="container">
+                <div class="info-card">
+                    <h2 class="text-center">The Challenge: Why Legacy Tools Aren't Enough</h2>
+                    <p class="text-center">Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-10">
+                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- Mobile Navigation Script ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const body = document.body;
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('ri-menu-line')) {
+                icon.classList.remove('ri-menu-line'); icon.classList.add('ri-close-line');
+            } else {
+                icon.classList.remove('ri-close-line'); icon.classList.add('ri-menu-line');
+            }
+        });
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                body.classList.remove('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('ri-close-line'); icon.classList.add('ri-menu-line');
+            });
+        });
+
+        // --- ALL CHART SCRIPTS CONSOLIDATED ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Donut Chart Logic ---
+            const donutData = [
+                { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
+                { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
+                { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
+                { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
+                { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+            ];
+            const donutSegments = document.getElementById('segments-donut');
+            const donutLegend = document.getElementById('legend-donut');
+            if (donutSegments && donutLegend) {
+                let gradientString = 'conic-gradient(';
+                let currentDegree = 0;
+                donutData.forEach((item, index) => {
+                    const degrees = (item.value / 100) * 360;
+                    const startDegree = currentDegree;
+                    const endDegree = currentDegree + degrees;
+                    if (item.value > 0) {
+                        gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
+                        if (index < donutData.length - 1) gradientString += ', ';
+                    }
+                    currentDegree = endDegree;
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'flex items-center justify-between text-base';
+                    const valueTextColor = item.value === 83 ? 'text-sofecta-accent-yellow' : 'text-sofecta-text-light';
+                    legendItem.innerHTML = `<div class="flex items-center"><span class="w-4 h-4 rounded-sm mr-3" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span><span class="text-sofecta-text-light">${item.label}</span></div><span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>`;
+                    donutLegend.appendChild(legendItem);
+                });
+                if (gradientString.endsWith(', ')) gradientString = gradientString.slice(0, -2);
+                gradientString += ')';
+                donutSegments.style.backgroundImage = gradientString;
+            }
+
+            // --- Bar Chart Logic ---
+            const barData = [
+                { label: 'Vendor Email Compromise', value: 33 },
+                { label: 'Payroll Diversion', value: 22 },
+                { label: 'Gift Card Scams', value: 17 },
+                { label: 'Invoice Manipulation', value: 12 },
+                { label: 'Credential Phishing', value: 9 },
+                { label: 'Extortion', value: 7 }
+            ];
+            const barContainer = document.getElementById('bar-chart-container');
+            if (barContainer) {
+                const maxValue = Math.max(...barData.map(item => item.value));
+                barData.forEach(item => {
+                    const barWidth = (item.value / maxValue) * 100;
+                    const barElement = document.createElement('div');
+                    barElement.className = 'flex items-center text-sm sm:text-base';
+                    barElement.innerHTML = `
+                        <div class="w-1/3 text-right pr-4 text-sofecta-text-light">${item.label}</div>
+                        <div class="w-2/3">
+                            <div class="bg-sofecta-navy rounded-sm shadow-inner overflow-hidden">
+                                <div class="bg-sofecta-accent-yellow text-right pr-2 font-bold text-sofecta-deep-dark" style="width: ${barWidth}%;">${item.value}%</div>
+                            </div>
+                        </div>
+                    `;
+                    barContainer.appendChild(barElement);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
