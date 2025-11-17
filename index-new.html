@@ -8,9 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
-    
+    <!-- Link to Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-    /* --- MASTER STYLESHEET --- */
+    /* --- MASTER STYLESHEET (CORRECTED) --- */
     :root {
         --sofecta-deep-dark: #020c1b;
         --sofecta-dark-bg: #0a192f;
@@ -34,7 +36,6 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
     
-    /* Typography - Mobile First */
     h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
@@ -46,12 +47,11 @@
     section:last-of-type, .hero { border-bottom: none; }
     .text-accent { color: var(--sofecta-accent-yellow); }
 
-    /* Header and Navigation */
     .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
     .main-header .container { display: flex; justify-content: space-between; align-items: center; }
     .logo img { height: 45px; }
 
-    .main-nav { display: none; } /* Hidden on mobile */
+    .main-nav { display: none; }
     .main-nav ul { display: flex; list-style: none; align-items: center; }
     .main-nav li { margin-left: 25px; }
     .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
@@ -85,6 +85,14 @@
     .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
     .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
 
+    /* --- FIX: RESTORED USE CASE STYLES --- */
+    .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+    .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
+    .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+    .use-case-cols .fail i { color: #e57373; }
+    .use-case-cols .success i { color: #81c784; }
+
     blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
     blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
 
@@ -93,27 +101,25 @@
     .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
     .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
 
-    /* Chart Styles */
-    .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: hidden; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
-    .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
-    .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
-    .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
-
     .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
 
-    /* --- Responsive Adjustments for Desktop --- */
+    /* Responsive Adjustments */
     @media (min-width: 769px) {
         .menu-toggle { display: none; }
         .main-nav { display: block; }
         .logo img { height: 50px; }
 
-        /* FIX: Restore larger font sizes for desktop */
         h1 { font-size: 3.2rem; }
         h2 { font-size: 2.5rem; }
         h3 { font-size: 1.8rem; }
 
         .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        
+        /* FIX: RESTORED USE CASE DESKTOP STYLES */
+        .use-case-container { grid-template-columns: repeat(2, 1fr); }
+        .use-case-cols { grid-template-columns: 1fr 1fr; }
+
         .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
     }
     </style>
@@ -168,7 +174,7 @@
         <section id="statistics">
             <div class="container">
         
-                
+
             </div>
         </section>        
 
