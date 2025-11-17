@@ -116,6 +116,51 @@
             .use-case-cols { grid-template-columns: 1fr 1fr; }
             .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
         }
+
+        /* Custom CSS to define the donut chart appearance */
+        .donut-chart-container {
+            width: 100%;
+            padding-bottom: 100%; 
+            position: relative;
+            border-radius: 9999px; 
+            overflow: hidden; 
+            background-color: transparent;
+            /* Applying a subtle background color for the container edge, using light-navy */
+            box-shadow: 0 0 0 8px var(--sofecta-light-navy); 
+        }
+
+        .donut-chart-segment {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .donut-hole {
+            /* Creates the hole in the center */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; 
+            height: 60%;
+            border-radius: 50%;
+            /* Using the main dark background color for the hole */
+            background-color: var(--sofecta-dark-bg); 
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            color: var(--sofecta-text-light); 
+        }
     </style>
 </head>
 <body>
@@ -176,8 +221,41 @@
             <div class="container">
                 <div>
                     <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" style="height: 500px;">
-
                 </div>
+
+                <div id="infographic" class="p-4 mx-auto max-w-4xl text-text-light">
+                <!-- Title and Footnote -->
+                    <h2 class="text-xl sm:text-2xl font-bold text-center mb-8 text-text-light">
+                        Financial Fraud Claims by Entry Vector, 2024
+                    </h2>
+
+                    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:space-x-12">
+                
+                    <!-- Chart Container (Left/Top) -->
+                        <div class="w-full max-w-xs mx-auto lg:w-1/2 mb-10 lg:mb-0">
+                            <div id="chart-container" class="donut-chart-container">
+                                <div id="segments" class="donut-chart-segment"></div>
+                                <div class="donut-hole"></div>
+                                <div class="center-text">
+                                    <div id="main-stat-pct" class="text-5xl font-extrabold text-accent-yellow leading-none">83%</div>
+                                    <div class="text-lg font-medium mt-1 text-text-light">Email</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legend Container (Right/Bottom) -->
+                        <div class="w-full lg:w-1/2">
+                            <div class="mb-4 text-xl font-semibold text-text-light border-b border-light-navy pb-3">Entry Vectors</div>
+                            <div id="legend" class="space-y-4">
+                                <!-- Legend items will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-text-medium text-center mt-8">
+                    *VPN, RDP, or Remote Access Tools
+                    </p>
+                </div>    
             </div>
         </section>        
 
@@ -432,6 +510,83 @@
                 icon.classList.remove('ri-close-line');
                 icon.classList.add('ri-menu-line');
             });
+        });
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'accent-yellow': '#FFC107',
+                        'text-light': '#ccd6f6',
+                        'text-medium': '#8892b0',
+                        'dark-bg': '#0a192f',
+                        'light-navy': '#233554',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Updated color scheme for the segments
+            const chartData = [
+                // Email uses the Accent Yellow
+                { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
+                // Subdued colors from the provided scheme
+                { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
+                { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
+                { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
+                { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+            ];
+
+            const chartSegments = document.getElementById('segments');
+            const legendContainer = document.getElementById('legend');
+            let gradientString = 'conic-gradient(';
+            let currentDegree = 0;
+
+            chartData.forEach((item, index) => {
+                const degrees = (item.value / 100) * 360;
+                const startDegree = currentDegree;
+                const endDegree = currentDegree + degrees;
+                
+                // Add segment to the gradient string
+                if (item.value > 0) {
+                    // Use CSS variable in the gradient
+                    gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
+                    if (index < chartData.length - 1) {
+                        gradientString += ', ';
+                    }
+                }
+                
+                currentDegree = endDegree;
+
+                // Create Legend Item
+                const legendItem = document.createElement('div');
+                legendItem.className = 'flex items-center justify-between text-base';
+                
+                // Determine text color based on the segment value/size for visual emphasis
+                const valueTextColor = item.value === 83 ? 'text-accent-yellow' : 'text-text-light';
+
+                legendItem.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-sm mr-3" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
+                        <span class="text-text-light">${item.label}</span>
+                    </div>
+                    <span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>
+                `;
+                legendContainer.appendChild(legendItem);
+            });
+
+            // Clean up the trailing comma from the gradient string
+            if (gradientString.endsWith(', ')) {
+                gradientString = gradientString.slice(0, -2);
+            }
+            gradientString += ')';
+
+            // Apply the gradient to the chart segment div
+            chartSegments.style.backgroundImage = gradientString;
         });
     </script>
 </body>
