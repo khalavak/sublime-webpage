@@ -46,19 +46,20 @@
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
         .logo img { height: 45px; }
 
-        .main-nav { display: none; }
         .main-nav ul { display: flex; list-style: none; align-items: center; }
-        .main-nav li { margin-left: 20px; }
+        .main-nav li { margin-left: 25px; }
         .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
         .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
 
-        .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
         .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
         .mobile-nav.active { right: 0; }
         .mobile-nav ul { list-style: none; text-align: center; }
-        .mobile-nav li { margin: 15px 0; }
+        .mobile-nav li { margin: 20px 0; }
         .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
-        
+
+        .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
+        .partner-logos .ri-heart-fill { font-size: 60px; color: var(--sofecta-heart); }
+
         .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
         .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
         .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
@@ -66,34 +67,34 @@
 
         .hero { text-align: center; padding: 80px 0; }
         .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
-        .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .partner-logos .ri-heart-fill { font-size: 35px; color: var(--sofecta-heart); }
-        
+
         .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
+
         .grid { display: grid; gap: 30px; margin-top: 40px; }
         .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
         .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
-        
+
         .table-wrapper { overflow-x: auto; }
         .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
         .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
-        
-        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; }
-        
+
+        blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
+        blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
+
         .faq-item { margin-bottom: 30px; }
-        
+
         .contact-layout { display: grid; gap: 40px; }
         .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
 
-        /* Donut Chart Specific */
+        /* Custom CSS for Charts */
         .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: hidden; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
         .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
         .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
-        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
+
+        .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
 
         @media (min-width: 769px) {
-            .menu-toggle { display: none; }
-            .main-nav { display: block; }
             .logo img { height: 50px; }
             h1 { font-size: 3.2rem; }
             h2 { font-size: 2.2rem; }
@@ -111,7 +112,7 @@
                 <ul>
                     <li><a href="#challenge">The Challenge</a></li>
                     <li><a href="#solution">Our Solution</a></li>
-                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#benefits">Key Benefits</a></li>
                     <li><a href="#why-us">Why Us</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#results">Results</a></li>
@@ -127,7 +128,7 @@
         <ul>
             <li><a href="#challenge">The Challenge</a></li>
             <li><a href="#solution">Our Solution</a></li>
-            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#benefits">Key Benefits</a></li>
             <li><a href="#why-us">Why Us</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#results">Results</a></li>
@@ -141,10 +142,11 @@
             <div class="container">
                 <h1 class="font-bold">Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
                 <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
                 <div class="partner-logos mt-12">
-                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 50px;">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" class="h-16 md:h-20">
                     <i class="ri-heart-fill"></i>
-                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 30px;">
+                    <img src="assets/sublime-logo.png" alt="Sublime Security" class="h-12 md:h-14">
                 </div>
             </div>
         </section>
@@ -152,42 +154,41 @@
         <!-- MERGED STATISTICS SECTION -->
         <section id="statistics">
             <div class="container">
+                <h2 class="text-3xl font-bold text-center mb-12 text-sofecta-white">The Reality of Email-Based Fraud</h2>
                 <div class="text-center mb-16">
-                    <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" class="max-h-96 mx-auto">
+                    <img src="assets/email-fraud-claims.png" alt="Email Fraud Statistics" class="max-h-96 mx-auto rounded-lg shadow-lg">
                 </div>
 
-                <div id="infographic-donut" class="p-4 mx-auto max-w-4xl">
-                    <h2 class="font-bold text-center mb-8">Financial Fraud Claims by Entry Vector, 2024</h2>
-                    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:space-x-12">
-                        <div class="w-full max-w-xs mx-auto lg:w-1/2 mb-10 lg:mb-0">
-                            <div class="donut-chart-container">
-                                <div id="segments-donut" class="donut-chart-segment"></div>
-                                <div class="donut-hole"></div>
-                                <div class="center-text">
-                                    <div class="text-5xl font-extrabold text-sofecta-accent-yellow leading-none">83%</div>
-                                    <div class="text-lg font-medium mt-1">Email</div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div id="infographic-donut" class="p-4 mx-auto max-w-xl text-sofecta-text-light">
+                        <h3 class="text-2xl font-bold text-center mb-8 text-sofecta-white">Financial Fraud Claims by Entry Vector, 2024</h3>
+                        <div class="flex flex-col md:flex-row items-center md:items-start justify-center md:space-x-12">
+                            <div class="w-full max-w-xs mx-auto md:w-1/2 mb-10 md:mb-0">
+                                <div class="donut-chart-container">
+                                    <div id="segments-donut" class="donut-chart-segment"></div>
+                                    <div class="donut-hole"></div>
+                                    <div class="center-text">
+                                        <div class="text-5xl font-extrabold text-sofecta-accent-yellow leading-none">83%</div>
+                                        <div class="text-lg font-medium mt-1">Email</div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="w-full md:w-1/2">
+                                <div class="mb-4 text-xl font-semibold border-b border-sofecta-light-navy pb-3">Entry Vectors</div>
+                                <div id="legend-donut" class="space-y-4"></div>
+                            </div>
                         </div>
-                        <div class="w-full lg:w-1/2">
-                            <div class="mb-4 text-xl font-semibold border-b border-sofecta-light-navy pb-3">Entry Vectors</div>
-                            <div id="legend-donut" class="space-y-4"></div>
-                        </div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*VPN, RDP, or Remote Access Tools</p>
                     </div>
-                    <p class="text-sm text-sofecta-text-medium text-center mt-8">*VPN, RDP, or Remote Access Tools</p>
-                </div>
-                
-                <!-- NEWLY ADDED BAR CHART SECTION -->
-                <div id="bar-chart-infographic" class="p-4 mx-auto max-w-4xl text-sofecta-text-light mt-24">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-sofecta-white">
-                        BEC Attacks by Type, 2024
-                    </h2>
-                    <div class="space-y-6" id="bar-chart-container">
-                        <!-- Bars will be injected here by script -->
-                    </div>
-                    <p class="text-sm text-sofecta-text-medium text-center mt-8">*Business Email Compromise</p>
-                </div>
 
+                    <div id="bar-chart-infographic" class="p-4 mx-auto max-w-xl text-sofecta-text-light">
+                        <h3 class="text-2xl font-bold text-center mb-8 text-sofecta-white">BEC Attacks by Type, 2024</h3>
+                        <div class="space-y-6" id="bar-chart-container">
+                            <!-- Bars will be injected here by script -->
+                        </div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Business Email Compromise</p>
+                    </div>
+                </div>
             </div>
         </section>        
         <!-- END OF MERGED SECTION -->
@@ -207,6 +208,10 @@
                 </div>
             </div>
         </section>
+
+        <!-- All other original sections from your file would follow here -->
+        <!-- ... solution, benefits, why-us, features, results, etc. ... -->
+
     </main>
 
     <footer class="main-footer">
