@@ -75,7 +75,6 @@
         
         .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
         .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
-        .use-case-card h4 { text-align: center; }
         .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .use-case-cols .fail i { color: #e57373; }
@@ -98,7 +97,8 @@
             .logo img { height: 50px; }
             h1 { font-size: 3.2rem; }
             h2 { font-size: 2.2rem; }
-            .grid { grid-template-columns: repeat(3, 1fr); }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+            .grid.five-col { grid-template-columns: repeat(5, 1fr); }
             .use-case-container { grid-template-columns: repeat(2, 1fr); }
             .use-case-cols { grid-template-columns: 1fr 1fr; }
             .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
@@ -141,6 +141,7 @@
             <div class="container">
                 <h1>Managed Email Protection – Built to <span class="text-accent">Shield Your Business</span></h1>
                 <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
             </div>
         </section>
 
@@ -149,7 +150,7 @@
                 <div class="info-card">
                     <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
                     <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
-                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="grid">
                         <div class="grid-card"><div class="card-icon"><i class="ri-mail-forbid-line"></i></div><p>94% of breaches start with an email.</p></div>
                         <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rule-based systems.</p></div>
                         <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted and insider threats.</p></div>
@@ -161,15 +162,27 @@
 
         <section id="solution">
             <div class="container" style="text-align: center;">
-                <h2>Our Turnkey Solution</h2>
-                <p>We deliver a turnkey Managed Service for email protection, combining the powerful detection of Sublime Security with our 24/7 security operations for continuous protection and zero operational burden.</p>
-                <!-- How it works can be simplified visually -->
+                <h2>Our Solution</h2>
+                <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
+                
+                <!-- RE-INSERTED CONTENT: How It Works 5-Step Process -->
+                <h3 style="margin-top: 40px;">How It Works</h3>
+                <div class="grid five-col">
+                    <div class="grid-card"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
+                    <div class="grid-card"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
+                    <div class="grid-card"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
+                    <div class="grid-card"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
+                    <div class="grid-card"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
+                </div>
+                <p style="margin-top: 40px; font-size: 1.2rem; color: var(--sofecta-text-light);">You get continuous protection, clear reporting, and zero operational burden.</p>
+
             </div>
         </section>
 
         <section id="why-us">
             <div class="container">
                 <h2 style="text-align:center;">Why Choose Managed Email Protection?</h2>
+                <p style="text-align:center;">We don't just provide a platform—we operate email protection for you. Compare your situation to our managed service.</p>
                 <div class="table-wrapper">
                     <table class="comparison-table">
                         <thead><tr><th>Challenge</th><th>Questions to Ask Yourself</th><th>Our Managed Service</th></tr></thead>
@@ -189,7 +202,7 @@
         </section>
 
         <section id="differentiators">
-            <div class="container">
+             <div class="container">
                  <h2 style="text-align:center;">Our Differentiators</h2>
                  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
                     <div class="grid-card"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Turnkey Service</h4><p>Platform + AI + Human Expertise.</p></div>
@@ -204,8 +217,9 @@
 
         <section id="features">
             <div class="container">
-                <h2 style="text-align:center;">Enterprise-Grade Technology</h2>
-                <p style="text-align:center;">Powered by Sublime Security, we deliver a modern, open, and extensible detection engine without the complexity and cost.</p>
+                <h2 style="text-align:center;">Built on Sublime Security — Enterprise-Grade Technology</h2>
+                <p style="text-align:center;">We deliver a modern, open, and extensible detection and response engine that provides enterprise-grade protection without the complexity and cost.</p>
+                <!-- Further feature details can be added here if needed -->
             </div>
         </section>
 
@@ -214,22 +228,16 @@
                 <h2 style="text-align:center;">Results & Outcomes</h2>
                 <div class="info-card" style="text-align:left; margin-bottom: 40px;">
                     <h3>Case 1: Transforming Email Security for a Metal Industry Organization</h3>
-                    <h4>The Challenge</h4>
-                    <p>A mid-sized manufacturing group with 400 mailboxes and 10,000 emails daily struggled to keep their built-in protection updated. The team had no time to maintain rules, missed early-warning signals, and couldn't stop advanced phishing and supplier impersonation attacks.</p>
-                    <h4>The Solution</h4>
-                    <p>Adopting our Managed Email Protection service reversed the trend through real-time behavioral analysis, automated detection, instant remediation, and a fully managed service that eliminated the need for internal rule updates or manual triage.</p>
-                    <h4>The Results</h4>
-                    <ul><li>100% removal of malicious emails.</li><li>Complete elimination of manual rule management.</li><li>Zero dependency on internal maintenance, freeing IT resources.</li></ul>
+                    <h4>The Challenge</h4><p>A mid-sized manufacturing group with 400 mailboxes and 10,000 emails daily struggled to keep their built-in protection updated. The team had no time to maintain rules, missed early-warning signals, and couldn't stop advanced phishing and supplier impersonation attacks.</p>
+                    <h4>The Solution</h4><p>Adopting our Managed Email Protection service reversed the trend through real-time behavioral analysis, automated detection, instant remediation, and a fully managed service that eliminated the need for internal rule updates or manual triage.</p>
+                    <h4>The Results</h4><ul><li>100% removal of malicious emails from the 10,000-message daily flow.</li><li>Complete elimination of manual rule management and alert oversight.</li><li>Zero dependency on IT for maintenance, freeing up internal resources.</li></ul>
                     <blockquote><p>"The difference was immediate... The Sofecta Labs’ team removed the noise, stopped the targeted attacks, and eliminated our maintenance workload entirely. It feels like we finally have enterprise-level protection—without the enterprise burden."</p><footer>— IT Director, Manufacturing Industry</footer></blockquote>
                 </div>
                 <div class="info-card" style="text-align:left;">
                     <h3>Case 2: Transforming Email Security for a Multi-Industry Enterprise</h3>
-                    <h4>The Challenge</h4>
-                    <p>With 600+ mailboxes and over 1.6 million monthly emails, this global enterprise faced critical blind spots. Compromised supplier emails, AI-generated phishing, and overwhelming alert fatigue left their international operations exposed across multiple countries.</p>
-                    <h4>The Solution</h4>
-                    <p>Our service provided a behavior-driven, fully supervised security layer that adapted to their complex communication patterns. It offered real-time analysis, contextual detection, seamless integration with Google Workspace, and centralized global oversight.</p>
-                    <h4>The Results</h4>
-                    <ul><li>Almost 100% cleanup of the entire 20 million email annual flow.</li><li>Advanced phishing and supplier-domain compromises stopped in real-time.</li><li>Immediate reduction in SOC noise and elimination of false positives.</li></ul>
+                    <h4>The Challenge</h4><p>With 600+ mailboxes and over 1.6 million monthly emails, this global enterprise faced critical blind spots. Compromised supplier emails, AI-generated phishing, and overwhelming alert fatigue left their international operations exposed across multiple countries.</p>
+                    <h4>The Solution</h4><p>Our service provided a behavior-driven, fully supervised security layer that adapted to their complex communication patterns. It offered real-time analysis, contextual detection, seamless integration with Google Workspace, and centralized global oversight.</p>
+                    <h4>The Results</h4><ul><li>Almost 100% cleanup of the entire 20 million email annual flow.</li><li>Advanced phishing and supplier-domain compromises stopped in real-time.</li><li>Immediate reduction in SOC noise and elimination of false positives.</li></ul>
                     <blockquote><p>"Advanced attacks stopped appearing in user inboxes, and the noise that used to overwhelm our IT teams disappeared almost immediately."</p><footer>— CIO, International Multi-Industry Group</footer></blockquote>
                 </div>
             </div>
@@ -243,35 +251,35 @@
                     <div class="use-case-card">
                         <h4>Supplier-Domain Impersonation</h4>
                         <div class="use-case-cols">
-                            <div class="legacy-col"><h5><i class="ri-close-circle-line"></i>Legacy Protection (Fails)</h5><p>Trusts the sender, delivers the email. Employee follows fraudulent instructions.</p></div>
-                            <div class="managed-col"><h5><i class="ri-checkbox-circle-line"></i>Managed Protection (Succeeds)</h5><p>Behavioral analysis flags unusual sender patterns. Message is quarantined before reaching the user.</p></div>
+                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Trusts the sender, delivers the email. Employee follows fraudulent instructions.</p></div>
+                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Behavioral analysis flags unusual sender patterns. Message is quarantined.</p></div>
                         </div>
                     </div>
                     <div class="use-case-card">
                         <h4>AI-Enhanced Phishing</h4>
                         <div class="use-case-cols">
-                            <div class="legacy-col"><h5><i class="ri-close-circle-line"></i>Legacy Protection (Fails)</h5><p>Filters see normal language and allow the email. User receives an urgent request and complies.</p></div>
-                            <div class="managed-col"><h5><i class="ri-checkbox-circle-line"></i>Managed Protection (Succeeds)</h5><p>Content, identity, and metadata analysis detects a mismatch. AI validates the threat in real-time and removes the message.</p></div>
+                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees normal language and allows the email. User receives an urgent request and complies.</p></div>
+                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Content & metadata analysis detects a mismatch. AI validates the threat and removes it.</p></div>
                         </div>
                     </div>
                      <div class="use-case-card">
                         <h4>Malicious Attachments</h4>
                         <div class="use-case-cols">
-                            <div class="legacy-col"><h5><i class="ri-close-circle-line"></i>Legacy Protection (Fails)</h5><p>Sees a "harmless" attachment and delivers it. Employee opens the file, running malicious scripts.</p></div>
-                            <div class="managed-col"><h5><i class="ri-checkbox-circle-line"></i>Managed Protection (Succeeds)</h5><p>Attachment is scanned for anomalies (macros, redirects). Threat is validated and email is quarantined.</p></div>
+                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees a "harmless" attachment and delivers it. Employee opens the file, running malware.</p></div>
+                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Attachment is scanned for anomalies. Threat is validated and email is quarantined.</p></div>
                         </div>
                     </div>
                     <div class="use-case-card">
                         <h4>QR Code Phishing ("Quishing")</h4>
                         <div class="use-case-cols">
-                            <div class="legacy-col"><h5><i class="ri-close-circle-line"></i>Legacy Protection (Fails)</h5><p>Does not inspect QR codes, so the email is delivered. User scans the code, leading to a credential-stealing site.</p></div>
-                            <div class="managed-col"><h5><i class="ri-checkbox-circle-line"></i>Managed Protection (Succeeds)</h5><p>Image is analyzed for QR codes, the decoded URL is inspected, and the unsafe email is quarantined.</p></div>
+                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Does not inspect QR codes, so the email is delivered. User scans code, leading to credential theft.</p></div>
+                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Image is analyzed for QR codes and the decoded URL is inspected. Email is quarantined.</p></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <section id="trust">
              <div class="container" style="text-align: center;">
                  <h2>Trust & Credibility</h2>
@@ -293,10 +301,10 @@
                     <h4>Do you support Google Workspace?</h4><p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
                 </div>
                 <div class="faq-item">
-                    <h4>Do we still need this if we have an email gateway?</h4><p>Yes. Traditional gateways miss modern attacks like BEC. Our service adds human analysis and real-time response to close those gaps.</p>
+                    <h4>Do we still need this if we have an email gateway?</h4><p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
                 </div>
                  <div class="faq-item">
-                    <h4>Will you quarantine legitimate emails?</h4><p>Our detection is behavioural and context-aware, and every high-risk alert is reviewed by an analyst. This results in very low false positives.</p>
+                    <h4>Will you quarantine legitimate emails?</h4><p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
                 </div>
             </div>
         </section>
