@@ -581,8 +581,10 @@
     </script>
 
 
+    <!-- Chart Rendering Script -->
     <script>
         // --- Chart Rendering Functions ---
+
         // Function to render the Donut Chart
         function renderDonutChart() {
             const chartSegments = document.getElementById('segments');
@@ -594,12 +596,8 @@
                 return; 
             }
 
-            // Set the central Email statistic
-            const emailData = DONUT_DATA.find(d => d.label === 'Email');
-            if (emailData) {
-                document.getElementById('main-stat-pct').textContent = `${emailData.value}%`;
-                document.getElementById('main-stat-label').textContent = emailData.label;
-            }
+            document.getElementById('main-stat-pct').textContent = `${DONUT_DATA[0].value}%`; 
+            document.getElementById('main-stat-label').textContent = DONUT_DATA[0].label;
 
             let gradientString = 'conic-gradient(';
             let currentDegree = 0;
@@ -663,7 +661,10 @@
 
         function renderBarChart(containerId, data, colorProp) {
             const container = document.getElementById(containerId);
-            if (!container) return;
+            if (!container) {
+                console.error(`Error: Could not find bar chart container with ID: ${containerId}`);
+                return;
+            }
 
             const maxVal = Math.max(...data.map(item => item.value));
 
@@ -671,7 +672,8 @@
                 const widthPercent = (item.value / maxVal) * 100;
                 
                 const barItem = document.createElement('div');
-                barItem.className = 'group mb-4';
+                // Added base Tailwind classes for spacing and alignment.
+                barItem.className = 'group mb-4 flex flex-col'; 
                 barItem.innerHTML = `
                     <div class="flex justify-between mb-1 text-sm sm:text-base">
                         <span class="text-text-light">${item.label}</span>
@@ -686,9 +688,15 @@
         }
 
         function animateAllBars() {
+            // Use a slight delay to ensure elements are fully rendered and transitions are ready
             setTimeout(() => {
                 document.querySelectorAll('.chart-bar').forEach(bar => {
-                    bar.style.width = bar.dataset.width + '%';
+                    // Ensure dataset.width exists and is a number before setting width
+                    if (bar.dataset.width && !isNaN(parseFloat(bar.dataset.width))) {
+                        bar.style.width = bar.dataset.width + '%';
+                    } else {
+                        console.warn("Bar element missing valid 'data-width' attribute:", bar);
+                    }
                 });
             }, 100);
         }
@@ -696,9 +704,10 @@
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderDonutChart();
+            // Call renderBarChart for both industry and brand charts
             renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
             renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color');
-            animateAllBars();
+            animateAllBars(); // This should animate all bars rendered by renderBarChart
         });
     </script>
 </body>
