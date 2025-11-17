@@ -11,32 +11,29 @@
     <!-- Link to Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-    // This is the magic part! We are configuring the Play CDN.
-    tailwind.config = {
+      tailwind.config = {
         theme: {
-        extend: {
-            // You can define your custom colors here to use with Tailwind classes
-            // e.g., 'text-sofecta-accent-yellow'
+          extend: {
             colors: {
-            'sofecta-deep-dark': '#020c1b',
-            'sofecta-dark-bg': '#0a192f',
-            'sofecta-navy': '#112240',
-            'sofecta-light-navy': '#233554',
-            'sofecta-accent-yellow': '#FFC107',
-            'sofecta-text-light': '#ccd6f6',
-            'sofecta-text-medium': '#8892b0',
+              'sofecta-deep-dark': '#020c1b',
+              'sofecta-dark-bg': '#0a192f',
+              'sofecta-navy': '#112240',
+              'sofecta-light-navy': '#233554',
+              'sofecta-accent-yellow': '#FFC107',
+              'sofecta-text-light': '#ccd6f6',
+              'sofecta-text-medium': '#8892b0',
+              'sofecta-heart': '#CC1100'
             }
-        }
+          }
         },
-        // PREVENT CONFLICTS by disabling preflight
         corePlugins: {
-        preflight: false,
+          preflight: false, // This is the key to preventing conflicts!
         }
-    }
+      }
     </script>
 
     <style>
-    /* --- MASTER STYLESHEET (CORRECTED) --- */
+    /* --- MASTER STYLESHEET --- */
     :root {
         --sofecta-deep-dark: #020c1b;
         --sofecta-dark-bg: #0a192f;
