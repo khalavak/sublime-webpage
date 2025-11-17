@@ -186,19 +186,103 @@
                 <p class="subtitle">Our Managed Email Protection service shields your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
                 <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
                 <div class="partner-logos">
-                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 75px;">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 80px;">
                     <i class="ri-heart-fill"></i>
                     <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 45px;">
                 </div>
             </div>
         </section>
 
-        <section id="statistics">
+        <!-- Statistics Section -->
+        <section id="statistics" class="hero">
             <div class="container">
-        
+                <!-- Section Title -->
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
+                    Email Attack Statistics
+                </h2>
 
-            </div>
-        </section>        
+                <!-- Section 1: Top Attack Vectors and Industries (1x2 Grid) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+
+                    <!-- 1. DONUT CHART (Financial Fraud by Entry Vector) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Financial Fraud Claims by Entry Vector
+                        </h3>
+                        <!-- Chart and Legend Container -->
+                        <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
+                            <!-- Chart -->
+                            <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] md:max-w-[280px] mb-8 md:mb-0 relative">
+                                <div id="donut-chart-container" class="donut-chart-container">
+                                    <div id="segments" class="donut-chart-segment"></div>
+                                    <div class="donut-hole"></div>
+                                    <!-- Center Text -->
+                                    <div class="center-text">
+                                        <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
+                                        <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Legend -->
+                            <div class="w-full md:w-1/2">
+                                <div id="donut-legend" class="space-y-4">
+                                    <!-- Donut Legend items will be injected here -->
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
+                    </div>
+
+                    <!-- 2. BAR CHART (Phishing Attacks by Targeted Industry) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Phishing Attacks by Targeted Industry (Top 5)
+                        </h3>
+                        <div id="industry-bar-chart-container" class="space-y-6 pt-2">
+                            <!-- Industry Bar Chart content will be injected here -->
+                        </div>
+                    </div>
+
+                </div> <!-- End Section 1 Grid -->
+
+                <!-- Section 2: Brand Imitation and Impact (1x2 Grid) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- 3. BRAND IMITATION CHART -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Top 5 Most Imitated Brands in Phishing (Q1 2022)
+                        </h3>
+                        <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                            <!-- Brand Imitation Bar Chart content will be injected here -->
+                        </div>
+                        <p class="text-xs text-sofecta-text-medium mt-6">
+                            Source: AAG IT & Check Point (Q1 2022 data)
+                        </p>
+                    </div>
+
+                    <!-- 4. COST STAT CALLOUT (Whaling Attack) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center">
+                        <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
+                            Single Attack Cost
+                        </p>
+                        <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
+                            $47M
+                        </div>
+                        <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
+                            The average cost of a successful 'Whaling' (C-Level target) phishing attack.
+                        </p>
+                        <p class="text-sm text-sofecta-text-medium mt-3">
+                            (Source: FACC 2015 Incident, as reported in AAG IT)
+                        </p>
+                    </div>
+
+                </div> <!-- End Section 2 Grid -->
+
+            </div> <!-- End Container -->
+        </section>
+        <!-- End of Statistics Section -->      
 
         <section id="challenge">
             <div class="container">
