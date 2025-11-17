@@ -700,13 +700,12 @@
         }
 
         // --- Initialization ---
+        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderDonutChart();
             // Calls for bar charts:
             renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
-            // --- ADD THIS LINE ---
             renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
-            // --- END ADDITION ---
             animateAllBars(); // This should animate all bars rendered by renderBarChart
         });
     </script>
