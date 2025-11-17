@@ -15,14 +15,22 @@
         theme: {
           extend: {
             colors: {
-              'sofecta-deep-dark': '#020c1b',
-              'sofecta-dark-bg': '#0a192f',
-              'sofecta-navy': '#112240',
-              'sofecta-light-navy': '#233554',
-              'sofecta-accent-yellow': '#FFC107',
-              'sofecta-text-light': '#ccd6f6',
-              'sofecta-text-medium': '#8892b0',
-              'sofecta-heart': '#CC1100'
+                'sofecta-deep-dark': '#020c1b',
+                'sofecta-dark-bg': '#0a192f',
+                'sofecta-navy': '#112240',
+                'sofecta-light-navy': '#233554',
+                'sofecta-accent-yellow': '#FFC107',
+                'sofecta-accent-blue': '#FFC107', 
+                'sofecta-text-light': '#ccd6f6',
+                'sofecta-text-medium': '#8892b0',
+                'sofecta-heart': '#CC1100',
+                'sofecta-white': '#e6f1ff',
+                // Brand Colors for the new chart
+                'brand-linkedin': '#0a66c2',
+                'brand-dhl': '#f37521',
+                'brand-google': '#4285f4',
+                'brand-microsoft': '#f25022',
+                'brand-fedex': '#660099',
             }
           }
         },
@@ -124,46 +132,14 @@
     .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
 
     /* Custom CSS for Charts */
-        .donut-chart-container {
-            width: 100%;
-            padding-bottom: 100%; /* Aspect ratio for circle */
-            position: relative;
-            border-radius: 9999px; 
-            overflow: visible; /* Must be visible to allow absolute positioned labels */
-            background-color: transparent;
-            box-shadow: 0 0 0 8px var(--sofecta-light-navy); /* Subtle border for the chart */
-        }
+        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: visible; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
+        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
+        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
 
-        .donut-chart-segment {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        .donut-hole {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%; 
-            height: 60%;
-            border-radius: 50%;
-            background-color: var(--sofecta-dark-bg); 
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
-        }
-
-        .center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            pointer-events: none;
-            color: var(--sofecta-text-light); 
-        }
+        /* Generic Bar Chart styles */
+        .chart-bar-container { width: 100%; background-color: var(--sofecta-light-navy); border-radius: 9999px; height: 12px; overflow: hidden; }
+        .chart-bar { height: 100%; transition: width 1s ease-out; border-radius: 9999px; }
         /* End Custom CSS For Charts */
 
     /* Responsive Adjustments */
