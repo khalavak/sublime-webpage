@@ -63,7 +63,10 @@
         --brand-fedex: #660099;
     }
 
-    html { scroll-behavior: smooth; }
+    html { 
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Adjust for header height */
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
@@ -129,11 +132,6 @@
 
     blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
     blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
-
-    .faq-item { margin-bottom: 30px; }
-    
-    .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
-    .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
 
     .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
     .faq-item { 
