@@ -8,22 +8,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
-    
-    <!-- Link to Tailwind CSS CDN
+    <!-- Link to Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              'sofecta-deep-dark': '#020c1b',
-              'sofecta-dark-bg': '#0a192f',
-              'sofecta-navy': '#112240',
-              'sofecta-light-navy': '#233554',
-              'sofecta-accent-yellow': '#FFC107',
-              'sofecta-text-light': '#ccd6f6',
-              'sofecta-text-medium': '#8892b0',
-              'sofecta-heart': '#CC1100'
+                'sofecta-deep-dark': '#020c1b',
+                'sofecta-dark-bg': '#0a192f',
+                'sofecta-navy': '#112240',
+                'sofecta-light-navy': '#233554',
+                'sofecta-accent-yellow': '#FFC107',
+                'sofecta-accent-blue': '#FFC107', 
+                'sofecta-text-light': '#ccd6f6',
+                'sofecta-text-medium': '#8892b0',
+                'sofecta-heart': '#CC1100',
+                'sofecta-white': '#e6f1ff',
+                // Brand Colors for the new chart
+                'brand-linkedin': '#0a66c2',
+                'brand-dhl': '#f37521',
+                'brand-google': '#4285f4',
+                'brand-microsoft': '#f25022',
+                'brand-fedex': '#660099',
             }
           }
         },
@@ -32,7 +39,6 @@
         }
       }
     </script>
-    -->
 
     <style>
     /* --- MASTER STYLESHEET --- */
@@ -49,8 +55,7 @@
         --sofecta-white: #e6f1ff;
         --sofecta-border-radius: 8px;
         --font-family-main: 'Roboto', sans-serif;
-        
-        /* -- MERGED: New variables for bar charts -- */
+        /* Brand Colors */
         --brand-linkedin: #0a66c2;
         --brand-dhl: #f37521;
         --brand-google: #4285f4;
@@ -59,30 +64,29 @@
     }
 
     html { scroll-behavior: smooth; }
-    /* Basic reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Body styles */
     body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
     body.no-scroll { overflow: hidden; }
 
     .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    
     h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
     h1 { font-size: 2.5rem; }
-    h2 { font-size: 2.2rem; }
+    h2 { font-size: 2rem; }
     h3 { font-size: 1.8rem; }
     h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
     p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
+    
     section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
     section:last-of-type, .hero { border-bottom: none; }
     .text-accent { color: var(--sofecta-accent-yellow); }
 
-    /* Header and Navigation */
     .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
     .main-header .container { display: flex; justify-content: space-between; align-items: center; }
     .logo img { height: 45px; }
 
-    .main-nav { display: none; } /* Hidden by default for mobile-first */
+    .main-nav { display: none; }
     .main-nav ul { display: flex; list-style: none; align-items: center; }
     .main-nav li { margin-left: 25px; }
     .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
@@ -98,30 +102,24 @@
     .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
     .partner-logos .ri-heart-fill { font-size: 60px; color: var(--sofecta-heart); }
 
-    /* Button styles */
     .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
     .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
     .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
     .btn-full { width: 100%; }
 
-    /* Hero section */
     .hero { text-align: center; padding: 80px 0; }
     .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
 
-    /* Info Card */
     .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
 
-    /* Grid layouts */
     .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
     .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
     .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
 
-    /* Table styles */
     .table-wrapper { overflow-x: auto; }
     .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
     .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
 
-    /* Use Cases */
     .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
     .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
     .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
@@ -132,62 +130,93 @@
     blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
     blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
 
-    /* FAQ */
     .faq-item { margin-bottom: 30px; }
-    .faq-item h4 { color: var(--sofecta-accent-yellow); }
-
-    /* Contact Form */
+    
     .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
     .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
-    .contact-form textarea { resize: vertical; min-height: 100px; }
 
-    /* Footer */
     .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
-
-    /* --- CHART STYLES --- */
-
-    /* -- OVERRIDDEN: New version with overflow: visible -- */
-    .donut-chart-container {
-        width: 100%;
-        padding-bottom: 100%; 
-        position: relative;
-        border-radius: 9999px; 
-        overflow: visible; /* Must be visible to allow absolute positioned labels */
-        background-color: transparent;
-        box-shadow: 0 0 0 8px var(--sofecta-light-navy); 
-    }
-
-    .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
-    .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
-    .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
-
-    /* -- NEW: Bar chart styles from stats -- */
-    .chart-bar-container {
-        width: 100%;
-        background-color: var(--sofecta-light-navy);
-        border-radius: 9999px;
-        height: 12px;
+    .faq-item { 
+        margin-bottom: 20px; 
+        background-color: var(--sofecta-navy);
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
         overflow: hidden;
+        transition: all 0.3s ease;
     }
-    .chart-bar {
-        height: 100%;
-        transition: width 1s ease-out;
-        border-radius: 9999px;
+    .faq-item:hover {
+        border-color: var(--sofecta-accent-yellow);
     }
-    /* --- END OF CHART STYLES --- */
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.3s ease;
+    }
+    .faq-question:hover {
+        background-color: var(--sofecta-light-navy);
+    }
+    .faq-question h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--sofecta-white);
+        flex: 1;
+        padding-right: 15px;
+    }
+    .faq-icon {
+        font-size: 1.5rem;
+        color: var(--sofecta-accent-yellow);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+        padding: 0 25px 20px 25px;
+    }
+    .faq-answer p {
+        margin: 0;
+        color: var(--sofecta-text-medium);
+        line-height: 1.6;
+    }
+
+    /* Custom CSS for Charts */
+        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: visible; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
+        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
+        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
+
+        /* Generic Bar Chart styles */
+        .chart-bar-container { width: 100%; background-color: var(--sofecta-light-navy); border-radius: 9999px; height: 12px; overflow: hidden; }
+        .chart-bar { height: 100%; transition: width 1s ease-out; border-radius: 9999px; }
+        /* End Custom CSS For Charts */
 
     /* Responsive Adjustments */
     @media (min-width: 769px) {
         .menu-toggle { display: none; }
         .main-nav { display: block; }
         .logo img { height: 50px; }
+
         h1 { font-size: 3.2rem; }
-        h2 { font-size: 2.2rem; }
-        
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.8rem; }
+
         .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        
         .use-case-container { grid-template-columns: repeat(2, 1fr); }
         .use-case-cols { grid-template-columns: 1fr 1fr; }
+
         .contact-layout { grid-template-columns: 1fr 1fr; gap: 60px; }
     }
     </style>
@@ -204,12 +233,8 @@
                     <li><a href="#why-us">Why Us</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#results">Results</a></li>
-                    <li><a href="#use-cases">Use Cases</a></li>
-                    <li><a href="#trust">Trust</a></li>
-                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#statistics">Statistics</a></li>
                     <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-
                 </ul>
             </nav>
             <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
@@ -220,15 +245,12 @@
         <ul>
             <li><a href="#challenge">The Challenge</a></li>
             <li><a href="#solution">Our Solution</a></li>
-            <li><a href="#benefits">Key Benefits</a></li>
+            <li><a href="#benefits">Benefits</a></li>
             <li><a href="#why-us">Why Us</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#results">Results</a></li>
-            <li><a href="#use-cases">Use Cases</a></li>
-            <li><a href="#trust">Trust</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+            <li><a href="#contact">Schedule a Demo</a></li>
         </ul>
     </nav>
 
@@ -246,13 +268,92 @@
             </div>
         </section>
 
+        <!-- Statistics Section -->
         <section id="statistics" class="hero">
             <div class="container">
-                <h2>
-                    Email Security Statistics
-                </h2>    
-            </div>
-        </section>        
+                <!-- Section Title -->
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
+                    Email Attack Statistics
+                </h2>
+
+                <!-- Section 1: Top Attack Vectors and Industries (1x2 Grid) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+
+                    <!-- 1. DONUT CHART (Financial Fraud by Entry Vector) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Financial Fraud Claims by Entry Vector
+                        </h3>
+                        <!-- Chart and Legend Container -->
+                        <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
+                            <!-- Chart -->
+                            <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] md:max-w-[280px] mb-8 md:mb-0 relative">
+                                <div id="donut-chart-container" class="donut-chart-container">
+                                    <div id="segments" class="donut-chart-segment"></div>
+                                    <div class="donut-hole"></div>
+                                    <!-- Center Text -->
+                                    <div class="center-text">
+                                        <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
+                                        <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Legend -->
+                            <div class="w-full md:w-1/2">
+                                <div id="donut-legend" class="space-y-4">
+                                    <!-- Donut Legend items will be injected here -->
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
+                    </div>
+
+                    <!-- 2. BAR CHART (Phishing Attacks by Targeted Industry) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Phishing Attacks by Targeted Industry (Top 5)
+                        </h3>
+                        <div id="industry-bar-chart-container" class="space-y-6 pt-2">
+                            <!-- Industry Bar Chart content will be injected here -->
+                        </div>
+                    </div>
+
+                </div> <!-- End Section 1 Grid -->
+
+                <!-- Section 2: Brand Imitation and Impact (1x2 Grid) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- 3. BRAND IMITATION CHART -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Top 5 Most Imitated Brands in Phishing (Q1 2022)
+                        </h3>
+                        <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                            <!-- Brand Imitation Bar Chart content will be injected here -->
+                        </div>
+                    </div>
+
+                    <!-- 4. COST STAT CALLOUT (Whaling Attack) -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center">
+                        <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
+                            Single Attack Cost
+                        </p>
+                        <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
+                            $47M
+                        </div>
+                        <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
+                            The average cost of a successful 'Whaling' (C-Level target) phishing attack.
+                        </p>
+                        <p class="text-sm text-sofecta-text-medium mt-3">
+                        </p>
+                    </div>
+
+                </div> <!-- End Section 2 Grid -->
+
+            </div> <!-- End Container -->
+        </section>
+        <!-- End of Statistics Section -->      
 
         <section id="challenge">
             <div class="container">
@@ -260,7 +361,7 @@
                     <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
                     <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
                     <div class="grid five-col">
-                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></i></div><p>94% of breaches start with an email.</p></div>
+                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
                         <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
                         <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
                         <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
@@ -457,28 +558,82 @@
 
 
         <section id="faq">
-            <div class="container">
-                <h2 style="text-align:center;">Frequently Asked Questions</h2>
-                <div class="faq-item">
-                    <h4>How is this different from Microsoft 365’s built-in protection?</h4><p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Do you support Google Workspace?</h4><p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Do we still need this if we have an email gateway?</h4><p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
-                </div>
-                 <div class="faq-item">
-                    <h4>Will you quarantine legitimate emails?</h4><p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
-                </div>
+    <div class="container">
+        <h2 style="text-align:center;">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>How is this different from Microsoft 365's built-in protection?</h4>
+                <i class="ri-add-line faq-icon"></i>
             </div>
-        </section>
+            <div class="faq-answer">
+                <p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do you support Google Workspace?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do we still need this if we have an email gateway?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Will you quarantine legitimate emails?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
+            </div>
+        </div>
+    </div>
+</section>
     </main>
 
     <footer class="main-footer">
         <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        // --- Data Configuration ---
+        const DONUT_DATA = [
+            { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
+            { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
+            { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
+            { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
+            { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+        ];
+
+        const INDUSTRY_BAR_DATA = [
+            { label: 'Financial Institutions', value: 27.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'SaaS Industries', value: 17.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Social Media Platforms', value: 10.4, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Logistics and Shipping', value: 9.0, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Payment Services', value: 6.0, color: 'var(--sofecta-accent-yellow)' }
+        ];
+
+        const BRAND_IMITATION_DATA = [
+            { label: 'LinkedIn', value: 52, color: 'var(--brand-linkedin)' },
+            { label: 'DHL', value: 14, color: 'var(--brand-dhl)' },
+            { label: 'Google', value: 7, color: 'var(--brand-google)' },
+            { label: 'Microsoft', value: 6, color: 'var(--brand-microsoft)' },
+            { label: 'FedEx', value: 6, color: 'var(--brand-fedex)' }
+        ];
+    </script>
     <script>
         const menuToggle = document.getElementById('menu-toggle');
         const mobileNav = document.getElementById('mobile-nav');
@@ -507,81 +662,164 @@
             });
         });
     </script>
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'accent-yellow': '#FFC107',
-                        'text-light': '#ccd6f6',
-                        'text-medium': '#8892b0',
-                        'dark-bg': '#0a192f',
-                        'light-navy': '#233554',
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAQ Accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items (accordion behavior)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
                     }
-                }
-            }
-        }
-    </script>
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+    });
+</script>
 
+    <!-- Chart Rendering Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Updated color scheme for the segments
-            const chartData = [
-                // Email uses the Accent Yellow
-                { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
-                // Subdued colors from the provided scheme
-                { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
-                { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
-                { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
-                { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
-            ];
+        // --- Chart Rendering Functions ---
 
+        // Function to render the Donut Chart (Remains the same)
+        function renderDonutChart() {
             const chartSegments = document.getElementById('segments');
-            const legendContainer = document.getElementById('legend');
+            const legendContainer = document.getElementById('donut-legend');
+            const chartContainer = document.getElementById('donut-chart-wrapper'); 
+            
+            if (!chartContainer || !chartSegments || !legendContainer) {
+                console.error("Error: Could not find necessary donut chart elements.");
+                return; 
+            }
+
+            document.getElementById('main-stat-pct').textContent = `${DONUT_DATA[0].value}%`; 
+            document.getElementById('main-stat-label').textContent = DONUT_DATA[0].label;
+
             let gradientString = 'conic-gradient(';
             let currentDegree = 0;
 
-            chartData.forEach((item, index) => {
+            legendContainer.innerHTML = ''; // Clear previous legends
+            Array.from(chartContainer.querySelectorAll('.center-text ~ div:not(.center-text)')).forEach(el => el.remove()); // Clear previous labels
+
+            DONUT_DATA.forEach((item, index) => {
                 const degrees = (item.value / 100) * 360;
                 const startDegree = currentDegree;
                 const endDegree = currentDegree + degrees;
-                
-                // Add segment to the gradient string
+                const midDegree = startDegree + degrees / 2;
+
                 if (item.value > 0) {
-                    // Use CSS variable in the gradient
                     gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
-                    if (index < chartData.length - 1) {
-                        gradientString += ', ';
-                    }
+                    if (index < DONUT_DATA.length - 1) gradientString += ', ';
                 }
-                
                 currentDegree = endDegree;
 
-                // Create Legend Item
+                if (item.value > 0) {
+                    const angleRad = (midDegree - 90) * (Math.PI / 180); 
+                    let radiusFactor = 0.40; 
+                    if (item.value <= 2) radiusFactor = 0.55; 
+
+                    const x = 50 + radiusFactor * 100 * Math.cos(angleRad);
+                    const y = 50 + radiusFactor * 100 * Math.sin(angleRad);
+
+                    const labelDiv = document.createElement('div');
+                    const labelColor = (item.value > 50) ? 'text-dark-bg' : 'text-text-light';
+                    let fontSizeClass = 'text-sm sm:text-lg'; 
+                    if (item.value > 50) fontSizeClass = 'text-lg sm:text-xl';
+                    else if (item.value <= 4) fontSizeClass = 'text-[0.6rem] sm:text-xs';
+
+                    labelDiv.className = `absolute text-center transition-opacity duration-300 ${labelColor} pointer-events-none`;
+                    labelDiv.style.opacity = '1';
+                    labelDiv.style.transform = 'translate(-50%, -50%)'; 
+                    labelDiv.style.left = `${x}%`;
+                    labelDiv.style.top = `${y}%`;
+                    labelDiv.innerHTML = `<div class="font-extrabold leading-tight ${fontSizeClass}">${item.value}%</div>`;
+                    chartContainer.appendChild(labelDiv);
+                }
+
                 const legendItem = document.createElement('div');
                 legendItem.className = 'flex items-center justify-between text-base';
-                
-                // Determine text color based on the segment value/size for visual emphasis
-                const valueTextColor = item.value === 83 ? 'text-accent-yellow' : 'text-text-light';
+                const valueTextColor = 'text-text-light';
 
                 legendItem.innerHTML = `
                     <div class="flex items-center">
-                        <span class="w-4 h-4 rounded-sm mr-3" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
-                        <span class="text-text-light">${item.label}</span>
+                        <span class="w-4 h-4 rounded-sm mr-3 flex-shrink-0" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
+                        <span class="text-text-light text-sm sm:text-base">${item.label}</span>
                     </div>
                     <span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>
                 `;
                 legendContainer.appendChild(legendItem);
             });
 
-            // Clean up the trailing comma from the gradient string
-            if (gradientString.endsWith(', ')) {
-                gradientString = gradientString.slice(0, -2);
-            }
+            if (gradientString.endsWith(', ')) gradientString = gradientString.slice(0, -2);
             gradientString += ')';
-
-            // Apply the gradient to the chart segment div
             chartSegments.style.backgroundImage = gradientString;
+        }
+
+        function renderBarChart(containerId, data, colorProp) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error(`Error: Could not find bar chart container with ID: ${containerId}`);
+                return;
+            }
+
+            const maxVal = Math.max(...data.map(item => item.value));
+
+            // Clear existing content to prevent re-rendering issues if this function is called multiple times
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                const widthPercent = (item.value / maxVal) * 100;
+                
+                const barItem = document.createElement('div');
+                // Ensure Tailwind classes are correctly applied for spacing and column direction
+                barItem.className = 'group mb-4 flex flex-col'; 
+                
+                // Inline style for background color ensures it takes precedence
+                // Note: The 'style' attribute is used directly here.
+                barItem.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm sm:text-base">
+                        <span class="text-text-light">${item.label}</span>
+                        <span class="font-bold" style="color: ${item.color};">${item.value}%</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="width: 0%; background-color: ${item.color};" data-width="${widthPercent}"></div>
+                    </div>
+                `;
+                container.appendChild(barItem);
+            });
+        }
+
+        function animateAllBars() {
+            // Use a slight delay to ensure elements are fully rendered and transitions are ready
+            setTimeout(() => {
+                // Select ALL bars within the relevant containers
+                const barsToAnimate = document.querySelectorAll('#industry-bar-chart-container .chart-bar, #brand-bar-chart-container .chart-bar');
+                
+                barsToAnimate.forEach(bar => {
+                    if (bar.dataset.width && !isNaN(parseFloat(bar.dataset.width))) {
+                        bar.style.width = bar.dataset.width + '%';
+                    } else {
+                        console.warn("Bar element missing valid 'data-width' attribute:", bar);
+                    }
+                });
+            }, 100);
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDonutChart();
+            renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
+            renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
+            animateAllBars(); 
         });
     </script>
 </body>
