@@ -229,83 +229,89 @@
         color: var(--sofecta-text-medium);
         font-size: 0.95rem;
     }
-    .challenge-accordion {
+    /* Styles for the new horizontal accordion */
+    .horizontal-accordion {
         margin-top: 50px;
-        display: grid;
-        gap: 15px;
-    }
-    .challenge-item {
         background-color: var(--sofecta-navy);
-        border: 2px solid var(--sofecta-light-navy);
         border-radius: var(--sofecta-border-radius);
-        transition: all 0.3s ease;
-        overflow: hidden;
+        padding: 30px;
+        display: flex;
+        gap: 30px;
+        min-height: 450px; /* Ensures container has height */
     }
-    .challenge-item:hover {
-        border-color: var(--sofecta-accent-yellow);
-        transform: translateY(-2px);
+
+    .accordion-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1; /* Takes 1 part of the space */
     }
-    .challenge-item.active {
-        border-color: var(--sofecta-accent-yellow);
-        background-color: var(--sofecta-light-navy);
-    }
-    .challenge-header {
+
+    .nav-item {
         display: flex;
         align-items: center;
-        gap: 20px;
-        padding: 25px;
+        gap: 15px;
+        padding: 20px;
+        background-color: var(--sofecta-dark-bg);
+        border: 2px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
         cursor: pointer;
-        user-select: none;
+        transition: all 0.3s ease;
     }
-    .challenge-header h3 {
+    .nav-item:hover {
+        border-color: var(--sofecta-accent-yellow);
+        transform: translateX(5px);
+    }
+    .nav-item.active {
+        background-color: var(--sofecta-light-navy);
+        border-color: var(--sofecta-accent-yellow);
+        transform: translateX(5px);
+    }
+    .nav-item h3 {
         margin: 0;
-        flex-grow: 1;
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
     .challenge-icon {
-        font-size: 2rem;
+        font-size: 1.8rem;
         color: var(--sofecta-accent-yellow);
     }
-    .challenge-arrow {
-        font-size: 1.8rem;
-        transition: transform 0.3s ease;
+
+    .accordion-content-panels {
+        flex: 2; /* Takes 2 parts of the space, making it wider */
+        position: relative; /* Crucial for absolute positioning of children */
+        overflow: hidden; /* Hides content that slides in/out */
     }
-    .challenge-item.active .challenge-arrow {
-        transform: rotate(45deg);
+    .content-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        visibility: hidden;
+        text-align: left;
     }
-    .challenge-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    .content-panel.active {
+        opacity: 1;
+        transform: translateX(0);
+        visibility: visible;
     }
-    .challenge-item.active .challenge-content {
-        max-height: 500px; /* Adjust if content is taller */
-        padding: 0 25px 25px 25px;
-        transition: max-height 0.5s ease-in, padding 0.4s ease-in;
-    }
+
     .challenge-details-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 30px;
-        text-align: left;
-        padding-top: 20px;
-        border-top: 1px solid var(--sofecta-light-navy);
+        height: 100%;
+        align-content: center;
     }
-    .challenge-details-grid h4 {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-        color: var(--sofecta-white);
-    }
-    .challenge-details-grid h4 i {
-        font-size: 1.5rem;
-    }
+    .challenge-details-grid h4 { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--sofecta-white); }
+    .challenge-details-grid h4 i { font-size: 1.5rem; }
     .challenge-question h4 i { color: var(--sofecta-text-medium); }
     .challenge-solution h4 i { color: var(--sofecta-accent-yellow); }
-    .challenge-details-grid p {
-        font-size: 1rem;
-    }
+    .challenge-details-grid p { font-size: 1rem; margin: 0; }
+
     /* Custom CSS for Charts */
         .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: visible; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
         .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
@@ -337,12 +343,57 @@
         .resource-links { 
             grid-template-columns: repeat(2, 1fr); 
         }
-        .challenge-details-grid {
-            grid-template-columns: 1fr 1fr;
+        .horizontal-accordion {
+            display: block; /* Stack nav and content */
+            background-color: transparent;
+            padding: 0;
         }
-        .challenge-solution {
-            border-left: 1px solid var(--sofecta-light-navy);
-            padding-left: 30px;
+        .accordion-nav {
+            flex-direction: column;
+            gap: 15px;
+            flex: none;
+        }
+        .nav-item {
+            justify-content: space-between;
+        }
+        .nav-item h3 { font-size: 1.25rem; }
+        .nav-item:hover, .nav-item.active {
+            transform: none; /* Disable horizontal shift on mobile */
+        }
+        .nav-item::after { /* Add arrow for mobile view */
+            content: '\ea13'; /* Remix Icon "add" code */
+            font-family: 'remixicon' !important;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+        .nav-item.active::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content-panels {
+            flex: none;
+            position: static;
+        }
+        .content-panel {
+            position: static;
+            opacity: 1;
+            transform: none;
+            visibility: visible;
+            max-height: 0;
+            overflow: hidden;
+            background: var(--sofecta-navy);
+            padding: 0 25px;
+            border-radius: 0 0 var(--sofecta-border-radius) var(--sofecta-border-radius);
+            margin-top: -10px; /* Pulls it up to the header */
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        .content-panel.active {
+            max-height: 500px;
+            padding: 25px;
+        }
+        .challenge-details-grid {
+            padding-top: 0;
+            border-top: none;
         }
     }
     </style>
@@ -549,173 +600,66 @@
                 <h2 style="text-align:center;">Why Choose Managed Email Protection?</h2>
                 <p style="text-align:center; max-width: 800px; margin-left: auto; margin-right: auto;">We don't just provide a platform—we operate email protection for you. Explore the common challenges below and see how our managed service compares.</p>
                 
-                <div class="challenge-accordion">
-                    <!-- Item 1: Setup & Config -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                <div class="horizontal-accordion">
+                    <!-- Left Side: Navigation Tabs -->
+                    <div class="accordion-nav">
+                        <div class="nav-item active" data-target="panel-setup">
                             <i class="ri-settings-3-line challenge-icon"></i>
                             <h3>Setup & Configuration</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Are your tools correctly configured to stop sophisticated attacks? Do you have time to optimize rules and integrations?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Turnkey API deployment—live in minutes, not weeks. We handle all setup, tuning, and policy optimization so you don't have to build or operate the stack.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 2: Monitoring -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-monitoring">
                             <i class="ri-vidicon-line challenge-icon"></i>
                             <h3>24/7 Monitoring</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Can your team investigate threats 24/7? How quickly can you respond outside business hours?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Continuous monitoring by expert analysts. Our service watches and investigates alerts around the clock so nothing slips through.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 3: Alert Triage -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-triage">
                             <i class="ri-alarm-warning-line challenge-icon"></i>
                             <h3>Alert Triage</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Are you drowning in false positives or missing critical alerts because of alert fatigue?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Human-in-the-loop triage combines automation with analyst review to ensure accuracy and eliminate alert overload.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 4: Response -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-response">
                             <i class="ri-flashlight-line challenge-icon"></i>
                             <h3>Incident Response</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>When an incident occurs, how long does it take your team to contain and remediate it?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Immediate, AI-enhanced + human response. Malicious messages are removed and senders blocked before damage occurs.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 5: Maintenance -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-maintenance">
                             <i class="ri-tools-line challenge-icon"></i>
                             <h3>Ongoing Maintenance</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Who updates detection rules, retrains AI models, or manages integrations as threats evolve?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>We continuously maintain and optimize your protection by updating rules, tuning detections, and adapting to new attack techniques.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 6: Visibility -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-visibility">
                             <i class="ri-bar-chart-box-line challenge-icon"></i>
                             <h3>Security Visibility</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Do you have a clear picture of what’s happening inside your email environment?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Full transparency through dashboards, reports, and incident summaries keeps you informed and in control of every action we take.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 7: Expertise -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
+                        <div class="nav-item" data-target="panel-expertise">
                             <i class="ri-team-line challenge-icon"></i>
                             <h3>Staffing & Expertise</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
                         </div>
-                        <div class="challenge-content">
-                            <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Can your IT team keep pace with the volume and sophistication of modern email threats?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Expert SOC team included. Our certified analysts act as an extension of your security team without increasing headcount.</p>
-                                </div>
-                            </div>
+                        <div class="nav-item" data-target="panel-roi">
+                            <i class="ri-money-dollar-circle-line challenge-icon"></i>
+                            <h3>ROI & Efficiency</h3>
                         </div>
                     </div>
 
-                    <!-- Item 8: ROI -->
-                    <div class="challenge-item">
-                        <div class="challenge-header">
-                            <i class="ri-money-dollar-circle-line challenge-icon"></i>
-                            <h3>ROI & Efficiency</h3>
-                            <i class="ri-add-line challenge-arrow"></i>
-                        </div>
-                        <div class="challenge-content">
+                    <!-- Right Side: Content Panels -->
+                    <div class="accordion-content-panels">
+                        <!-- Content for Setup -->
+                        <div class="content-panel active" id="panel-setup">
                             <div class="challenge-details-grid">
-                                <div class="challenge-question">
-                                    <h4><i class="ri-question-line"></i>Ask Yourself...</h4>
-                                    <p>Are your tools delivering measurable value, or just consuming time and budget with limited results?</p>
-                                </div>
-                                <div class="challenge-solution">
-                                    <h4><i class="ri-shield-check-line"></i>Our Managed Service</h4>
-                                    <p>Predictable value with quantifiable risk reduction and no hidden operational costs.</p>
-                                </div>
+                                <div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Are your tools correctly configured to stop sophisticated attacks? Do you have time to optimize rules and integrations?</p></div>
+                                <div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Turnkey API deployment—live in minutes. We handle all setup, tuning, and policy optimization so you don't have to build or operate the stack.</p></div>
                             </div>
                         </div>
+                        <!-- Content for Monitoring -->
+                        <div class="content-panel" id="panel-monitoring">
+                            <div class="challenge-details-grid">
+                                <div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Can your team investigate threats 24/7? How quickly can you respond outside business hours?</p></div>
+                                <div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Continuous monitoring by expert analysts. Our service watches and investigates alerts around the clock so nothing slips through.</p></div>
+                            </div>
+                        </div>
+                        <!-- ... other content panels ... -->
+                        <div class="content-panel" id="panel-triage"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Are you drowning in false positives or missing critical alerts because of alert fatigue?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Human-in-the-loop triage combines automation with analyst review to ensure accuracy and eliminate alert overload.</p></div></div></div>
+                        <div class="content-panel" id="panel-response"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>When an incident occurs, how long does it take your team to contain and remediate it?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Immediate, AI-enhanced + human response. Malicious messages are removed and senders blocked before damage occurs.</p></div></div></div>
+                        <div class="content-panel" id="panel-maintenance"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Who updates detection rules, retrains AI models, or manages integrations as threats evolve?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>We continuously maintain and optimize your protection by updating rules, tuning detections, and adapting to new attack techniques.</p></div></div></div>
+                        <div class="content-panel" id="panel-visibility"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Do you have a clear picture of what’s happening inside your email environment?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Full transparency through dashboards, reports, and incident summaries keeps you informed and in control of every action we take.</p></div></div></div>
+                        <div class="content-panel" id="panel-expertise"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Can your IT team keep pace with the volume and sophistication of modern email threats?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Expert SOC team included. Our certified analysts act as an extension of your security team without increasing headcount.</p></div></div></div>
+                        <div class="content-panel" id="panel-roi"><div class="challenge-details-grid"><div class="challenge-question"><h4><i class="ri-question-line"></i>Ask Yourself...</h4><p>Are your tools delivering measurable value, or just consuming time and budget with limited results?</p></div><div class="challenge-solution"><h4><i class="ri-shield-check-line"></i>Our Managed Service</h4><p>Predictable value with quantifiable risk reduction and no hidden operational costs.</p></div></div></div>
                     </div>
                 </div>
             </div>
@@ -1008,28 +952,55 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const accordionItems = document.querySelectorAll('.challenge-item');
+            const accordionNavItems = document.querySelectorAll('.horizontal-accordion .nav-item');
+            const contentPanels = document.querySelectorAll('.horizontal-accordion .content-panel');
 
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.challenge-header');
-                header.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
+            function activatePanel(navItem) {
+                const targetId = navItem.dataset.target;
+                const targetPanel = document.getElementById(targetId);
 
-                    // Close all other items
-                    accordionItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            otherItem.classList.remove('active');
-                        }
-                    });
+                // Deactivate all others
+                accordionNavItems.forEach(item => item.classList.remove('active'));
+                contentPanels.forEach(panel => panel.classList.remove('active'));
 
-                    // Toggle the clicked item
-                    if (!isActive) {
-                        item.classList.add('active');
+                // Activate the clicked one
+                navItem.classList.add('active');
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+            }
+            
+            // Mobile-only vertical accordion logic
+            function toggleMobileAccordion(navItem) {
+                const wasActive = navItem.classList.contains('active');
+                
+                // Deactivate all
+                accordionNavItems.forEach(item => item.classList.remove('active'));
+                contentPanels.forEach(panel => panel.classList.remove('active'));
+                
+                // If it wasn't active before, activate it
+                if (!wasActive) {
+                    activatePanel(navItem);
+                }
+            }
+
+            accordionNavItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Check screen width to decide behavior
+                    if (window.innerWidth <= 991) {
+                        toggleMobileAccordion(item);
                     } else {
-                        item.classList.remove('active');
+                        activatePanel(item);
                     }
                 });
             });
+
+            // Set the first item as active on page load for desktop
+            if (window.innerWidth > 991) {
+                if (accordionNavItems.length > 0) {
+                    activatePanel(accordionNavItems[0]);
+                }
+            }
         });
     </script>
 
