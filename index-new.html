@@ -273,8 +273,16 @@
                         <div id="brand-bar-chart-container" class="space-y-6 pt-2">
                             <!-- Brand Imitation Bar Chart content will be injected here -->
                         </div>
-                        <p class="text-xs text-sofecta-text-medium mt-6">
-                        </p>
+                    </div>
+
+                    <!-- 3. BRAND IMITATION CHART -->
+                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
+                            Top 5 Most Imitated Brands in Phishing (Q1 2022)
+                        </h3>
+                        <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                            <!-- Brand Imitation Bar Chart content will be injected here -->
+                        </div>
                     </div>
 
                     <!-- 4. COST STAT CALLOUT (Whaling Attack) -->
@@ -578,12 +586,11 @@
         });
     </script>
 
-
     <!-- Chart Rendering Script -->
     <script>
         // --- Chart Rendering Functions ---
 
-        // Function to render the Donut Chart
+        // Function to render the Donut Chart (Remains the same)
         function renderDonutChart() {
             const chartSegments = document.getElementById('segments');
             const legendContainer = document.getElementById('donut-legend');
@@ -666,12 +673,18 @@
 
             const maxVal = Math.max(...data.map(item => item.value));
 
+            // Clear existing content to prevent re-rendering issues if this function is called multiple times
+            container.innerHTML = '';
+
             data.forEach(item => {
                 const widthPercent = (item.value / maxVal) * 100;
                 
                 const barItem = document.createElement('div');
-                // Added base Tailwind classes for spacing and alignment.
+                // Ensure Tailwind classes are correctly applied for spacing and column direction
                 barItem.className = 'group mb-4 flex flex-col'; 
+                
+                // Inline style for background color ensures it takes precedence
+                // Note: The 'style' attribute is used directly here.
                 barItem.innerHTML = `
                     <div class="flex justify-between mb-1 text-sm sm:text-base">
                         <span class="text-text-light">${item.label}</span>
@@ -688,8 +701,10 @@
         function animateAllBars() {
             // Use a slight delay to ensure elements are fully rendered and transitions are ready
             setTimeout(() => {
-                document.querySelectorAll('.chart-bar').forEach(bar => {
-                    // Ensure dataset.width exists and is a number before setting width
+                // Select ALL bars within the relevant containers
+                const barsToAnimate = document.querySelectorAll('#industry-bar-chart-container .chart-bar, #brand-bar-chart-container .chart-bar');
+                
+                barsToAnimate.forEach(bar => {
                     if (bar.dataset.width && !isNaN(parseFloat(bar.dataset.width))) {
                         bar.style.width = bar.dataset.width + '%';
                     } else {
@@ -700,13 +715,11 @@
         }
 
         // --- Initialization ---
-        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderDonutChart();
-            // Calls for bar charts:
             renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
             renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
-            animateAllBars(); // This should animate all bars rendered by renderBarChart
+            animateAllBars(); 
         });
     </script>
 </body>
