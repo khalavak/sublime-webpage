@@ -310,96 +310,112 @@
             </div>
         </section>
 
-        <!-- Statistics Section -->
-        <section id="statistics" class="hero">
-            <div class="container">
-                <!-- Section Title -->
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
-                    Email Attack Statistics
-                </h2>
+<!-- MERGED AND CORRECTED STATISTICS SECTION -->
+<section id="statistics" class="hero">
+    <div class="container">
+        <!-- Main Section Title -->
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
+            Email Attack Statistics
+        </h2>
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-center mb-4">Q1 2025 Executive Threat Summary</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10">In Q1 2025, email threats continued to evolve rapidly, with adversaries demonstrating increased sophistication in both novel attack vectors and evasion techniques.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Threat Summary Cards - Styled with Tailwind for consistency -->
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="card-icon"><i class="ri-qr-scan-2-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">QR Code Phishing</h4>
+                    <p class="text-sofecta-text-medium text-sm">A significant volume of "Quishing" attempts persists, with attackers using increasingly varied evasion techniques to bypass filters.</p>
+                </div>
 
-                <!-- Section 1: Top Attack Vectors and Industries (1x2 Grid) -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="card-icon"><i class="ri-key-2-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">OAuth Phishing</h4>
+                    <p class="text-sofecta-text-medium text-sm">An increasing number of credential theft attempts now target OAuth, using adversary-in-the-middle (AITM) attacks to steal authentication tokens.</p>
+                </div>
+                
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="card-icon"><i class="ri-cloud-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">Living Off Trusted Sites</h4>
+                    <p class="text-sofecta-text-medium text-sm">A growing trend of attacks abuse trusted cloud services like Microsoft 365, Google Workspace, DocuSign, and even PayPal.</p>
+                </div>
 
-                    <!-- 1. DONUT CHART (Financial Fraud by Entry Vector) -->
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
-                            Financial Fraud Claims by Entry Vector
-                        </h3>
-                        <!-- Chart and Legend Container -->
-                        <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
-                            <!-- Chart -->
-                            <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] md:max-w-[280px] mb-8 md:mb-0 relative">
-                                <div id="donut-chart-container" class="donut-chart-container">
-                                    <div id="segments" class="donut-chart-segment"></div>
-                                    <div class="donut-hole"></div>
-                                    <!-- Center Text -->
-                                    <div class="center-text">
-                                        <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
-                                        <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
-                                    </div>
-                                </div>
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="card-icon"><i class="ri-robot-2-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">GenAI Threats</h4>
+                    <p class="text-sofecta-text-medium text-sm">A significant increase in BEC and fraud campaigns leveraging AI-generated content to create tailored attacks at scale.</p>
+                </div>
+            </div>
+        </div>
+        <!-- First Row: Top Attack Vectors and Industries -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+
+            <!-- 1. DONUT CHART (Financial Fraud by Entry Vector) -->
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Financial Fraud Claims by Entry Vector
+                </h3>
+                <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
+                    <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] mb-8 md:mb-0 relative">
+                        <div class="donut-chart-container">
+                            <div id="segments" class="donut-chart-segment"></div>
+                            <div class="donut-hole"></div>
+                            <div class="center-text">
+                                <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
+                                <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
                             </div>
-
-                            <!-- Legend -->
-                            <div class="w-full md:w-1/2">
-                                <div id="donut-legend" class="space-y-4">
-                                    <!-- Donut Legend items will be injected here -->
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
-                    </div>
-
-                    <!-- 2. BAR CHART (Phishing Attacks by Targeted Industry) -->
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
-                            Phishing Attacks by Targeted Industry (Top 5)
-                        </h3>
-                        <div id="industry-bar-chart-container" class="space-y-6 pt-2">
-                            <!-- Industry Bar Chart content will be injected here -->
                         </div>
                     </div>
-
-                </div> <!-- End Section 1 Grid -->
-
-                <!-- Section 2: Brand Imitation and Impact (1x2 Grid) -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    
-                    <!-- 3. BRAND IMITATION CHART -->
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3">
-                            Top 5 Most Imitated Brands in Phishing (Q1 2022)
-                        </h3>
-                        <div id="brand-bar-chart-container" class="space-y-6 pt-2">
-                            <!-- Brand Imitation Bar Chart content will be injected here -->
+                    <div class="w-full md:w-1/2">
+                        <div id="donut-legend" class="space-y-4">
+                            <!-- Donut Legend items will be injected here -->
                         </div>
                     </div>
+                </div>
+                <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
+            </div>
 
-                    <!-- 4. COST STAT CALLOUT (BEC Attack) -->
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center">
-                        <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
-                            Single Attack Cost
-                        </p>
-                        <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
-                            $3B
-                        </div>
-                        <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
-                            The total losses from BEC scams in 2023 <div><a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2ffe82b40d5a21d392_Threat_Research_Report_G8ESeq7ujKLtPF538LWye.pdf" 
-                        target="_blank" 
-                        class="resource-link-card">
-                            <i class="ri-file-chart-line resource-icon"></i>
-                            <div class="resource-content">
-                                <h4>Sublime Email Threat Report</h4>
-                            </div>
-                        </a></div>
-                    </div>
+            <!-- 2. BAR CHART (Phishing Attacks by Targeted Industry) -->
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Phishing Attacks by Targeted Industry (Top 5)
+                </h3>
+                <div id="industry-bar-chart-container" class="space-y-6 pt-2">
+                    <!-- Industry Bar Chart content will be injected here -->
+                </div>
+            </div>
+        </div>
 
-                </div> <!-- End Section 2 Grid -->
+        <!-- Second Row: Brand Imitation and Impact -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            
+            <!-- 3. BRAND IMITATION CHART -->
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Top 5 Most Imitated Brands in Phishing
+                </h3>
+                <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                    <!-- Brand Imitation Bar Chart content will be injected here -->
+                </div>
+            </div>
 
-            </div> <!-- End Container -->
-        </section>
-        <!-- End of Statistics Section -->      
+            <!-- 4. COST STAT CALLOUT (Corrected) -->
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center">
+                <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
+                    Single Attack Cost
+                </p>
+                <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
+                    $47M
+                </div>
+                <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
+                    The average cost of a successful 'Whaling' (C-Level target) phishing attack.
+                </p>
+            </div>
+        </div>
+    </div> 
+</section>
+<!-- End of Statistics Section -->     
 
         <section id="challenge">
             <div class="container">
