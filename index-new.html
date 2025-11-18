@@ -136,6 +136,59 @@
     .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: var(--sofecta-deep-dark); border: 1px solid var(--sofecta-light-navy); border-radius: var(--sofecta-border-radius); color: var(--sofecta-text-light); font-size: 1rem; margin-bottom: 15px; }
 
     .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
+    .faq-item { 
+        margin-bottom: 20px; 
+        background-color: var(--sofecta-navy);
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+        border-color: var(--sofecta-accent-yellow);
+    }
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.3s ease;
+    }
+    .faq-question:hover {
+        background-color: var(--sofecta-light-navy);
+    }
+    .faq-question h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--sofecta-white);
+        flex: 1;
+        padding-right: 15px;
+    }
+    .faq-icon {
+        font-size: 1.5rem;
+        color: var(--sofecta-accent-yellow);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+        padding: 0 25px 20px 25px;
+    }
+    .faq-answer p {
+        margin: 0;
+        color: var(--sofecta-text-medium);
+        line-height: 1.6;
+    }
 
     /* Custom CSS for Charts */
         .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: visible; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
@@ -505,22 +558,50 @@
 
 
         <section id="faq">
-            <div class="container">
-                <h2 style="text-align:center;">Frequently Asked Questions</h2>
-                <div class="faq-item">
-                    <h4>How is this different from Microsoft 365’s built-in protection?</h4><p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Do you support Google Workspace?</h4><p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Do we still need this if we have an email gateway?</h4><p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
-                </div>
-                 <div class="faq-item">
-                    <h4>Will you quarantine legitimate emails?</h4><p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
-                </div>
+    <div class="container">
+        <h2 style="text-align:center;">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>How is this different from Microsoft 365's built-in protection?</h4>
+                <i class="ri-add-line faq-icon"></i>
             </div>
-        </section>
+            <div class="faq-answer">
+                <p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do you support Google Workspace?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do we still need this if we have an email gateway?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Will you quarantine legitimate emails?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
+            </div>
+        </div>
+    </div>
+</section>
     </main>
 
     <footer class="main-footer">
@@ -581,6 +662,29 @@
             });
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAQ Accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items (accordion behavior)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+    });
+</script>
 
     <!-- Chart Rendering Script -->
     <script>
