@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofecta Labs | Managed Email Protection with Sublime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+                'sofecta-deep-dark': '#000000',
+                'sofecta-dark-bg': '#0a192f',
+                'sofecta-navy': '#112240',
+                'sofecta-light-navy': '#233554',
+                'sofecta-accent-yellow': '#FFC107',
+                'sofecta-accent-blue': '#FFC107', 
+                'sofecta-text-light': '#ccd6f6',
+                'sofecta-text-medium': '#8892b0',
+                'sofecta-heart': '#CC1100',
+                'sofecta-white': '#e6f1ff',
+                // Brand Colors for the new chart
+                'brand-linkedin': '#0a66c2',
+                'brand-dhl': '#f37521',
+                'brand-google': '#4285f4',
+                'brand-microsoft': '#f25022',
+                'brand-fedex': '#660099',
+            }
+          }
+        },
+        corePlugins: {
+          preflight: false, // This is the key to preventing conflicts!
+        }
+      }
+    </script>
+
+    <style>
+    /* --- MASTER STYLESHEET --- */
+    :root {
+        --sofecta-deep-dark: #000000;
+        --sofecta-dark-bg: #0a192f; 
+        --sofecta-navy: #112240;
+        --sofecta-light-navy: #233554;
+        --sofecta-accent-yellow: #FFC107;
+        --sofecta-accent-blue: #FFC107;
+        --sofecta-text-light: #ccd6f6;
+        --sofecta-text-medium: #8892b0;
+        --sofecta-heart: #CC1100;
+        --sofecta-white: #e6f1ff;
+        --sofecta-border-radius: 8px;
+        --font-family-main: 'Roboto', sans-serif;
+        /* Brand Colors */
+        --brand-linkedin: #0a66c2;
+        --brand-dhl: #f37521;
+        --brand-google: #4285f4;
+        --brand-microsoft: #f25022;
+        --brand-fedex: #660099;
+    }
+
+    /* Alphabetical Sort Starts Here */
+
+    * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0; 
+    }
+
+    blockquote { 
+        border-left: 3px solid var(--sofecta-accent-yellow); 
+        color: var(--sofecta-text-medium);
+        font-style: italic; 
+        margin-top: 20px; 
+        padding-left: 20px; 
+    }
+
+    blockquote footer { 
+        color: var(--sofecta-text-medium); 
+        font-style: normal; 
+        margin-top: 5px; 
+    }
+
+    body { 
+        background-color: var(--sofecta-dark-bg); 
+        color: var(--sofecta-text-light); 
+        font-family: var(--font-family-main); 
+        line-height: 1.6; 
+    }
+
+    body.no-scroll { 
+        overflow: hidden; 
+    }
+
+    .btn { 
+        border: 1px solid transparent;
+        border-radius: var(--sofecta-border-radius); 
+        cursor: pointer; 
+        display: inline-block; 
+        font-weight: 700; 
+        padding: 10px 20px; 
+        text-decoration: none; 
+        transition: all 0.3s ease; 
+    }
+
+    .btn-full { 
+        width: 100%; 
+    }
+
+    .btn-primary { 
+        background-color: var(--sofecta-accent-blue); 
+        border-color: var(--sofecta-accent-blue);
+        color: var(--sofecta-deep-dark); 
+    }
+
+    .btn-primary:hover { 
+        background-color: transparent; 
+        color: var(--sofecta-accent-blue); 
+    }
+
+    .card-icon { 
+        color: var(--sofecta-accent-blue); 
+        font-size: 2.5rem; 
+        margin-bottom: 15px; 
+    }
+
+    /* Custom CSS for Charts */
+    .center-text { 
+        color: var(--sofecta-text-light);
+        left: 50%;
+        pointer-events: none;
+        position: absolute; 
+        text-align: center; 
+        top: 50%;
+        transform: translate(-50%, -50%); 
+    }
+
+    .chart-bar { 
+        border-radius: 9999px;
+        height: 100%; 
+        transition: width 1s ease-out; 
+    }
+
+    .chart-bar-container { 
+        background-color: var(--sofecta-light-navy); 
+        border-radius: 9999px; 
+        height: 12px; 
+        overflow: hidden; 
+        width: 100%; 
+    }
+
+    .comparison-table { 
+        background-color: var(--sofecta-navy); 
+        border-collapse: collapse; 
+        border-radius: var(--sofecta-border-radius); 
+        margin-top: 40px; 
+        min-width: 800px; 
+        width: 100%; 
+    }
+
+    .comparison-table th, .comparison-table td { 
+        border: 1px solid var(--sofecta-light-navy); 
+        padding: 20px; 
+        text-align: left; 
+    }
+
+    .container { 
+        margin: 0 auto; 
+        max-width: 1100px; 
+        padding: 0 20px; 
+    }
+
+    .donut-chart-container { 
+        background-color: transparent; 
+        border-radius: 9999px; 
+        box-shadow: 0 0 0 8px var(--sofecta-light-navy);
+        overflow: visible; 
+        padding-bottom: 100%; 
+        position: relative; 
+        width: 100%; 
+    }
+
+    .donut-chart-segment { 
+        border-radius: 50%; 
+        height: 100%; 
+        left: 0; 
+        position: absolute; 
+        top: 0; 
+        width: 100%; 
+    }
+
+    .donut-hole { 
+        background-color: var(--sofecta-dark-bg); 
+        border-radius: 50%; 
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); 
+        height: 60%; 
+        left: 50%; 
+        position: absolute; 
+        top: 50%; 
+        transform: translate(-50%, -50%); 
+        width: 60%; 
+    }
+
+    .faq-item { 
+        margin-bottom: 20px; 
+        background-color: var(--sofecta-navy);
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+        border-color: var(--sofecta-accent-yellow);
+    }
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.3s ease;
+    }
+    .faq-question:hover {
+        background-color: var(--sofecta-light-navy);
+    }
+    .faq-question h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--sofecta-white);
+        flex: 1;
+        padding-right: 15px;
+    }
+    .faq-icon {
+        font-size: 1.5rem;
+        color: var(--sofecta-accent-yellow);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    /* MODIFIED: Increased top padding for .faq-answer */
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+        padding: 20px 25px 20px 25px; /* Changed top padding from 0 to 20px */
+    }
+    .faq-answer p {
+        margin: 0;
+        color: var(--sofecta-text-medium);
+        line-height: 1.6;
+    }
+
+    .grid { 
+        display: grid; 
+        gap: 30px; 
+        grid-template-columns: 1fr; 
+        margin-top: 40px; 
+    }
+
+    /* --- Base Card Styles (Non-Hover/No Border) --- */
+    .grid-card { 
+        background-color: var(--sofecta-navy); 
+        border-radius: var(--sofecta-border-radius); 
+        padding: 30px; 
+        text-align: center;
+        /* Removed border and transition */
+    }
+
+    /* --- Hover Enabled Card Styles (With Border & Transition) --- */
+    .grid-card-hover {
+        /* Base styles (can be simplified if inherited from .grid-card, but duplicated for explicit control) */
+        background-color: var(--sofecta-navy); 
+        border-radius: var(--sofecta-border-radius); 
+        padding: 30px; 
+        text-align: center;
+
+        /* Added required border and transition for hover */
+        border: 1px solid var(--sofecta-light-navy); 
+        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .grid-card-hover:hover,
+    .info-card-hover:hover,
+    .use-case-card:hover, /* Use-case card remains fully hoverable as before */
+    .stat-card:hover     /* Stat card remains fully hoverable as before */
+    { 
+        border-color: var(--sofecta-accent-yellow);
+        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.2);
+        transform: translateY(-3px);
+    }
+
+    h1 { 
+        font-size: 2.5rem; 
+    }
+
+    h1, h2, h3, h4 { 
+        color: var(--sofecta-white); 
+        font-weight: 700; 
+        line-height: 1.2; 
+        margin-bottom: 20px; 
+    }
+
+    h2 { 
+        font-size: 2rem; 
+    }
+
+    h3 { 
+        font-size: 1.8rem; 
+    }
+
+    h4 { 
+        color: var(--sofecta-accent-yellow); 
+        font-size: 1.2rem; 
+    }
+
+    .hero { 
+        padding: 80px 0; 
+        text-align: center; 
+    }
+
+    .hero .subtitle { 
+        color: var(--sofecta-text-medium); 
+        font-size: 1.25rem; 
+        margin: 0 auto 30px auto; 
+        max-width: 800px; 
+    }
+
+    /* --- NEW HEADER HERO (Specific for top of page) --- */
+    .hero-head {
+        /* Background Color Fallback */
+        background-color: var(--sofecta-dark-bg);
+        
+        /* The Layered Background */
+        background-image: 
+            /* Layer 1: Dark Gradient that fades to solid background color at bottom */
+            linear-gradient(to bottom, rgba(10, 25, 47, 0.50) 0%, var(--sofecta-dark-bg) 100%),
+            /* Layer 2: The Image */
+            url('assets/background-spam.png');
+            
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center, /* Gradient always covers container */
+                            center -200px; /* Image is shifted up 200px */
+
+        padding: 140px 0 100px 0; /* Taller padding for top impact */
+        position: relative;
+        text-align: center;
+    }
+
+    .hero-head .subtitle {
+        color: var(--sofecta-text-light); /* Lighter text for better contrast on image */
+        font-size: 1.35rem; /* Slightly larger for intro */
+        margin: 0 auto 30px auto; 
+        max-width: 800px; 
+    }
+
+    /* Specific styles for text inside hero-head to pop against the image */
+    .hero-head h1, 
+    .hero-head .subtitle, 
+    .hero-head .partner-logos {
+        position: relative;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.6); /* Drop shadow for readability */
+        z-index: 2;
+    }
+
+    html { 
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Adjust for header height */
+    }
+
+    /* --- Base Card Styles (Non-Hover/No Border) --- */
+    .info-card { 
+        background-color: var(--sofecta-navy); 
+        border-radius: var(--sofecta-border-radius); 
+        margin: 0 auto; 
+        max-width: 900px; 
+        padding: 40px 25px; 
+        text-align: center; 
+        /* Removed border and transition */
+    }
+
+    /* --- Hover Enabled Card Styles (With Border & Transition) --- */
+    .info-card-hover {
+        /* Base styles (can be simplified if inherited from .info-card, but duplicated for explicit control) */
+        background-color: var(--sofecta-navy); 
+        border-radius: var(--sofecta-border-radius); 
+        margin: 0 auto; 
+        max-width: 900px; 
+        padding: 40px 25px; 
+        text-align: center;
+
+        /* Added required border and transition for hover */
+        border: 1px solid var(--sofecta-light-navy);
+        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo img { 
+        height: 45px; 
+    }
+
+    .main-footer { 
+        background-color: var(--sofecta-deep-dark); 
+        border-top: 1px solid var(--sofecta-light-navy); 
+        color: var(--sofecta-text-medium); 
+        font-size: 0.9rem; 
+        padding: 40px 0; 
+        text-align: center; 
+    }
+
+    .main-header { 
+        background-color: var(--sofecta-deep-dark); 
+        border-bottom: 1px solid var(--sofecta-light-navy); 
+        padding: 15px 0; 
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+    }
+
+    .main-header .container { 
+        align-items: center; 
+        display: flex; 
+        justify-content: space-between; 
+    }
+
+    .main-nav { 
+        display: none; 
+    }
+
+    .main-nav a { 
+        color: var(--sofecta-text-light); 
+        font-size: 0.9rem; 
+        font-weight: 500; 
+        text-decoration: none; 
+        transition: color 0.3s ease; 
+    }
+
+    .main-nav a:hover, .main-nav a.active { 
+        color: var(--sofecta-accent-yellow); 
+    }
+
+    .main-nav li { 
+        margin-left: 25px; 
+    }
+
+    .main-nav ul { 
+        align-items: center; 
+        display: flex; 
+        list-style: none; 
+    }
+
+    .menu-toggle { 
+        background: none; 
+        border: none; 
+        color: var(--sofecta-text-light); 
+        cursor: pointer; 
+        display: block; 
+        font-size: 2rem; 
+        z-index: 1100; 
+    }
+
+    .mobile-nav { 
+        align-items: center; 
+        background-color: var(--sofecta-deep-dark); 
+        display: flex; 
+        flex-direction: column; 
+        height: 100vh; 
+        justify-content: center; 
+        position: fixed; 
+        right: -100%; 
+        top: 0; 
+        transition: right 0.5s ease-in-out; 
+        width: 100%; 
+        z-index: 1050; 
+    }
+
+    .mobile-nav a { 
+        color: var(--sofecta-white); 
+        font-size: 1.5rem; 
+        font-weight: 500; 
+        text-decoration: none; 
+    }
+
+    .mobile-nav li { 
+        margin: 20px 0; 
+    }
+
+    .mobile-nav ul { 
+        list-style: none; 
+        text-align: center; 
+    }
+
+    .mobile-nav.active { 
+        right: 0; 
+    }
+
+    p { 
+        color: var(--sofecta-text-medium); 
+        font-size: 1.1rem; 
+        margin-bottom: 20px; 
+    }
+
+    .partner-logos { 
+        align-items: center; 
+        display: flex; 
+        gap: 25px; 
+        justify-content: center; 
+    }
+
+    .partner-logos .ri-heart-fill { 
+        color: var(--sofecta-heart); 
+        font-size: 60px; 
+    }
+
+    .resource-content h4 {
+        color: var(--sofecta-white);
+        font-size: 1.2rem;
+        margin: 0 0 8px 0;
+    }
+
+    .resource-content p {
+        color: var(--sofecta-text-medium);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .resource-icon {
+        color: var(--sofecta-accent-yellow);
+        flex-shrink: 0;
+        font-size: 2.5rem;
+    }
+
+    .resource-link-card { 
+        align-items: center;
+        background-color: var(--sofecta-light-navy); 
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius); 
+        display: flex;
+        gap: 20px;
+        padding: 25px; 
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .resource-link-card:hover {
+        border-color: var(--sofecta-accent-yellow);
+        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.2);
+        transform: translateY(-3px);
+    }
+
+    .resource-links { 
+        display: grid; 
+        gap: 20px; 
+        grid-template-columns: 1fr; 
+        margin: 30px 0; 
+    }
+
+    section { 
+        border-bottom: 1px solid var(--sofecta-light-navy); 
+        padding: 60px 0; 
+    }
+
+    section:last-of-type, .hero { 
+        border-bottom: none; 
+    }
+
+    .stat-card {
+        border: 1px solid var(--sofecta-light-navy);
+        transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .stat-card:hover { 
+        border-color: var(--sofecta-accent-yellow);
+        transform: translateY(-3px);
+    }
+
+    .table-wrapper { 
+        overflow-x: auto; 
+    }
+
+    .text-accent { 
+        color: var(--sofecta-accent-yellow); 
+    }
+
+    /* --- Base Card Styles (No Non-Hover/Base Border) --- */
+    .use-case-card { 
+        background-color: var(--sofecta-navy); 
+        border-radius: var(--sofecta-border-radius);
+        padding: 30px; 
+        /* The use-case-card requires a base border and transition for its internal functionality 
+        but is not given a separate non-hover class */
+        border: 1px solid var(--sofecta-light-navy);
+        transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .use-case-cols { 
+        display: grid; 
+        gap: 20px; 
+        grid-template-columns: 1fr; 
+    }
+
+    .use-case-cols h5 { 
+        align-items: center; 
+        display: flex; 
+        font-size: 1.1rem; 
+        gap: 10px; 
+    }
+
+    .use-case-cols .fail i { 
+        color: #e57373; 
+    }
+
+    .use-case-cols .success i { 
+        color: #81c784; 
+    }
+
+    .use-case-container { 
+        display: grid; 
+        gap: 30px; 
+        grid-template-columns: 1fr; 
+        margin-top: 40px; 
+    }
+
+    /* Responsive Adjustments */
+    @media (min-width: 769px) {
+        .contact-layout { 
+            gap: 60px; 
+            grid-template-columns: 1fr 1fr; 
+        }
+        
+        .grid { 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        }
+        
+        .grid.five-col { 
+            gap: 20px; 
+            grid-template-columns: repeat(5, 1fr); 
+        }
+
+        h1 { 
+            font-size: 3.2rem; 
+        }
+        
+        h2 { 
+            font-size: 2.5rem; 
+        }
+        
+        h3 { 
+            font-size: 1.8rem; 
+        }
+
+        .logo img { 
+            height: 50px; 
+        }
+
+        .main-nav { 
+            display: block; 
+        }
+        
+        .menu-toggle { 
+            display: none; 
+        }
+
+        .resource-links { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+        
+        .use-case-cols { 
+            grid-template-columns: 1fr 1fr; 
+        }
+
+        .use-case-container { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#challenge">The Challenge</a></li>
+                    <li><a href="#solution">Our Solution</a></li>
+                    <li><a href="#benefits">Key Benefits</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#statistics">Statistics</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#challenge">The Challenge</a></li>
+            <li><a href="#solution">Our Solution</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#why-us">Why Us</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+            <li><a href="#contact">Schedule a Demo</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero-head" class="hero-head">
+            <div class="container">
+                <h1>Managed Email Protection – Built to <span class="text-accent">Protect Your Business</span></h1>
+                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
+                <p class="subtitle">Our Managed Email Protection service protects your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
+                <div class="partner-logos">
+                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 80px;">
+                    <i class="ri-heart-fill"></i>
+                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 45px;">
+                </div>
+            </div>
+        </section>
+
+<section id="statistics" class="hero">
+    <div class="container">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
+            Email Attack Statistics
+        </h2>
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-center mb-4">Executive Email Threat Summary</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10">In Q1 2025, email threats continued to evolve rapidly, with adversaries demonstrating increased sophistication in both novel attack vectors and evasion techniques.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
+                    <div class="card-icon"><i class="ri-qr-code-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">QR Code Phishing</h4>
+                    <p class="text-sofecta-text-medium text-sm">A significant volume of "Quishing" attempts persists, with attackers using increasingly varied evasion techniques to bypass filters.</p>
+                </div>
+
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
+                    <div class="card-icon"><i class="ri-key-2-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">OAuth Phishing</h4>
+                    <p class="text-sofecta-text-medium text-sm">An increasing number of credential theft attempts now target OAuth, using adversary-in-the-middle (AITM) attacks to steal authentication tokens.</p>
+                </div>
+                
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
+                    <div class="card-icon"><i class="ri-cloud-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">Living Off Trusted Sites</h4>
+                    <p class="text-sofecta-text-medium text-sm">A growing trend of attacks abuse trusted cloud services like Microsoft 365, Google Workspace, DocuSign, and even PayPal.</p>
+                </div>
+
+                <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
+                    <div class="card-icon"><i class="ri-robot-2-line"></i></div>
+                    <h4 class="text-sofecta-white text-lg font-semibold mb-2">GenAI Threats</h4>
+                    <p class="text-sofecta-text-medium text-sm">A significant increase in BEC and fraud campaigns leveraging AI-generated content to create tailored attacks at scale.</p>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center stat-card">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Financial Fraud Claims by Entry Vector
+                </h3>
+                <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
+                    <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] mb-8 md:mb-0 relative">
+                        <div class="donut-chart-container">
+                            <div id="segments" class="donut-chart-segment"></div>
+                            <div class="donut-hole"></div>
+                            <div class="center-text">
+                                <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
+                                <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <div id="donut-legend" class="space-y-4">
+                            </div>
+                    </div>
+                </div>
+                <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
+            </div>
+
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 stat-card">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Phishing Attacks by Targeted Industry (Top 5)
+                </h3>
+                <div id="industry-bar-chart-container" class="space-y-6 pt-2">
+                    </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 stat-card">
+                <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
+                    Top 5 Most Imitated Brands in Phishing
+                </h3>
+                <div id="brand-bar-chart-container" class="space-y-6 pt-2">
+                    </div>
+            </div>
+
+            <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center stat-card">
+                <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
+                    BEC Fraud direct losses in 2023
+                </p>
+                <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
+                    $3B
+                </div>
+                <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
+                    The total losses from BEC scams in 2023 <div><a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2ffe82b40d5a21d392_Threat_Research_Report_G8ESeq7ujKLtPF538LWye.pdf" 
+                        target="_blank" class="resource-link-card"><i class="ri-file-chart-line resource-icon"></i><div class="resource-content"><h4>Sublime Email Threat Report</h4></div></a></div>
+            </div>
+        </div>
+    </div> 
+</section>
+
+<section id="challenge">
+    <div class="container" style="text-align: center;">
+        <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
+        <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
+        <div class="grid five-col">
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="solution">
+    <div class="container" style="text-align: center;">
+        <h2>Our Solution</h2>
+        <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
+        <h3 style="margin-top: 40px;">How It Works</h3>
+        <div class="grid five-col">
+            <div class="grid-card-hover"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
+            <div class="grid-card-hover"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
+            <div class="grid-card-hover"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
+            <div class="grid-card-hover"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
+            <div class="grid-card-hover"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
+        </div>
+        <p style="margin-top: 40px; font-size: 1.2rem; color: var(--sofecta-text-light);">You get continuous protection, clear reporting, and zero operational burden.</p>
+    </div>
+ </section>
+
+<section id="benefits">
+    <div class="container">
+        <h2 style="text-align:center;">Key Benefits</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-flash-line"></i></div><h4>Lower Your Risk</h4><p>Stop sophisticated attacks like BEC and zero-day phishing that bypass traditional filters.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-user-unfollow-line"></i></div><h4>Lessen Your Burden</h4><p>Eliminate manual triage and maintenance with a fully managed, 24/7 SOC-backed service.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-timer-flash-line"></i></div><h4>Faster Detection</h4><p>Identify and remediate threats in minutes, not hours or days, with automated and human-led responses.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="why-us">
+    <div class="container">
+        <h2 style="text-align:center;">Why Choose Managed Email Protection?</h2>
+        <p style="text-align:center;">We don't just provide a platform—we operate email protection for you. Compare your situation to our managed service.</p>
+        <div class="table-wrapper">
+            <table class="comparison-table">
+                <thead><tr><th>Challenge</th><th>Questions to Ask Yourself</th><th>Our Managed Service</th></tr></thead>
+                <tbody>
+                    <tr><td>Setup & Config</td><td>Are your tools correctly configured for sophisticated attacks? Do you have time to optimize rules?</td><td>Turnkey API deployment. We handle all setup, tuning, and policy optimization.</td></tr>
+                    <tr><td>Monitoring</td><td>Can your team investigate threats 24/7, including outside business hours?</td><td>Continuous monitoring by expert analysts around the clock so nothing slips through.</td></tr>
+                    <tr><td>Alert Triage</td><td>Are you drowning in false positives or missing alerts due to alert fatigue?</td><td>Human-in-the-loop triage with analyst review ensures accuracy and eliminates alert overload.</td></tr>
+                    <tr><td>Response</td><td>How long does it take your team to contain and remediate an incident?</td><td>Immediate, AI-enhanced + human response. Malicious messages removed before damage occurs.</td></tr>
+                    <tr><td>Maintenance</td><td>Who updates detection rules, retrains AI, or manages integrations as threats evolve?</td><td>We continuously maintain and optimize your protection, adapting to new attack techniques.</td></tr>
+                    <tr><td>Visibility</td><td>Do you have a clear picture of what’s happening in your email environment?</td><td>Full transparency through dashboards and reports, keeping you informed and in control.</td></tr>
+                    <tr><td>Expertise</td><td>Can your IT team keep pace with the volume and sophistication of modern threats?</td><td>Expert SOC team included. Our certified analysts act as an extension of your team without increasing headcount.</td></tr>
+                    <tr><td>ROI</td><td>Are your tools delivering measurable value, or just consuming time and budget?</td><td>Predictable value with quantifiable risk reduction and no hidden operational costs.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section id="features">
+    <div class="container">
+        <h2 style="text-align:center;">Built on Sublime Security — Enterprise-Grade Technology</h2>
+        <p style="text-align:center;">Our service provides enterprise-grade protection without the complexity and cost, featuring:</p>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-psychotherapy-line"></i></div><h4>Behavioural Analysis</h4><p>Contextual analysis of content, headers, and sender dynamics.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><h4>AI/ML-Driven Detection</h4><p>Finds sophisticated attacks like BEC, credential phishing, and ransomware.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-radar-line"></i></div><h4>Emerging Threat Detection</h4><p>Catches zero-day and GenAI-powered phishing attacks.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Abuse Mailbox Automation</h4><p>Automates the handling of user-reported phishing emails.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-eye-line"></i></div><h4>Transparent Verdicts</h4><p>Provides explainable logic, unlike an opaque "black box".</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-tools-line"></i></div><h4>Customisable Logic</h4><p>Define custom rules tailored to your business needs.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Deployment</h4><p>Go live in minutes via API into M365 / Google Workspace.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>SOC-Ready Reporting</h4><p>Full visibility into mail-based threats and our response.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-node-tree"></i></div><h4>MDR Stack Integration</h4><p>Correlate email alerts with endpoint and network signals.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="results">
+    <div class="container">
+        <h2 style="text-align:center;">Results & Outcomes</h2>
+            <div class="info-card" style="text-align:left; margin-bottom: 40px;">
+                <h3>Case 1: Transforming Email Security for a Metal Industry Organization</h3>
+                <h4>The Challenge</h4><p>A mid-sized manufacturing group with 400 mailboxes and 10,000 emails daily struggled to keep their built-in protection updated. The team had no time to maintain rules, missed early-warning signals, and couldn't stop advanced phishing and supplier impersonation attacks.</p>
+                <h4>The Solution</h4><p>Adopting our Managed Email Protection service reversed the trend through real-time behavioral analysis, automated detection, instant remediation, and a fully managed service that eliminated the need for internal rule updates or manual triage.</p>
+                <h4>The Results</h4><ul><li>100% removal of malicious emails from the 10,000-message daily flow.</li><li>Complete elimination of manual rule management and alert oversight.</li><li>Zero dependency on IT for maintenance, freeing up internal resources.</li></ul>
+                <blockquote><p>"The difference was immediate... The Sofecta Labs’ team removed the noise, stopped the targeted attacks, and eliminated our maintenance workload entirely. It feels like we finally have enterprise-level protection—without the enterprise burden."</p><footer>— IT Director, Manufacturing Industry</footer></blockquote>
+            </div>
+            <div class="info-card" style="text-align:left;">
+                <h3>Case 2: Transforming Email Security for a Multi-Industry Enterprise</h3>
+                <h4>The Challenge</h4><p>With 600+ mailboxes and over 1.6 million monthly emails, this global enterprise faced critical blind spots. Compromised supplier emails, AI-generated phishing, and overwhelming alert fatigue left their international operations exposed across multiple countries.</p>
+                <h4>The Solution</h4><p>Our service provided a behavior-driven, fully supervised security layer that adapted to their complex communication patterns. It offered real-time analysis, contextual detection, seamless integration with Google Workspace, and centralized global oversight.</p>
+                <h4>The Results</h4><ul><li>Almost 100% cleanup of the entire 20 million email annual flow.</li><li>Advanced phishing and supplier-domain compromises stopped in real-time.</li><li>Immediate reduction in SOC noise and elimination of false positives.</li></ul>
+                <blockquote><p>"Advanced attacks stopped appearing in user inboxes, and the noise that used to overwhelm our IT teams disappeared almost immediately."</p><footer>— CIO, International Multi-Industry Group</footer></blockquote>
+            </div>
+    </div>
+</section>
+
+<section id="differentiators">
+    <div class="container">
+        <h2 style="text-align:center;">Our Differentiators</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Turnkey Service</h4><p>Platform + AI + Human Expertise.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-swap-box-line"></i></div><h4>Fully Compatible</h4><p>Works seamlessly with Microsoft 365 and Google Workspace.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Onboarding</h4><p>Minimal internal overhead to get started.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-search-eye-line"></i></div><h4>Proactive Detection</h4><p>We find threats, we don't just react to them.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>Full Visibility</h4><p>Actionable metrics and clear reporting via dashboards.</p></div>
+            <div class="grid-card-hover"><div class="card-icon"><i class="ri-scales-3-line"></i></div><h4>Scalable & Flexible</h4><p>Our service grows with your business needs.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="use-cases">
+    <div class="container">
+        <h2 style="text-align:center;">Who It's For: Modern Threat Scenarios</h2>
+        <p style="text-align:center;">Our service is designed for organizations that cannot afford to be compromised by sophisticated email attacks that bypass traditional filters.</p>
+        <div class="use-case-container">
+            <div class="use-case-card">
+                <h4>Supplier-Domain Impersonation</h4>
+                <div class="use-case-cols">
+                    <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Trusts the sender, delivers the email. Employee follows fraudulent instructions.</p></div>
+                    <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Behavioral analysis flags unusual sender patterns. Message is quarantined.</p></div>
+                </div>
+            </div>
+            <div class="use-case-card">
+                <h4>AI-Enhanced Phishing</h4>
+                <div class="use-case-cols">
+                    <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees normal language and allows the email. User receives an urgent request and complies.</p></div>
+                    <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Content & metadata analysis detects a mismatch. AI validates the threat and removes it.</p></div>
+                </div>
+            </div>
+            <div class="use-case-card">
+                <h4>Malicious Attachments</h4>
+                <div class="use-case-cols">
+                    <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees a "harmless" attachment and delivers it. Employee opens the file, running malware.</p></div>
+                    <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Attachment is scanned for anomalies. Threat is validated and email is quarantined.</p></div>
+                </div>
+            </div>
+            <div class="use-case-card">
+                <h4>QR Code Phishing ("Quishing")</h4>
+                <div class="use-case-cols">
+                    <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Does not inspect QR codes, so the email is delivered. User scans code, leading to credential theft.</p></div>
+                    <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Image is analyzed for QR codes and the decoded URL is inspected. Email is quarantined.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="trust">
+    <div class="container" style="text-align: center;">
+        <h2>Trust & Credibility</h2>
+        <p>Our service is built on enterprise-grade technology and run by a team of certified security experts.</p>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <div class="grid-card-hover"><h4>Proactive Threat Hunting</h4><p>Our analysts perform custom queries and create bespoke policies for your organization.</p></div>
+            <div class="grid-card-hover"><h4>Continuous Adaptation</h4><p>As threats evolve, so does our detection engine to keep you protected.</p></div>
+            <div class="grid-card-hover"><h4>GDPR Compliant</h4><p>We adhere to strict regional compliance standards to keep your data protected.</p></div>
+            <div class="grid-card-hover"><h4>ISO 27001 Certified</h4><p>Our operations meet rigorous international security standards.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="resources">
+    <div class="container">
+        <div class="info-card">
+            <h2>Resource Library</h2>
+            <p>Want to learn more? Explore our library of white papers, threat reports, and best practice guides to stay ahead of the latest email threats.</p>
+                    
+            <div class="resource-links">
+                <a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2ffe82b40d5a21d392_Threat_Research_Report_G8ESeq7ujKLtPF538LWye.pdf" 
+                    target="_blank" 
+                    class="resource-link-card">
+                        <i class="ri-file-chart-line resource-icon"></i>
+                            <div class="resource-content">
+                                <h4>Sublime Email Threat Report</h4>
+                                <p>Comprehensive analysis of current email threats and attack vectors</p>
+                            </div>
+                </a>
+                        
+                <a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2779d2881db1ffa811_Buyers_Guide_F1XE4c-k6u7wOc7WS1nUS.pdf" 
+                    target="_blank" 
+                    class="resource-link-card">
+                        <i class="ri-shopping-cart-line resource-icon"></i>
+                            <div class="resource-content">
+                                <h4>Email Security Buyers Guide</h4>
+                                <p>Expert guide to selecting the right email security solution</p>
+                            </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <div class="info-card">
+            <h2>Take the Next Step</h2>
+            <p>Ready to see how our Managed Email Protection can shield your business? Schedule a live demo and consultation with our security experts.</p>
+                    
+            <div class="calendly-inline-widget" 
+                data-url="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?background_color=112240&text_color=ccd6f6&primary_color=ffc107" 
+                style="min-width:320px;height:700px;margin-top:30px;">
+            </div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                <div style="text-align:center;margin-top:30px;">
+                    <p style="color:var(--sofecta-text-medium);margin-bottom:15px;">Prefer to view available times in a new window?</p>
+                    <a href="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?month=2025-11" 
+                        target="_blank" 
+                        class="btn btn-primary">Open Calendly Scheduler</a>
+                </div>
+        </div>
+    </div>
+</section>
+
+<section id="faq">
+    <div class="container">
+        <h2 style="text-align:center;">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>How is this different from Microsoft 365's built-in protection?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do you support Google Workspace?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Do we still need this if we have an email gateway?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>Will you quarantine legitimate emails?</h4>
+                <i class="ri-add-line faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- Data Configuration ---
+        const DONUT_DATA = [
+            { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
+            { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
+            { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
+            { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
+            { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
+        ];
+
+        const INDUSTRY_BAR_DATA = [
+            { label: 'Financial Institutions', value: 27.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'SaaS Industries', value: 17.7, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Social Media Platforms', value: 10.4, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Logistics and Shipping', value: 9.0, color: 'var(--sofecta-accent-yellow)' },
+            { label: 'Payment Services', value: 6.0, color: 'var(--sofecta-accent-yellow)' }
+        ];
+
+        const BRAND_IMITATION_DATA = [
+            { label: 'LinkedIn', value: 52, color: 'var(--brand-linkedin)' },
+            { label: 'DHL', value: 14, color: 'var(--brand-dhl)' },
+            { label: 'Google', value: 7, color: 'var(--brand-google)' },
+            { label: 'Microsoft', value: 6, color: 'var(--brand-microsoft)' },
+            { label: 'FedEx', value: 6, color: 'var(--brand-fedex)' }
+        ];
+    </script>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('ri-menu-line')) {
+                icon.classList.remove('ri-menu-line');
+                icon.classList.add('ri-close-line');
+            } else {
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            }
+        });
+
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                body.classList.remove('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            });
+        });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAQ Accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items (accordion behavior)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+    });
+</script>
+
+    <script>
+        // --- Chart Rendering Functions ---
+
+        // Function to render the Donut Chart (Remains the same)
+        function renderDonutChart() {
+            const chartSegments = document.getElementById('segments');
+            const legendContainer = document.getElementById('donut-legend');
+            const chartContainer = document.getElementById('donut-chart-wrapper'); 
+            
+            if (!chartContainer || !chartSegments || !legendContainer) {
+                console.error("Error: Could not find necessary donut chart elements.");
+                return; 
+            }
+
+            document.getElementById('main-stat-pct').textContent = `${DONUT_DATA[0].value}%`; 
+            document.getElementById('main-stat-label').textContent = DONUT_DATA[0].label;
+
+            let gradientString = 'conic-gradient(';
+            let currentDegree = 0;
+
+            legendContainer.innerHTML = ''; // Clear previous legends
+            Array.from(chartContainer.querySelectorAll('.center-text ~ div:not(.center-text)')).forEach(el => el.remove()); // Clear previous labels
+
+            DONUT_DATA.forEach((item, index) => {
+                const degrees = (item.value / 100) * 360;
+                const startDegree = currentDegree;
+                const endDegree = currentDegree + degrees;
+                const midDegree = startDegree + degrees / 2;
+
+                if (item.value > 0) {
+                    gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
+                    if (index < DONUT_DATA.length - 1) gradientString += ', ';
+                }
+                currentDegree = endDegree;
+
+                if (item.value > 0) {
+                    const angleRad = (midDegree - 90) * (Math.PI / 180); 
+                    let radiusFactor = 0.40; 
+                    if (item.value <= 2) radiusFactor = 0.55; 
+
+                    const x = 50 + radiusFactor * 100 * Math.cos(angleRad);
+                    const y = 50 + radiusFactor * 100 * Math.sin(angleRad);
+
+                    const labelDiv = document.createElement('div');
+                    const labelColor = (item.value > 50) ? 'text-dark-bg' : 'text-text-light';
+                    let fontSizeClass = 'text-sm sm:text-lg'; 
+                    if (item.value > 50) fontSizeClass = 'text-lg sm:text-xl';
+                    else if (item.value <= 4) fontSizeClass = 'text-[0.6rem] sm:text-xs';
+
+                    labelDiv.className = `absolute text-center transition-opacity duration-300 ${labelColor} pointer-events-none`;
+                    labelDiv.style.opacity = '1';
+                    labelDiv.style.transform = 'translate(-50%, -50%)'; 
+                    labelDiv.style.left = `${x}%`;
+                    labelDiv.style.top = `${y}%`;
+                    labelDiv.innerHTML = `<div class="font-extrabold leading-tight ${fontSizeClass}">${item.value}%</div>`;
+                    chartContainer.appendChild(labelDiv);
+                }
+
+                const legendItem = document.createElement('div');
+                legendItem.className = 'flex items-center justify-between text-base';
+                const valueTextColor = 'text-text-light';
+
+                legendItem.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-sm mr-3 flex-shrink-0" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
+                        <span class="text-text-light text-sm sm:text-base">${item.label}</span>
+                    </div>
+                    <span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>
+                `;
+                legendContainer.appendChild(legendItem);
+            });
+
+            if (gradientString.endsWith(', ')) gradientString = gradientString.slice(0, -2);
+            gradientString += ')';
+            chartSegments.style.backgroundImage = gradientString;
+        }
+
+        function renderBarChart(containerId, data, colorProp) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error(`Error: Could not find bar chart container with ID: ${containerId}`);
+                return;
+            }
+
+            const maxVal = Math.max(...data.map(item => item.value));
+
+            // Clear existing content to prevent re-rendering issues if this function is called multiple times
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                const widthPercent = (item.value / maxVal) * 100;
+                
+                const barItem = document.createElement('div');
+                // Ensure Tailwind classes are correctly applied for spacing and column direction
+                barItem.className = 'group mb-4 flex flex-col'; 
+                
+                // Inline style for background color ensures it takes precedence
+                // Note: The 'style' attribute is used directly here.
+                barItem.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm sm:text-base">
+                        <span class="text-text-light">${item.label}</span>
+                        <span class="font-bold" style="color: ${item.color};">${item.value}%</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="width: 0%; background-color: ${item.color};" data-width="${widthPercent}"></div>
+                    </div>
+                `;
+                container.appendChild(barItem);
+            });
+        }
+
+        function animateAllBars() {
+            // Use a slight delay to ensure elements are fully rendered and transitions are ready
+            setTimeout(() => {
+                // Select ALL bars within the relevant containers
+                const barsToAnimate = document.querySelectorAll('#industry-bar-chart-container .chart-bar, #brand-bar-chart-container .chart-bar');
+                
+                barsToAnimate.forEach(bar => {
+                    if (bar.dataset.width && !isNaN(parseFloat(bar.dataset.width))) {
+                        bar.style.width = bar.dataset.width + '%';
+                    } else {
+                        console.warn("Bar element missing valid 'data-width' attribute:", bar);
+                    }
+                });
+            }, 100);
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDonutChart();
+            renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
+            renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
+            animateAllBars(); 
+        });
+    </script>
+</body>
