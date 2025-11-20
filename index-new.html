@@ -163,7 +163,34 @@
     .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
 
     .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-    .use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }
+    /*.use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }*/
+    .use-case-card { 
+        background-color: var(--sofecta-navy); 
+        padding: 30px; 
+        border-radius: var(--sofecta-border-radius);
+        border: 1px solid var(--sofecta-light-navy);
+        transition: border-color 0.3s ease;
+    }
+
+    /* Group the card elements for a consistent hover effect */
+    .grid-card:hover, 
+    .use-case-card:hover,
+    .info-card:hover { 
+        /* .info-card only highlights if you add border to its base style */
+        border-color: var(--sofecta-accent-yellow);
+    }
+    /* Optional: Ensure grid-card explicitly has the transition for best performance */
+    .grid-card {
+        /* Retain existing styles */
+        background-color: var(--sofecta-navy);
+        padding: 30px;
+        border-radius: var(--sofecta-border-radius);
+        border: 1px solid var(--sofecta-light-navy); 
+        /* 💡 NEW: Explicit transition */
+        transition: border-color 0.3s ease;
+        text-align: center;
+    }
+    
     .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
     .use-case-cols .fail i { color: #e57373; }
