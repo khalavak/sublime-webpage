@@ -110,8 +110,52 @@
     .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
     .btn-full { width: 100%; }
 
-    .hero { text-align: center; padding: 80px 0; }
+    /* .hero { text-align: center; padding: 80px 0; }
     .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
+    */
+
+    /* HERO BACKGROUND IMAGE WITH DARK OVERLAY & FADE */
+    .hero {
+        position: relative;
+        padding: 120px 0;
+        background: url('assets/background.png') center/cover no-repeat;
+        color: var(--sofecta-deep-dark);
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    /* Darken the background image */
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.55); /* adjust darkness here */
+        z-index: -1;
+    }
+
+    /* Fade / melt effect into the background */
+    .hero::after {
+        content: "";
+        position: absolute;
+        bottom: -1px; 
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0) 0%,
+            var(--sofecta-dark-bg) 100%
+        );
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* Ensure text stays above overlays */
+    .hero .container {
+        position: relative;
+        z-index: 3;
+    }
 
     .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
 
