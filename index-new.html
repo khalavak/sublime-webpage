@@ -152,10 +152,19 @@
     .hero { text-align: center; padding: 80px 0; }
     .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
     
-    .info-card { background-color: var(--sofecta-navy); padding: 40px 25px; border-radius: var(--sofecta-border-radius); text-align: center; max-width: 900px; margin: 0 auto; }
-
+    .info-card { 
+        background-color: var(--sofecta-navy); 
+        padding: 40px 25px; 
+        border-radius: var(--sofecta-border-radius); 
+        text-align: center; 
+        max-width: 900px; 
+        margin: 0 auto;
+        /* 💡 ADDED: Base border and transition for hover effect */
+        border: 1px solid var(--sofecta-light-navy);
+        transition: border-color 0.3s ease, transform 0.3s ease;
+    }
     .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-    .grid-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); border: 1px solid var(--sofecta-light-navy); text-align: center; }
+
     .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
 
     .table-wrapper { overflow-x: auto; }
@@ -163,13 +172,13 @@
     .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
 
     .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-    /*.use-case-card { background-color: var(--sofecta-navy); padding: 30px; border-radius: var(--sofecta-border-radius); }*/
     .use-case-card { 
         background-color: var(--sofecta-navy); 
         padding: 30px; 
         border-radius: var(--sofecta-border-radius);
         border: 1px solid var(--sofecta-light-navy);
-        transition: border-color 0.3s ease;
+        /* 💡 Cleaned up transition here */
+        transition: border-color 0.3s ease, transform 0.3s ease;
     }
 
     /* Group the card elements for a consistent hover effect */
@@ -178,6 +187,7 @@
     .info-card:hover { 
         /* .info-card only highlights if you add border to its base style */
         border-color: var(--sofecta-accent-yellow);
+        transform: translateY(-3px);
     }
     /* Optional: Ensure grid-card explicitly has the transition for best performance */
     .grid-card {
@@ -190,7 +200,7 @@
         transition: border-color 0.3s ease;
         text-align: center;
     }
-    
+
     .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
     .use-case-cols .fail i { color: #e57373; }
