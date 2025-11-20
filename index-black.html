@@ -204,67 +204,59 @@
         width: 60%; 
     }
 
+    .faq-item { 
+        margin-bottom: 20px; 
+        background-color: var(--sofecta-navy);
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+        border-color: var(--sofecta-accent-yellow);
+    }
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.3s ease;
+    }
+    .faq-question:hover {
+        background-color: var(--sofecta-light-navy);
+    }
+    .faq-question h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--sofecta-white);
+        flex: 1;
+        padding-right: 15px;
+    }
+    .faq-icon {
+        font-size: 1.5rem;
+        color: var(--sofecta-accent-yellow);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
     .faq-answer {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease, padding 0.3s ease;
     }
-
-    .faq-answer p {
-        color: var(--sofecta-text-medium);
-        line-height: 1.6;
-        margin: 0;
-    }
-
-    .faq-icon {
-        color: var(--sofecta-accent-yellow);
-        flex-shrink: 0;
-        font-size: 1.5rem;
-        transition: transform 0.3s ease;
-    }
-
-    .faq-item { 
-        background-color: var(--sofecta-navy);
-        border: 1px solid var(--sofecta-light-navy);
-        border-radius: var(--sofecta-border-radius);
-        margin-bottom: 20px; 
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .faq-item:hover {
-        border-color: var(--sofecta-accent-yellow);
-    }
-
+    /* MODIFIED: Increased top padding for .faq-answer */
     .faq-item.active .faq-answer {
         max-height: 500px;
-        padding: 0 25px 20px 25px;
+        padding: 20px 25px 20px 25px; /* Changed top padding from 0 to 20px */
     }
-
-    .faq-item.active .faq-icon {
-        transform: rotate(45deg);
-    }
-
-    .faq-question {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        padding: 20px 25px;
-        transition: background-color 0.3s ease;
-        user-select: none;
-    }
-
-    .faq-question:hover {
-        background-color: var(--sofecta-light-navy);
-    }
-
-    .faq-question h4 {
-        color: var(--sofecta-white);
-        flex: 1;
-        font-size: 1.1rem;
+    .faq-answer p {
         margin: 0;
-        padding-right: 15px;
+        color: var(--sofecta-text-medium);
+        line-height: 1.6;
     }
 
     .grid { 
@@ -837,11 +829,11 @@
                     <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
                     <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
                     <div class="grid five-col">
-                        <div class="grid-card"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
-                        <div class="grid-card"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
+                        <div class="grid-card-hover"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
+                        <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
+                        <div class="grid-card-hover"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
+                        <div class="grid-card-hover"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
+                        <div class="grid-card-hover"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
                     </div>
                 </div>
             </div>
@@ -853,11 +845,11 @@
                 <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
                 <h3 style="margin-top: 40px;">How It Works</h3>
                 <div class="grid five-col">
-                    <div class="grid-card"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
-                    <div class="grid-card"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
-                    <div class="grid-card"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
-                    <div class="grid-card"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
-                    <div class="grid-card"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
+                    <div class="grid-card-hover"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
+                    <div class="grid-card-hover"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
+                    <div class="grid-card-hover"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
+                    <div class="grid-card-hover"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
+                    <div class="grid-card-hover"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
                 </div>
                 <p style="margin-top: 40px; font-size: 1.2rem; color: var(--sofecta-text-light);">You get continuous protection, clear reporting, and zero operational burden.</p>
             </div>
@@ -867,9 +859,9 @@
             <div class="container">
                 <h2 style="text-align:center;">Key Benefits</h2>
                 <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card"><div class="card-icon"><i class="ri-shield-flash-line"></i></div><h4>Lower Your Risk</h4><p>Stop sophisticated attacks like BEC and zero-day phishing that bypass traditional filters.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-user-unfollow-line"></i></div><h4>Lessen Your Burden</h4><p>Eliminate manual triage and maintenance with a fully managed, 24/7 SOC-backed service.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-timer-flash-line"></i></div><h4>Faster Detection</h4><p>Identify and remediate threats in minutes, not hours or days, with automated and human-led responses.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-flash-line"></i></div><h4>Lower Your Risk</h4><p>Stop sophisticated attacks like BEC and zero-day phishing that bypass traditional filters.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-user-unfollow-line"></i></div><h4>Lessen Your Burden</h4><p>Eliminate manual triage and maintenance with a fully managed, 24/7 SOC-backed service.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-timer-flash-line"></i></div><h4>Faster Detection</h4><p>Identify and remediate threats in minutes, not hours or days, with automated and human-led responses.</p></div>
                 </div>
             </div>
         </section>
@@ -902,15 +894,15 @@
                 <h2 style="text-align:center;">Built on Sublime Security — Enterprise-Grade Technology</h2>
                 <p style="text-align:center;">Our service provides enterprise-grade protection without the complexity and cost, featuring:</p>
                 <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card"><div class="card-icon"><i class="ri-psychotherapy-line"></i></div><h4>Behavioural Analysis</h4><p>Contextual analysis of content, headers, and sender dynamics.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-robot-2-line"></i></div><h4>AI/ML-Driven Detection</h4><p>Finds sophisticated attacks like BEC, credential phishing, and ransomware.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-radar-line"></i></div><h4>Emerging Threat Detection</h4><p>Catches zero-day and GenAI-powered phishing attacks.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Abuse Mailbox Automation</h4><p>Automates the handling of user-reported phishing emails.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-eye-line"></i></div><h4>Transparent Verdicts</h4><p>Provides explainable logic, unlike an opaque "black box".</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-tools-line"></i></div><h4>Customisable Logic</h4><p>Define custom rules tailored to your business needs.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Deployment</h4><p>Go live in minutes via API into M365 / Google Workspace.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>SOC-Ready Reporting</h4><p>Full visibility into mail-based threats and our response.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-node-tree"></i></div><h4>MDR Stack Integration</h4><p>Correlate email alerts with endpoint and network signals.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-psychotherapy-line"></i></div><h4>Behavioural Analysis</h4><p>Contextual analysis of content, headers, and sender dynamics.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><h4>AI/ML-Driven Detection</h4><p>Finds sophisticated attacks like BEC, credential phishing, and ransomware.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-radar-line"></i></div><h4>Emerging Threat Detection</h4><p>Catches zero-day and GenAI-powered phishing attacks.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Abuse Mailbox Automation</h4><p>Automates the handling of user-reported phishing emails.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-eye-line"></i></div><h4>Transparent Verdicts</h4><p>Provides explainable logic, unlike an opaque "black box".</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-tools-line"></i></div><h4>Customisable Logic</h4><p>Define custom rules tailored to your business needs.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Deployment</h4><p>Go live in minutes via API into M365 / Google Workspace.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>SOC-Ready Reporting</h4><p>Full visibility into mail-based threats and our response.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-node-tree"></i></div><h4>MDR Stack Integration</h4><p>Correlate email alerts with endpoint and network signals.</p></div>
                 </div>
             </div>
         </section>
@@ -939,12 +931,12 @@
              <div class="container">
                  <h2 style="text-align:center;">Our Differentiators</h2>
                  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Turnkey Service</h4><p>Platform + AI + Human Expertise.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-swap-box-line"></i></div><h4>Fully Compatible</h4><p>Works seamlessly with Microsoft 365 and Google Workspace.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Onboarding</h4><p>Minimal internal overhead to get started.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-search-eye-line"></i></div><h4>Proactive Detection</h4><p>We find threats, we don't just react to them.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>Full Visibility</h4><p>Actionable metrics and clear reporting via dashboards.</p></div>
-                    <div class="grid-card"><div class="card-icon"><i class="ri-scales-3-line"></i></div><h4>Scalable & Flexible</h4><p>Our service grows with your business needs.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Turnkey Service</h4><p>Platform + AI + Human Expertise.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-swap-box-line"></i></div><h4>Fully Compatible</h4><p>Works seamlessly with Microsoft 365 and Google Workspace.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Onboarding</h4><p>Minimal internal overhead to get started.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-search-eye-line"></i></div><h4>Proactive Detection</h4><p>We find threats, we don't just react to them.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>Full Visibility</h4><p>Actionable metrics and clear reporting via dashboards.</p></div>
+                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-scales-3-line"></i></div><h4>Scalable & Flexible</h4><p>Our service grows with your business needs.</p></div>
                  </div>
             </div>
         </section>
@@ -991,10 +983,10 @@
                  <h2>Trust & Credibility</h2>
                  <p>Our service is built on enterprise-grade technology and run by a team of certified security experts.</p>
                  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                     <div class="grid-card"><h4>Proactive Threat Hunting</h4><p>Our analysts perform custom queries and create bespoke policies for your organization.</p></div>
-                     <div class="grid-card"><h4>Continuous Adaptation</h4><p>As threats evolve, so does our detection engine to keep you protected.</p></div>
-                     <div class="grid-card"><h4>GDPR Compliant</h4><p>We adhere to strict regional compliance standards to keep your data protected.</p></div>
-                     <div class="grid-card"><h4>ISO 27001 Certified</h4><p>Our operations meet rigorous international security standards.</p></div>
+                     <div class="grid-card-hover"><h4>Proactive Threat Hunting</h4><p>Our analysts perform custom queries and create bespoke policies for your organization.</p></div>
+                     <div class="grid-card-hover"><h4>Continuous Adaptation</h4><p>As threats evolve, so does our detection engine to keep you protected.</p></div>
+                     <div class="grid-card-hover"><h4>GDPR Compliant</h4><p>We adhere to strict regional compliance standards to keep your data protected.</p></div>
+                     <div class="grid-card-hover"><h4>ISO 27001 Certified</h4><p>Our operations meet rigorous international security standards.</p></div>
                  </div>
              </div>
         </section>
