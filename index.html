@@ -780,6 +780,13 @@
         margin-top: 1rem; /* Added spacing above the CTA button */
     }
 
+    /* Ensure the single card maintains margin for centering on mobile */
+    .trust-grid .grid-card-hover:last-child {
+        max-width: 600px; 
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     /* Responsive Adjustments */
     @media (min-width: 769px) {
         .contact-layout { 
@@ -833,7 +840,28 @@
         }
         .pricing-grid { 
         grid-template-columns: 1fr 1fr; 
+        }
+        .trust-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
+        gap: 30px;
+        }
+
+        /* Target the last element explicitly to center it in a two-column span */
+        .trust-grid .grid-card-hover:last-child {
+            grid-column: 1 / -1; /* Span all columns */
+            max-width: 600px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
+    /* Add this to your generic CSS */
+    @media (max-width: 768px) {
+        /* Ensure the single card maintains margin for centering on mobile */
+        .trust-grid .grid-card-hover:last-child {
+            max-width: 600px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
     </style>
 </head>
@@ -1132,13 +1160,51 @@
 
 <section id="trust">
     <div class="container" style="text-align: center;">
-        <h2>Trust & Credibility</h2>
-        <p>Our service is built on enterprise-grade technology and run by a team of certified security experts.</p>
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-            <div class="grid-card-hover"><h4>Proactive Threat Hunting</h4><p>Our analysts perform custom queries and create bespoke policies for your organization.</p></div>
-            <div class="grid-card-hover"><h4>Continuous Adaptation</h4><p>As threats evolve, so does our detection engine to keep you protected.</p></div>
-            <div class="grid-card-hover"><h4>GDPR Compliant</h4><p>We adhere to strict regional compliance standards to keep your data protected.</p></div>
-            <div class="grid-card-hover"><h4>ISO 27001 Certified</h4><p>Our operations meet rigorous international security standards.</p></div>
+        <h2>Secure by Design. Managed by Professionals.</h2>
+        <p>Our commitment to security is built into our platform and driven by our expert team.</p>
+        
+        <div class="grid trust-grid">
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-ruler-2-line"></i></div>
+                <h4>Platform Technology</h4>
+                <p>Built on the Sublime Security platform, our service uses advanced behavioral analytics, NLP, and AI-driven detection to stop threats that traditional filters miss.</p>
+            </div>
+            
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-eye-line"></i></div>
+                <h4>Transparent & Customisable</h4>
+                <p>Every detection is explainable and fully adjustable, giving you clear visibility and the ability to tailor protection to your unique environment.</p>
+            </div>
+            
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-plug-line"></i></div>
+                <h4>Integration & Visibility</h4>
+                <p>The platform integrates seamlessly with Microsoft 365, Google Workspace, SIEM, and SOAR tools—providing complete insight across your security ecosystem.</p>
+            </div>
+            
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-shield-check-line"></i></div>
+                <h4>Compliance Assured</h4>
+                <p>Backed by audited security controls and strong data-protection practices, our service supports your compliance with regional and industry-specific requirements.</p>
+            </div>
+            
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-building-line"></i></div>
+                <h4>Trusted by Enterprises</h4>
+                <p>The underlying Sublime Security technology is trusted by leading global companies and security-mature organizations.</p>
+            </div>
+            
+            <div class="grid-card-hover">
+                <div class="card-icon"><i class="ri-line-chart-line"></i></div>
+                <h4>Continuous Innovation</h4>
+                <p>With strong financial backing and an active roadmap, the platform evolves rapidly to counter emerging phishing, BEC, and AI-driven threats.</p>
+            </div>
+
+            <div class="grid-card-hover" style="grid-column: span 2; max-width: 600px; margin: 0 auto;">
+                <div class="card-icon"><i class="ri-team-line"></i></div>
+                <h4>Expert-Managed Service</h4>
+                <p>Sofecta Labs analysts monitor, tune, and respond around the clock—combining human expertise with automation for reliable, hands-off protection.</p>
+            </div>
         </div>
     </div>
 </section>
