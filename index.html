@@ -629,6 +629,143 @@
         margin-top: 40px; 
     }
 
+    .pricing-grid {
+    display: grid; 
+    grid-template-columns: 1fr; /* Single column by default */
+    gap: 40px; 
+    margin-top: 40px;
+    }
+
+    .package-card {
+        background-color: var(--sofecta-navy);
+        border: 1px solid var(--sofecta-light-navy);
+        border-radius: var(--sofecta-border-radius);
+        padding: 30px;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        /* For the COMPLETE package, apply a subtle highlight */
+    }
+
+    .package-card:hover {
+        border-color: var(--sofecta-accent-yellow);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .package-card h3 {
+        color: var(--sofecta-accent-yellow);
+        margin-bottom: 15px;
+        font-size: 1.6rem;
+    }
+
+    .package-card .package-description {
+        font-style: italic;
+        font-size: 0.95rem;
+        color: var(--sofecta-text-medium);
+        margin-bottom: 25px;
+        border-bottom: 1px dashed var(--sofecta-light-navy);
+        padding-bottom: 20px;
+    }
+
+    .feature-list {
+        margin-bottom: 30px;
+    }
+
+    .feature-list h4 {
+        color: var(--sofecta-white);
+        font-size: 1.2rem;
+        margin-top: 0;
+        margin-bottom: 15px;
+        border-left: 3px solid var(--sofecta-accent-yellow);
+        padding-left: 15px;
+    }
+
+    .feature-list ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        color: var(--sofecta-text-light);
+        margin-bottom: 12px;
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .feature-list li i {
+        color: #81c784; /* Success color for checkmark */
+        font-size: 1.2rem;
+        margin-right: 10px;
+        flex-shrink: 0;
+        margin-top: 3px;
+    }
+
+    .feature-list li strong {
+        color: var(--sofecta-white);
+    }
+
+    .complete-list .list-subtitle {
+        color: var(--sofecta-accent-yellow);
+        font-weight: 500;
+        font-size: 1rem;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    .pricing-heading {
+        border-top: 1px solid var(--sofecta-light-navy);
+        padding-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    .pricing-tiers {
+        background-color: var(--sofecta-light-navy);
+        padding: 20px;
+        border-radius: var(--sofecta-border-radius);
+    }
+
+    .tier-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 1rem;
+        border-bottom: 1px dashed var(--sofecta-navy);
+    }
+
+    .tier-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .tier-item span {
+        color: var(--sofecta-text-light);
+    }
+
+    .tier-item .price-value {
+        color: var(--sofecta-accent-yellow);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .badge {
+        position: absolute;
+        top: -15px;
+        right: 20px;
+        background-color: var(--sofecta-accent-yellow);
+        color: var(--sofecta-deep-dark);
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: var(--sofecta-border-radius);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
     /* Responsive Adjustments */
     @media (min-width: 769px) {
         .contact-layout { 
@@ -680,6 +817,9 @@
         .use-case-container { 
             grid-template-columns: repeat(2, 1fr); 
         }
+        .pricing-grid { 
+        grid-template-columns: 1fr 1fr; 
+    }
     }
     </style>
 </head>
@@ -1015,6 +1155,79 @@
                                 <p>Expert guide to selecting the right email security solution</p>
                             </div>
                 </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="pricing">
+    <div class="container">
+        <h2 style="text-align:center;">Pricing & Packages</h2>
+        <p style="text-align:center; max-width: 800px; margin: 0 auto 40px auto;">Choose the level of protection and operational support that fits your business needs, from cutting-edge detection to a fully managed 24/7 security service.</p>
+
+        <div class="pricing-grid">
+            <div class="package-card">
+                <h3>Managed Email Protection - CORE</h3>
+                <p>A cutting-edge email security layer that identifies and neutralizes modern phishing, impersonation, and domain-based attacks in real time.</p>
+                <p class="package-description">Best for small/medium businesses that want modern detection without the operational burden of managing rules.</p>
+
+                <div class="feature-list core-list">
+                    <h4>Core – What’s Included:</h4>
+                    <ul>
+                        <li><i class="ri-check-line"></i> <strong>Behavioral and context-based detection:</strong> Detects threats by analyzing how the email behaves, not just what it looks like.</li>
+                        <li><i class="ri-check-line"></i> Automated remediation actions (quarantine/removal) for detected threats.</li>
+                        <li><i class="ri-check-line"></i> Continuous detection updates based on evolving threat patterns.</li>
+                        <li><i class="ri-check-line"></i> Monitoring of sender and domain reputation changes.</li>
+                        <li><i class="ri-check-line"></i> Protection against AI-enhanced and image/QR-based phishing attempts.</li>
+                        <li><i class="ri-check-line"></i> Automated link rescanning to detect delayed payload changes.</li>
+                        <li><i class="ri-check-line"></i> Inspection of attachments and embedded content (PDF/HTML/ICS).</li>
+                        <li><i class="ri-check-line"></i> Basic anomaly detection for compromised vendor or internal accounts.</li>
+                        <li><i class="ri-check-line"></i> Dashboard access for visibility into detections, events, and trends.</li>
+                        <li><i class="ri-check-line"></i> API-based integration with Microsoft 365 and Google Workspace.</li>
+                        <li><i class="ri-check-line"></i> Expert-Led Support During Business Hours.</li>
+                        <li><i class="ri-check-line"></i> Alert forwarding to customer SIEM/SOC where applicable.</li>
+                        <li><i class="ri-check-line"></i> Zero maintenance required from customer (automatic rule/logic upkeep).</li>
+                    </ul>
+                </div>
+                
+                <h4 class="pricing-heading">Pricing Tiers:</h4>
+                <div class="pricing-tiers">
+                    <div class="tier-item"><span>Small Organizations (1 - 100 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Mid-Sized (101 – 250 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                </div>
+                <a href="#contact" class="btn btn-primary btn-full mt-6">Get Started with Core</a>
+            </div>
+
+            <div class="package-card complete-package">
+                <span class="badge">Most Popular</span>
+                <h3>Managed Email Protection - COMPLETE</h3>
+                <p>Fully managed email threat protection combining real-time automated detection with expert-led investigation and response.</p>
+                <p class="package-description">Ideal for organizations who want strong protection without maintaining rules, monitoring, or alert triage themselves.</p>
+
+                <div class="feature-list complete-list">
+                    <h4>COMPLETE - What’s Included</h4>
+                    <p class="list-subtitle">Everything in Core, plus:</p>
+                    <ul>
+                        <li><i class="ri-check-line"></i> <strong>Expert-Led Threat Investigation & Validation:</strong> Human review of high-risk alerts and suspicious patterns.</li>
+                        <li><i class="ri-check-line"></i> Guided Response & Incident Handling.</li>
+                        <li><i class="ri-check-line"></i> Continuous Optimization & Tuning.</li>
+                        <li><i class="ri-check-line"></i> Enhanced Behavioral & Identity Correlation.</li>
+                        <li><i class="ri-check-line"></i> Proactive Threat Hunting.</li>
+                        <li><i class="ri-check-line"></i> Reporting & Security Insights.</li>
+                        <li><i class="ri-check-line"></i> Operational Communication & Support.</li>
+                    </ul>
+                </div>
+
+                <h4 class="pricing-heading">Pricing Tiers:</h4>
+                <div class="pricing-tiers">
+                    <div class="tier-item"><span>Small Organizations (1 - 100 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Mid-Sized (101 – 250 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                    <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
+                </div>
+                <a href="#contact" class="btn btn-primary btn-full mt-6">Schedule a Consultation</a>
             </div>
         </div>
     </div>
