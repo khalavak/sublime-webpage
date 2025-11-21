@@ -629,11 +629,12 @@
         margin-top: 40px; 
     }
 
+    /*  Pricing Section Styles */
     .pricing-grid {
-    display: grid; 
-    grid-template-columns: 1fr; /* Single column by default */
-    gap: 40px; 
-    margin-top: 40px;
+        display: grid; 
+        grid-template-columns: 1fr; /* Single column by default */
+        gap: 40px; 
+        margin-top: 40px;
     }
 
     .package-card {
@@ -644,7 +645,15 @@
         position: relative;
         transition: all 0.3s ease;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        /* For the COMPLETE package, apply a subtle highlight */
+        
+        /* 1. Enable Flexbox */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 2. Content wrapper grows to push everything below it */
+    .package-content {
+        flex-grow: 1;
     }
 
     .package-card:hover {
@@ -716,6 +725,7 @@
     }
 
     .pricing-heading {
+        /* Ensures this element is the start of the anchored footer block */
         border-top: 1px solid var(--sofecta-light-navy);
         padding-top: 20px;
         margin-bottom: 15px;
@@ -764,6 +774,10 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .package-card .btn-full {
+        margin-top: 1rem; /* Added spacing above the CTA button */
     }
 
     /* Responsive Adjustments */
@@ -1167,27 +1181,29 @@
 
         <div class="pricing-grid">
             <div class="package-card">
-                <h3>Managed Email Protection - CORE</h3>
-                <p>A cutting-edge email security layer that identifies and neutralizes modern phishing, impersonation, and domain-based attacks in real time.</p>
-                <p class="package-description">Best for small/medium businesses that want modern detection without the operational burden of managing rules.</p>
+                <div class="package-content">
+                    <h3>Managed Email Protection - CORE</h3>
+                    <p>A cutting-edge email security layer that identifies and neutralizes modern phishing, impersonation, and domain-based attacks in real time.</p>
+                    <p class="package-description">Best for small/medium businesses that want modern detection without the operational burden of managing rules.</p>
 
-                <div class="feature-list core-list">
-                    <h4>Core – What’s Included:</h4>
-                    <ul>
-                        <li><i class="ri-check-line"></i> <strong>Behavioral and context-based detection:</strong> Detects threats by analyzing how the email behaves, not just what it looks like.</li>
-                        <li><i class="ri-check-line"></i> Automated remediation actions (quarantine/removal) for detected threats.</li>
-                        <li><i class="ri-check-line"></i> Continuous detection updates based on evolving threat patterns.</li>
-                        <li><i class="ri-check-line"></i> Monitoring of sender and domain reputation changes.</li>
-                        <li><i class="ri-check-line"></i> Protection against AI-enhanced and image/QR-based phishing attempts.</li>
-                        <li><i class="ri-check-line"></i> Automated link rescanning to detect delayed payload changes.</li>
-                        <li><i class="ri-check-line"></i> Inspection of attachments and embedded content (PDF/HTML/ICS).</li>
-                        <li><i class="ri-check-line"></i> Basic anomaly detection for compromised vendor or internal accounts.</li>
-                        <li><i class="ri-check-line"></i> Dashboard access for visibility into detections, events, and trends.</li>
-                        <li><i class="ri-check-line"></i> API-based integration with Microsoft 365 and Google Workspace.</li>
-                        <li><i class="ri-check-line"></i> Expert-Led Support During Business Hours.</li>
-                        <li><i class="ri-check-line"></i> Alert forwarding to customer SIEM/SOC where applicable.</li>
-                        <li><i class="ri-check-line"></i> Zero maintenance required from customer (automatic rule/logic upkeep).</li>
-                    </ul>
+                    <div class="feature-list core-list">
+                        <h4>Core – What’s Included:</h4>
+                        <ul>
+                            <li><i class="ri-check-line"></i> <strong>Behavioral and context-based detection:</strong> Detects threats by analyzing how the email behaves, not just what it looks like.</li>
+                            <li><i class="ri-check-line"></i> Automated remediation actions (quarantine/removal) for detected threats.</li>
+                            <li><i class="ri-check-line"></i> Continuous detection updates based on evolving threat patterns.</li>
+                            <li><i class="ri-check-line"></i> Monitoring of sender and domain reputation changes.</li>
+                            <li><i class="ri-check-line"></i> Protection against AI-enhanced and image/QR-based phishing attempts.</li>
+                            <li><i class="ri-check-line"></i> Automated link rescanning to detect delayed payload changes.</li>
+                            <li><i class="ri-check-line"></i> Inspection of attachments and embedded content (PDF/HTML/ICS).</li>
+                            <li><i class="ri-check-line"></i> Basic anomaly detection for compromised vendor or internal accounts.</li>
+                            <li><i class="ri-check-line"></i> Dashboard access for visibility into detections, events, and trends.</li>
+                            <li><i class="ri-check-line"></i> API-based integration with Microsoft 365 and Google Workspace.</li>
+                            <li><i class="ri-check-line"></i> Expert-Led Support During Business Hours.</li>
+                            <li><i class="ri-check-line"></i> Alert forwarding to customer SIEM/SOC where applicable.</li>
+                            <li><i class="ri-check-line"></i> Zero maintenance required from customer (automatic rule/logic upkeep).</li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <h4 class="pricing-heading">Pricing Tiers:</h4>
@@ -1197,27 +1213,29 @@
                     <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
                     <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
                 </div>
-                <a href="#contact" class="btn btn-primary btn-full mt-6">Get Started with Core</a>
+                <a href="#contact" class="btn btn-primary btn-full">Get Started with Core</a>
             </div>
 
             <div class="package-card complete-package">
                 <span class="badge">Most Popular</span>
-                <h3>Managed Email Protection - COMPLETE</h3>
-                <p>Fully managed email threat protection combining real-time automated detection with expert-led investigation and response.</p>
-                <p class="package-description">Ideal for organizations who want strong protection without maintaining rules, monitoring, or alert triage themselves.</p>
+                <div class="package-content">
+                    <h3>Managed Email Protection - COMPLETE</h3>
+                    <p>Fully managed email threat protection combining real-time automated detection with expert-led investigation and response.</p>
+                    <p class="package-description">Ideal for organizations who want strong protection without maintaining rules, monitoring, or alert triage themselves.</p>
 
-                <div class="feature-list complete-list">
-                    <h4>COMPLETE - What’s Included</h4>
-                    <p class="list-subtitle">Everything in Core, plus:</p>
-                    <ul>
-                        <li><i class="ri-check-line"></i> <strong>Expert-Led Threat Investigation & Validation:</strong> Human review of high-risk alerts and suspicious patterns.</li>
-                        <li><i class="ri-check-line"></i> Guided Response & Incident Handling.</li>
-                        <li><i class="ri-check-line"></i> Continuous Optimization & Tuning.</li>
-                        <li><i class="ri-check-line"></i> Enhanced Behavioral & Identity Correlation.</li>
-                        <li><i class="ri-check-line"></i> Proactive Threat Hunting.</li>
-                        <li><i class="ri-check-line"></i> Reporting & Security Insights.</li>
-                        <li><i class="ri-check-line"></i> Operational Communication & Support.</li>
-                    </ul>
+                    <div class="feature-list complete-list">
+                        <h4>COMPLETE - What’s Included</h4>
+                        <p class="list-subtitle">Everything in Core, plus:</p>
+                        <ul>
+                            <li><i class="ri-check-line"></i> <strong>Expert-Led Threat Investigation & Validation:</strong> Human review of high-risk alerts and suspicious patterns.</li>
+                            <li><i class="ri-check-line"></i> Guided Response & Incident Handling.</li>
+                            <li><i class="ri-check-line"></i> Continuous Optimization & Tuning.</li>
+                            <li><i class="ri-check-line"></i> Enhanced Behavioral & Identity Correlation.</li>
+                            <li><i class="ri-check-line"></i> Proactive Threat Hunting.</li>
+                            <li><i class="ri-check-line"></i> Reporting & Security Insights.</li>
+                            <li><i class="ri-check-line"></i> Operational Communication & Support.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <h4 class="pricing-heading">Pricing Tiers:</h4>
@@ -1227,7 +1245,7 @@
                     <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
                     <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
                 </div>
-                <a href="#contact" class="btn btn-primary btn-full mt-6">Schedule a Consultation</a>
+                <a href="#contact" class="btn btn-primary btn-full">Schedule a Consultation</a>
             </div>
         </div>
     </div>
