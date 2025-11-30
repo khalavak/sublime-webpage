@@ -127,8 +127,8 @@
             command="show-modal"
             commandfor="mobile-menu"
             class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
+            onclick="showMobileMenu()"
           >
-            <span class="sr-only">Open main menu</span>
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -168,6 +168,88 @@
           >
             Book a Demo
           </button>
+        </div>
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          class="hidden lg:hidden fixed inset-0 z-50 overflow-y-auto"
+        >
+          <div class="fixed inset-0 z-50 bg-sofecta-very-dark/70"></div>
+          <div
+            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-sofecta-very-dark px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+          >
+            <div class="flex items-center justify-between">
+              <a href="#" class="-m-1.5 p-1.5">
+                <div class="h-12 w-auto">
+                  <img
+                    src="assets/sofecta-logo-full-color.png"
+                    alt=""
+                    class="h-full w-auto"
+                  />
+                </div>
+              </a>
+              <button
+                type="button"
+                class="-m-2.5 rounded-md p-2.5 text-white/70"
+                onclick="closeMobileMenu()"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  data-slot="icon"
+                  class="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div class="mt-6 divide-y divide-gray-500/10">
+              <a
+                onclick="closeMobileMenu()"
+                href="#statistics"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Statistics</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#why"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Why to choose us</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#features"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Features</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#pricing"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Pricing</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#faq"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >FAQ</a
+              >
+            </div>
+            <button
+              type="button"
+              class="mt-6 rounded-full uppercase bg-sofecta-primary px-3.5 py-2.5 text-sm font-normal text-sofecta-very-dark hover:bg-sofecta-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sofecta-primary"
+            >
+              Book a Demo
+            </button>
+          </div>
         </div>
       </nav>
     </header>
@@ -213,7 +295,9 @@
             </div>
           </div>
           <div>
-            <div class="flex items-center justify-center gap-6">
+            <div
+              class="flex flex-col sm:flex-row items-center justify-center gap-6"
+            >
               <img
                 src="assets/sofecta-logo-full-color-mdr.png"
                 alt="Sofecta Labs"
@@ -2568,7 +2652,7 @@
             </div>
           </div>
 
-          <div class="bg-sofecta-dark rounded-2xl p-8">
+          <div class="bg-sofecta-dark rounded-2xl lg:p-8">
             <!-- Calendly Embed Placeholder -->
             <div class="text-center text-sofecta-dark">
               <div class="flex flex-row items-center justify-center mb-6">
@@ -2588,9 +2672,9 @@
                 class="bg-sofecta-very-dark rounded-xl min-h-[400px] flex flex-col items-center justify-center overflow-hidden"
               >
                 <div
-                  class="calendly-inline-widget"
+                  class="calendly-inline-widget lg:min-w-[320px]"
                   data-url="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?background_color=0e0e0e&text_color=fff&primary_color=ffc107"
-                  style="min-width: 320px; width: 100%; height: 800px"
+                  style="width: 100%; height: 800px"
                 ></div>
                 <script
                   type="text/javascript"
@@ -2785,17 +2869,34 @@
               href="https://twitter.com/sofectalabs"
               target="_blank"
               class="size-5 block"
-              >
+            >
               <svg viewBox="0 0 18 17" fill="none" class="sm-icon">
                 <path
                   d="M14.1761 0.227539H16.9362L10.9061 7.00494L18 16.2275H12.4456L8.0951 10.6341L3.11723 16.2275H0.35544L6.80517 8.97834L0 0.227539H5.69545L9.6279 5.34016L14.1761 0.227539ZM13.2073 14.6029H14.7368L4.86441 1.76682H3.2232L13.2073 14.6029Z"
                   fill="currentColor"
                 ></path>
-               </svg>
+              </svg>
             </a>
-            <a href="https://www.linkedin.com/company/sofecta/" target="_blank" class="size-5 block"><div class="sm-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 0C0.67157 0 0 0.67157 0 1.5V16.5C0 17.3284 0.67157 18 1.5 18H16.5C17.3284 18 18 17.3284 18 16.5V1.5C18 0.67157 17.3284 0 16.5 0H1.5ZM5.52076 4.00272C5.52639 4.95897 4.81061 5.54819 3.96123 5.54397C3.16107 5.53975 2.46357 4.90272 2.46779 4.00413C2.47201 3.15897 3.13998 2.47975 4.00764 2.49944C4.88795 2.51913 5.52639 3.1646 5.52076 4.00272ZM9.2797 6.76176H6.75971H6.7583V15.3216H9.4217V15.1219C9.4217 14.742 9.4214 14.362 9.4211 13.9819C9.4203 12.9681 9.4194 11.9532 9.4246 10.9397C9.426 10.6936 9.4372 10.4377 9.5005 10.2028C9.7381 9.3253 10.5271 8.7586 11.4074 8.8979C11.9727 8.9864 12.3467 9.3141 12.5042 9.8471C12.6013 10.1803 12.6449 10.5389 12.6491 10.8863C12.6605 11.9339 12.6589 12.9815 12.6573 14.0292C12.6567 14.399 12.6561 14.769 12.6561 15.1388V15.3202H15.328V15.1149C15.328 14.6629 15.3278 14.211 15.3275 13.7591C15.327 12.6296 15.3264 11.5001 15.3294 10.3702C15.3308 9.8597 15.276 9.3563 15.1508 8.8627C14.9638 8.1286 14.5771 7.5211 13.9485 7.0824C13.5027 6.77019 13.0133 6.5691 12.4663 6.5466C12.404 6.54401 12.3412 6.54062 12.2781 6.53721C11.9984 6.52209 11.7141 6.50673 11.4467 6.56066C10.6817 6.71394 10.0096 7.0641 9.5019 7.6814C9.4429 7.7522 9.3852 7.8241 9.2991 7.9314L9.2797 7.9557V6.76176ZM2.68164 15.3244H5.33242V6.76733H2.68164V15.3244Z" fill="currentColor"></path>
-                </svg></div>
+            <a
+              href="https://www.linkedin.com/company/sofecta/"
+              target="_blank"
+              class="size-5 block"
+              ><div class="sm-icon w-embed">
+                <svg
+                  width="100%"
+                  height="100%"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M1.5 0C0.67157 0 0 0.67157 0 1.5V16.5C0 17.3284 0.67157 18 1.5 18H16.5C17.3284 18 18 17.3284 18 16.5V1.5C18 0.67157 17.3284 0 16.5 0H1.5ZM5.52076 4.00272C5.52639 4.95897 4.81061 5.54819 3.96123 5.54397C3.16107 5.53975 2.46357 4.90272 2.46779 4.00413C2.47201 3.15897 3.13998 2.47975 4.00764 2.49944C4.88795 2.51913 5.52639 3.1646 5.52076 4.00272ZM9.2797 6.76176H6.75971H6.7583V15.3216H9.4217V15.1219C9.4217 14.742 9.4214 14.362 9.4211 13.9819C9.4203 12.9681 9.4194 11.9532 9.4246 10.9397C9.426 10.6936 9.4372 10.4377 9.5005 10.2028C9.7381 9.3253 10.5271 8.7586 11.4074 8.8979C11.9727 8.9864 12.3467 9.3141 12.5042 9.8471C12.6013 10.1803 12.6449 10.5389 12.6491 10.8863C12.6605 11.9339 12.6589 12.9815 12.6573 14.0292C12.6567 14.399 12.6561 14.769 12.6561 15.1388V15.3202H15.328V15.1149C15.328 14.6629 15.3278 14.211 15.3275 13.7591C15.327 12.6296 15.3264 11.5001 15.3294 10.3702C15.3308 9.8597 15.276 9.3563 15.1508 8.8627C14.9638 8.1286 14.5771 7.5211 13.9485 7.0824C13.5027 6.77019 13.0133 6.5691 12.4663 6.5466C12.404 6.54401 12.3412 6.54062 12.2781 6.53721C11.9984 6.52209 11.7141 6.50673 11.4467 6.56066C10.6817 6.71394 10.0096 7.0641 9.5019 7.6814C9.4429 7.7522 9.3852 7.8241 9.2991 7.9314L9.2797 7.9557V6.76176ZM2.68164 15.3244H5.33242V6.76733H2.68164V15.3244Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
             </a>
           </div>
         </div>
@@ -2820,6 +2921,16 @@
           tab.classList.remove("active-tab");
         });
         tabs[index].classList.add("active-tab");
+      }
+
+      function showMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.remove("hidden");
+      }
+
+      function closeMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.add("hidden");
       }
 
       // Smooth scroll for anchor links
