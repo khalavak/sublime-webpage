@@ -102,6 +102,19 @@
         border-left: 4px solid #ffa300;
         background: rgba(255, 163, 0, 0.1);
       }
+
+      .scenario-active-tab {
+        border: 2px solid #ffa300 !important;
+        background: rgba(255, 163, 0, 0.15);
+      }
+
+      .scenario-tab {
+        transition: all 0.3s ease;
+      }
+
+      .scenario-tab:hover:not(.scenario-active-tab) {
+        border-color: rgba(255, 163, 0, 0.3) !important;
+      }
     </style>
   </head>
   <body class="antialiased">
@@ -1830,7 +1843,7 @@
     </section>
 
     <!-- Who Is This For -->
-    <section class="py-20 bg-sofecta-very-dark">
+    <section class="py-20 bg-sofecta-very-dark" id="why">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16">
           <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
@@ -1843,191 +1856,214 @@
           </p>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-8">
-          <!-- Scenario 1: Supplier-Domain Impersonation -->
-          <div
-            class="bg-sofecta-dark rounded-2xl shadow-xl overflow-hidden border-2 border-white/10 hover:border-sofecta-primary card-glow"
-          >
+        <div class="space-y-6">
+          <div class="flex flex-wrap gap-3">
             <div
-              class="bg-sofecta-dark p-6 text-center border-b-2 border-white/10"
+              class="flex items-center justify-center scenario-tab scenario-active-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(0)"
             >
-              <h3 class="text-2xl font-normal text-white">
+              <h3 class="font-bold text-sm md:text-base text-center">
                 Supplier-Domain Impersonation
               </h3>
             </div>
-            <div class="grid grid-cols-2">
-              <div class="p-6 border-r-2 border-white/10">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-close-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-red-700">
-                    Legacy Problem
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Trusts the sender, delivers the email. Employee follows
-                  fraudulent instructions.
-                </p>
-              </div>
-              <div class="p-6">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-check-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-green-700">
-                    Modern Solution
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Behavioral analysis flags unusual sender patterns. Message is
-                  quarantined.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scenario 2: AI-Enhanced Phishing -->
-          <div
-            class="bg-sofecta-dark rounded-2xl shadow-xl overflow-hidden border-2 border-white/10 hover:border-sofecta-primary card-glow"
-          >
             <div
-              class="bg-sofecta-dark p-6 text-center border-b-2 border-white/10"
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(1)"
             >
-              <h3 class="text-2xl font-normal text-white">
+              <h3 class="font-bold text-sm md:text-base text-center">
                 AI-Enhanced Phishing
               </h3>
             </div>
-            <div class="grid grid-cols-2">
-              <div class="p-6 border-r-2 border-white/10">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-close-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-red-700">
-                    Legacy Problem
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Sees normal language and allows the email. User receives an
-                  urgent request and complies.
-                </p>
-              </div>
-              <div class="p-6">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-check-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-green-700">
-                    Modern Solution
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Content & metadata analysis detects a mismatch. AI validates
-                  the threat and removes it.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scenario 3: Malicious Attachments -->
-          <div
-            class="bg-sofecta-dark rounded-2xl shadow-xl overflow-hidden border-2 border-white/10 hover:border-sofecta-primary card-glow"
-          >
             <div
-              class="bg-sofecta-dark p-6 text-center border-b-2 border-white/10"
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(2)"
             >
-              <h3 class="text-2xl font-normal text-white">
+              <h3 class="font-bold text-sm md:text-base text-center">
                 Malicious Attachments
               </h3>
             </div>
-            <div class="grid grid-cols-2">
-              <div class="p-6 border-r-2 border-white/10">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-close-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-red-700">
-                    Legacy Problem
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Sees a "harmless" attachment and delivers it. Employee opens
-                  the file, running malware.
-                </p>
-              </div>
-              <div class="p-6">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-check-line text-lg"></i>
-                  </div>
-                  <h4 class="text-lg font-normal text-green-700">
-                    Modern Solution
-                  </h4>
-                </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Attachment is scanned for anomalies. Threat is validated and
-                  email is quarantined.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scenario 4: QR Code Phishing -->
-          <div
-            class="bg-sofecta-dark rounded-2xl shadow-xl overflow-hidden border-2 border-white/10 hover:border-sofecta-primary card-glow"
-          >
             <div
-              class="bg-sofecta-dark p-6 text-center border-b-2 border-white/10"
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(3)"
             >
-              <h3 class="text-2xl font-normal text-white">
+              <h3 class="font-bold text-sm md:text-base text-center">
                 QR Code Phishing ("Quishing")
               </h3>
             </div>
-            <div class="grid grid-cols-2">
-              <div class="p-6 border-r-2 border-white/10">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-close-line text-lg"></i>
+          </div>
+
+          <div>
+            <div
+              id="threat-scenario-0"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow from-sofecta-dark to-sofecta-dark text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">
+                Supplier-Domain Impersonation
+              </h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
                   </div>
-                  <h4 class="text-lg font-normal text-red-700">
-                    Legacy Problem
-                  </h4>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Trusts the sender, delivers the email. Employee follows
+                    fraudulent instructions.
+                  </p>
                 </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Does not inspect QR codes, so the email is delivered. User
-                  scans code, leading to credential theft.
-                </p>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Behavioral analysis flags unusual sender patterns. Message
+                    is quarantined.
+                  </p>
+                </div>
               </div>
-              <div class="p-6">
-                <div class="flex items-center gap-2 mb-3">
-                  <div
-                    class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
-                  >
-                    <i class="ri-check-line text-lg"></i>
+            </div>
+
+            <div
+              id="threat-scenario-1"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">AI-Enhanced Phishing</h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
                   </div>
-                  <h4 class="text-lg font-normal text-green-700">
-                    Modern Solution
-                  </h4>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Sees normal language and allows the email. User receives an
+                    urgent request and complies.
+                  </p>
                 </div>
-                <p class="text-white/70 text-base leading-relaxed">
-                  Image is analyzed for QR codes and the decoded URL is
-                  inspected. Email is quarantined.
-                </p>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Content & metadata analysis detects a mismatch. AI validates
+                    the threat and removes it.
+                  </p>
+                </div>
+              </div>
+
+              <img
+                src="assets/graph-targeted-ai-enhacned-phishing-attack.png"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg"
+              />
+            </div>
+
+            <div
+              id="threat-scenario-2"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">Malicious Attachments</h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Sees a "harmless" attachment and delivers it. Employee opens
+                    the file, running malware.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Attachment is scanned for anomalies. Threat is validated and
+                    email is quarantined.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="threat-scenario-3"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">
+                QR Code Phishing ("Quishing")
+              </h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Does not inspect QR codes, so the email is delivered. User
+                    scans code, leading to credential theft.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Image is analyzed for QR codes and the decoded URL is
+                    inspected. Email is quarantined.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -2921,6 +2957,24 @@
           tab.classList.remove("active-tab");
         });
         tabs[index].classList.add("active-tab");
+      }
+
+      function showThreatScenario(index) {
+        // Hide all threat scenario contents
+        const contents = document.querySelectorAll(".scenario-content");
+        contents.forEach((content) => content.classList.add("hidden"));
+
+        // Show selected threat scenario content
+        document
+          .getElementById("threat-scenario-" + index)
+          .classList.remove("hidden");
+
+        // Update active tab styling
+        const tabs = document.querySelectorAll(".scenario-tab");
+        tabs.forEach((tab) => {
+          tab.classList.remove("scenario-active-tab");
+        });
+        tabs[index].classList.add("scenario-active-tab");
       }
 
       function showMobileMenu() {
