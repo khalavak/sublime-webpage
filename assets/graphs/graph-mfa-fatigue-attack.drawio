@@ -16,13 +16,13 @@
         <mxCell id="pesmnv-QAPVe0VfLywS7-18" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#009900);endArrow=open;endFill=0;strokeWidth=2;" target="pesmnv-QAPVe0VfLywS7-8">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="pesmnv-QAPVe0VfLywS7-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#009900);fillColor=none;strokeWidth=2;fontFamily=Readex Pro;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DReadex%2BPro;" value="&lt;span data-path-to-node=&quot;12,1,1,0&quot;&gt;Email Analysed by Managed Email Gateway&lt;/span&gt;" vertex="1">
+        <mxCell id="pesmnv-QAPVe0VfLywS7-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#009900);fillColor=none;strokeWidth=2;fontFamily=Readex Pro;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DReadex%2BPro;" value="Email Analysed by Managed Email Service" vertex="1">
           <mxGeometry height="70" width="150" x="270" y="495" as="geometry" />
         </mxCell>
         <mxCell id="pesmnv-QAPVe0VfLywS7-14" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#B91C1B,#B91C1B);endArrow=open;endFill=0;strokeWidth=2;" target="pesmnv-QAPVe0VfLywS7-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="pesmnv-QAPVe0VfLywS7-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B91C1B);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);strokeWidth=2;fontFamily=Readex Pro;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DReadex%2BPro;" value="Legacy filters allow &lt;br&gt;email through" vertex="1">
+        <mxCell id="pesmnv-QAPVe0VfLywS7-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B91C1B);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);strokeWidth=2;fontFamily=Readex Pro;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DReadex%2BPro;" value="Legacy filters allow&lt;br&gt;email through" vertex="1">
           <mxGeometry height="70" width="150" x="270" y="325" as="geometry" />
         </mxCell>
         <mxCell id="pesmnv-QAPVe0VfLywS7-15" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=light-dark(#B91C1B,#B91C1B);endArrow=open;endFill=0;strokeWidth=2;" target="pesmnv-QAPVe0VfLywS7-5">
