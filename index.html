@@ -115,6 +115,24 @@
       .scenario-tab:hover:not(.scenario-active-tab) {
         border-color: rgba(255, 163, 0, 0.3) !important;
       }
+
+      .hero-gradient {
+        background: radial-gradient(
+            ellipse at top,
+            rgba(255, 163, 0, 0.05),
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at bottom,
+            rgba(255, 163, 0, 0.1),
+            transparent 50%
+          );
+      }
+
+      .hero-background {
+        background: url("assets/background.png") no-repeat center center;
+        background-size: cover;
+      }
     </style>
   </head>
   <body class="antialiased">
@@ -268,22 +286,31 @@
     </header>
     <!-- Hero Section -->
     <section
-      class="pt-20 relative bg-gradient-to-br from-sofecta-very-dark via-bg-gray-900 to-sofecta-very-dark text-white overflow-hidden border-b border-sofecta-dark"
+      class="pt-20 relative text-white overflow-hidden border-b border-sofecta-dark hero-background"
     >
-      <div class="absolute inset-0 opacity-10">
+      <!-- <div class="absolute inset-0 opacity-10">
         <div
           class="absolute top-0 left-1/4 w-96 h-96 bg-sofecta-primary/30 rounded-full blur-3xl"
         ></div>
         <div
           class="absolute bottom-0 right-1/4 w-96 h-96 bg-sofecta-primary/50 rounded-full blur-3xl"
         ></div>
+      </div> -->
+      <div class="absolute w-full h-full bg-black/90 hero-gradient"></div>
+      <div class="absolute inset-0 overflow-hidden">
+        <div
+          class="absolute w-96 h-96 -top-48 -left-48 bg-sofecta-primary/10 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute w-96 h-96 top-1/2 -right-48 bg-sofecta-primary/10 rounded-full blur-3xl"
+        ></div>
       </div>
 
       <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-32">
-        <div class="grid lg:grid-cols-1 gap-12 items-center">
+        <div class="grid lg:grid-cols-1 gap-8 items-center">
           <!-- Hero Content Block 1 -->
           <div>
-            <div class="mb-12">
+            <div>
               <h1
                 class="text-5xl lg:text-7xl font-normal mb-12 leading-tight text-center"
               >
@@ -305,6 +332,40 @@
                 from evolving email threats—powered by the Sublime Security
                 platform and backed by our 24/7 security experts.
               </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                99.9%
+              </div>
+              <div class="text-gray-400">Uptime SLA</div>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                5 min
+              </div>
+              <div class="text-gray-400">Setup Time</div>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                11+
+              </div>
+              <div class="text-gray-400">Core Features</div>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                GDPR
+              </div>
+              <div class="text-gray-400">Compliant</div>
             </div>
           </div>
           <div>
@@ -1934,6 +1995,11 @@
                   </p>
                 </div>
               </div>
+              <img
+                src="assets/graphs/graph-supplier-domain-inpersonation-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
             </div>
 
             <div
@@ -1977,9 +2043,9 @@
               </div>
 
               <img
-                src="assets/graph-targeted-ai-enhacned-phishing-attack.png"
+                src="assets/graphs/graph-targeted-ai-enhanced-phishing-attack-dark.svg"
                 alt="AI-Enhanced Phishing Detection Graph"
-                class="mt-6 rounded-lg shadow-lg"
+                class="mt-6 rounded-lg shadow-lg w-full"
               />
             </div>
 
@@ -2022,6 +2088,11 @@
                   </p>
                 </div>
               </div>
+              <img
+                src="assets/graphs/graph-malicious-attachment-fake-document-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
             </div>
 
             <div
@@ -2065,6 +2136,11 @@
                   </p>
                 </div>
               </div>
+              <img
+                src="assets/graphs/graph-qr-code-phishing-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
             </div>
           </div>
         </div>
