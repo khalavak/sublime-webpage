@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.1">
+  <diagram name="Page-1" id="GOehtGWxYqSm-HNYJu3V">
+    <mxGraphModel dx="3346" dy="1840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pesmnv-QAPVe0VfLywS7-12" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-13" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B91C1B);fontColor=light-dark(#000000,#B91C1B);fillColor=none;glass=0;" value="Attacker creates AI-generated impersonation email &lt;br&gt;(executive / manager / finance)" vertex="1">
+          <mxGeometry height="80" width="190" x="10" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-18" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#009900);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B5739D);fillColor=none;" value="Real-time behavioral &lt;br&gt;and language analysis" vertex="1">
+          <mxGeometry height="60" width="140" x="270" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-14" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#999999);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);" value="Standard filters allow email through" vertex="1">
+          <mxGeometry height="60" width="140" x="270" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-15" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#999999);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);" value="User receives &lt;br&gt;fraudulent request" vertex="1">
+          <mxGeometry height="60" width="140" x="450" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-16" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#999999);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);" value="User complies&lt;br&gt;→&amp;nbsp;breach occurs" vertex="1">
+          <mxGeometry height="60" width="140" x="630" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-17" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#B91C1B);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#999999);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);" value="SOC reacts post-compromise" vertex="1">
+          <mxGeometry height="60" width="140" x="810" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B91C1B);fillColor=none;fontColor=light-dark(#000000,#FFFFFF);strokeWidth=2;" value="Business impact&lt;br&gt;and escalation" vertex="1">
+          <mxGeometry height="60" width="140" x="990" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-19" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#009900);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B5739D);fillColor=none;" value="Anomalies detected across multiple signals" vertex="1">
+          <mxGeometry height="60" width="140" x="450" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-20" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=light-dark(#000000,#009900);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B5739D);fillColor=none;" value="AI validates threat instantly" vertex="1">
+          <mxGeometry height="60" width="140" x="630" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-21" edge="1" parent="1" source="pesmnv-QAPVe0VfLywS7-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=light-dark(#000000,#009900);endArrow=open;endFill=0;" target="pesmnv-QAPVe0VfLywS7-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#B5739D);fillColor=none;" value="Message removed&lt;br&gt;pre-delivery" vertex="1">
+          <mxGeometry height="60" width="140" x="810" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#000000,#009900);fillColor=none;strokeWidth=2;" value="Attack stopped without user interaction" vertex="1">
+          <mxGeometry height="60" width="140" x="990" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;b&gt;Managed Email Protection (Attack Prevented)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="300" x="270" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="pesmnv-QAPVe0VfLywS7-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;b&gt;Legacy Protection (Attack Succeeds)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="300" x="270" y="290" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
