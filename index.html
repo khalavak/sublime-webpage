@@ -6500,9 +6500,9 @@
 
           if (data.maintenance_costs?.yearly) {
             const yearly = data.maintenance_costs.yearly;
-            document.getElementById('core-maintenance').textContent = formatCurrency(yearly.maintenance_cost);
-            document.getElementById('core-support').textContent = formatCurrency(yearly.end_user_support_cost);
-            document.getElementById('core-productivity').textContent = formatCurrency(yearly.end_user_worktime_lost);
+            document.getElementById('core-maintenance').textContent = formatCurrency(yearly.itmaintenance_cost_eur);
+            document.getElementById('core-support').textContent = formatCurrency(yearly.helpdesk_support_cost);
+            document.getElementById('core-productivity').textContent = formatCurrency(yearly.end_user_worktime_lost_cost);
             // document.getElementById('core-triage').textContent = formatCurrency(yearly.alert_triage_cost);
           }
 
@@ -6543,9 +6543,9 @@
 
           if (data.maintenance_costs?.yearly) {
             const yearly = data.maintenance_costs.yearly;
-            document.getElementById('complete-maintenance').textContent = formatCurrency(yearly.maintenance_cost);
-            document.getElementById('complete-support').textContent = formatCurrency(yearly.end_user_support_cost);
-            document.getElementById('complete-productivity').textContent = formatCurrency(yearly.end_user_worktime_lost);
+            document.getElementById('complete-maintenance').textContent = formatCurrency(yearly.itmaintenance_cost_eur);
+            document.getElementById('complete-support').textContent = formatCurrency(yearly.helpdesk_support_cost);
+            document.getElementById('complete-productivity').textContent = formatCurrency(yearly.enduser_worktime_lost_cost);
             document.getElementById('complete-triage').textContent = formatCurrency(yearly.alert_triage_cost);
           }
 
