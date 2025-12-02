@@ -3803,6 +3803,53 @@
               </div>
             </div> -->
 
+            <!-- ROI Analysis for CORE -->
+            <div id="core-roi-section" class="mb-6 p-6 bg-white/5 rounded-xl border border-white/10">
+              <h4 class="text-lg font-semibold text-white mb-4">Estimated Annual Impact</h4>
+
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between items-center pb-2 border-b border-white/10">
+                  <span class="text-white/70">Investment to Managed Email Core protection</span>
+                  <span class="font-bold text-sofecta-primary" id="core-investment">-</span>
+                </div>
+
+                <div class="mt-4">
+                  <p class="text-white/90 font-medium mb-2">Savings in daily operation (Net Income):</p>
+                  <div class="space-y-2 ml-4">
+                    <div class="flex justify-between items-center">
+                      <span class="text-white/60">Elimination of Rule Maintenance and Tuning</span>
+                      <span class="text-white/80" id="core-maintenance">-</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-white/60">Less End-User Support (IT or Helpdesk)</span>
+                      <span class="text-white/80" id="core-support">-</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-white/60">End-User Productivity Gain</span>
+                      <span class="text-white/80" id="core-productivity">-</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-3 border-t border-white/20">
+                  <span class="text-white font-semibold">Annual Net Income</span>
+                  <span class="font-bold text-lg" id="core-net-income">-</span>
+                </div>
+
+                <div class="flex justify-between items-center">
+                  <span class="text-white font-semibold">ROI</span>
+                  <span class="font-bold text-lg text-sofecta-primary" id="core-roi">-</span>
+                </div>
+              </div>
+
+              <p class="text-xs text-white/50 mt-4 italic">
+                *This is an estimate based on typical reductions in rule maintenance, alert noise, helpdesk
+                load, and email-driven incidents for similar organizations. NOTE: The calculation does not
+                include savings from prevented incidents such as BEC, supplier compromise, or credential
+                theft, which can cost an organization tens of thousands per year.
+              </p>
+            </div>
+
             <a
               href="#demo"
               class="block text-center bg-gray-100 hover:bg-gray-200 text-sofecta-dark font-bold py-4 rounded-xl smooth-transition"
@@ -3991,6 +4038,57 @@
                   </div>
                 </div>
               </div> -->
+
+              <!-- ROI Analysis for COMPLETE -->
+              <div id="complete-roi-section" class="mb-6 p-6 bg-white/5 rounded-xl border border-sofecta-primary/30">
+                <h4 class="text-lg font-semibold text-white mb-4">Estimated Annual Impact</h4>
+
+                <div class="space-y-3 text-sm">
+                  <div class="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span class="text-white/70">Investment to Managed Email Complete protection</span>
+                    <span class="font-bold text-sofecta-primary" id="complete-investment">-</span>
+                  </div>
+
+                  <div class="mt-4">
+                    <p class="text-white/90 font-medium mb-2">Savings in daily operation (Net Income):</p>
+                    <div class="space-y-2 ml-4">
+                      <div class="flex justify-between items-center">
+                        <span class="text-white/60">Elimination of Rule Maintenance and Tuning</span>
+                        <span class="text-white/80" id="complete-maintenance">-</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-white/60">Less End-User Support (IT or Helpdesk)</span>
+                        <span class="text-white/80" id="complete-support">-</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-white/60">End-User Productivity Gain</span>
+                        <span class="text-white/80" id="complete-productivity">-</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-white/60">Reduced Alert Noise and Manual Triage</span>
+                        <span class="text-white/80" id="complete-triage">-</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between items-center pt-3 border-t border-white/20">
+                    <span class="text-white font-semibold">Annual Net Income</span>
+                    <span class="font-bold text-lg" id="complete-net-income">-</span>
+                  </div>
+
+                  <div class="flex justify-between items-center">
+                    <span class="text-white font-semibold">ROI</span>
+                    <span class="font-bold text-lg text-sofecta-primary" id="complete-roi">-</span>
+                  </div>
+                </div>
+
+                <p class="text-xs text-white/50 mt-4 italic">
+                  *This is an estimate based on typical reductions in rule maintenance, alert noise, helpdesk
+                  load, and email-driven incidents for similar organizations. NOTE: The calculation does not
+                  include savings from prevented incidents such as BEC, supplier compromise, or credential
+                  theft, which can cost an organization tens of thousands per year.
+                </p>
+              </div>
 
               <a
                 href="#demo"
@@ -6384,6 +6482,109 @@
           }
         }
 
+        // Function to format currency
+        function formatCurrency(value) {
+          // Handle negative values
+          const isNegative = parseFloat(value) < 0;
+          const absValue = Math.abs(parseFloat(value));
+          const formatted = absValue.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).replace(/,/g, ' ');
+          return isNegative ? `-${formatted} €/year` : `${formatted} €/year`;
+        }
+
+        // Function to update ROI display
+        function updateROIDisplay(data) {
+          if (!data) return;
+
+          // Update CORE package
+          if (data.product_costs?.core_package) {
+            const coreInvestment = data.product_costs.core_package.yearly_total;
+            document.getElementById('core-investment').textContent = formatCurrency(coreInvestment);
+          }
+
+          if (data.maintenance_costs?.yearly) {
+            const yearly = data.maintenance_costs.yearly;
+            document.getElementById('core-maintenance').textContent = formatCurrency(yearly.maintenance_cost);
+            document.getElementById('core-support').textContent = formatCurrency(yearly.end_user_support_cost);
+            document.getElementById('core-productivity').textContent = formatCurrency(yearly.end_user_worktime_lost);
+            // document.getElementById('core-triage').textContent = formatCurrency(yearly.alert_triage_cost);
+          }
+
+          if (data.roi_analysis?.core_package) {
+            const coreROI = data.roi_analysis.core_package;
+            const netIncome = parseFloat(coreROI.net_income_yearly);
+            const netIncomeElem = document.getElementById('core-net-income');
+            netIncomeElem.textContent = formatCurrency(coreROI.net_income_yearly);
+
+            // Color based on positive/negative
+            if (netIncome >= 0) {
+              netIncomeElem.classList.add('text-green-400');
+              netIncomeElem.classList.remove('text-red-400');
+            } else {
+              netIncomeElem.classList.add('text-red-400');
+              netIncomeElem.classList.remove('text-green-400');
+            }
+
+            const roiValue = coreROI.roi_percentage;
+            const roiElem = document.getElementById('core-roi');
+            roiElem.textContent = roiValue;
+
+            // Color ROI based on positive/negative
+            if (parseFloat(roiValue) >= 0) {
+              roiElem.classList.add('text-green-400');
+              roiElem.classList.remove('text-red-400');
+            } else {
+              roiElem.classList.add('text-red-400');
+              roiElem.classList.remove('text-green-400');
+            }
+          }
+
+          // Update COMPLETE package
+          if (data.product_costs?.complete_package) {
+            const completeInvestment = data.product_costs.complete_package.yearly_total;
+            document.getElementById('complete-investment').textContent = formatCurrency(completeInvestment);
+          }
+
+          if (data.maintenance_costs?.yearly) {
+            const yearly = data.maintenance_costs.yearly;
+            document.getElementById('complete-maintenance').textContent = formatCurrency(yearly.maintenance_cost);
+            document.getElementById('complete-support').textContent = formatCurrency(yearly.end_user_support_cost);
+            document.getElementById('complete-productivity').textContent = formatCurrency(yearly.end_user_worktime_lost);
+            document.getElementById('complete-triage').textContent = formatCurrency(yearly.alert_triage_cost);
+          }
+
+          if (data.roi_analysis?.complete_package) {
+            const completeROI = data.roi_analysis.complete_package;
+            const netIncome = parseFloat(completeROI.net_income_yearly);
+            const netIncomeElem = document.getElementById('complete-net-income');
+            netIncomeElem.textContent = formatCurrency(completeROI.net_income_yearly);
+
+            // Color based on positive/negative
+            if (netIncome >= 0) {
+              netIncomeElem.classList.add('text-green-400');
+              netIncomeElem.classList.remove('text-red-400');
+            } else {
+              netIncomeElem.classList.add('text-red-400');
+              netIncomeElem.classList.remove('text-green-400');
+            }
+
+            const roiValue = completeROI.roi_percentage;
+            const roiElem = document.getElementById('complete-roi');
+            roiElem.textContent = roiValue;
+
+            // Color ROI based on positive/negative
+            if (parseFloat(roiValue) >= 0) {
+              roiElem.classList.add('text-green-400');
+              roiElem.classList.remove('text-red-400');
+            } else {
+              roiElem.classList.add('text-red-400');
+              roiElem.classList.remove('text-green-400');
+            }
+          }
+        }
+
         // Function to send webhook
         async function sendInboxWebhook(mailboxCount) {
           try {
@@ -6400,6 +6601,9 @@
 
             const data = await response.json();
             console.log("Webhook response:", data);
+
+            // Update ROI display with the response data
+            updateROIDisplay(data);
           } catch (error) {
             console.error("Webhook error:", error);
           }
@@ -6416,7 +6620,12 @@
         // Sync slider -> input and send webhook
         if (inboxRange && inboxInput) {
           // Initialize display
-          updateTierDisplay(parseInt(inboxInput.value));
+          const initialValue = parseInt(inboxInput.value);
+          updateTierDisplay(initialValue);
+
+          // Load initial ROI data on page load
+          console.log('Loading initial ROI data for', initialValue, 'inboxes');
+          sendInboxWebhook(initialValue);
 
           inboxRange.addEventListener("input", (e) => {
             const value = parseInt(e.target.value);
