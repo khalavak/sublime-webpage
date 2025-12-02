@@ -1,1286 +1,2288 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sofecta Labs | Managed Email Protection with Sublime</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&family=DM+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-                'sofecta-deep-dark': '#000000',
-                'sofecta-dark-bg': '#0a192f',
-                'sofecta-navy': '#112240',
-                'sofecta-light-navy': '#233554',
-                'sofecta-accent-yellow': '#FFC107',
-                'sofecta-text-light': '#ccd6f6',
-                'sofecta-text-medium': '#8892b0',
-                'sofecta-heart': '#CC1100',
-                'sofecta-white': '#e6f1ff',
-                // Brand Colors for the new chart
-                'brand-linkedin': '#0a66c2',
-                'brand-dhl': '#f37521',
-                'brand-google': '#4285f4',
-                'brand-microsoft': '#f25022',
-                'brand-fedex': '#660099',
-            }
-          }
+              "sofecta-primary": "#ffa300",
+              "sofecta-dark": "#222220",
+              "sofecta-very-dark": "#0e0e0e",
+              "sofecta-light": "#fffefe",
+              "sofecta-cyan": "#94DEE8",
+              "sofecta-accent": "#FFC107",
+            },
+            fontFamily: {
+              readex: ["Readex Pro", "sans-serif"],
+              dm: ["DM Sans", "sans-serif"],
+            },
+          },
         },
-        corePlugins: {
-          preflight: false, // This is the key to preventing conflicts!
-        }
-      }
+      };
     </script>
-
     <style>
-    /* --- MASTER STYLESHEET --- */
-    :root {
-        --sofecta-deep-dark: #000000;
-        --sofecta-dark-bg: #0a192f;
-        --sofecta-navy: #112240;
-        --sofecta-light-navy: #233554;
-        --sofecta-accent-yellow: #FFC107;
-        --sofecta-accent-blue: #FFC107;
-        --sofecta-text-light: #ccd6f6;
-        --sofecta-text-medium: #8892b0;
-        --sofecta-heart: #CC1100;
-        --sofecta-white: #e6f1ff;
-        --sofecta-border-radius: 8px;
-        --font-family-main: 'Roboto', sans-serif;
-        /* Brand Colors */
-        --brand-linkedin: #0a66c2;
-        --brand-dhl: #f37521;
-        --brand-google: #4285f4;
-        --brand-microsoft: #f25022;
-        --brand-fedex: #660099;
-    }
-
-    html { 
-        scroll-behavior: smooth;
-        scroll-padding-top: 80px; /* Adjust for header height */
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body { background-color: var(--sofecta-dark-bg); color: var(--sofecta-text-light); font-family: var(--font-family-main); line-height: 1.6; }
-    body.no-scroll { overflow: hidden; }
-
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-    
-    h1, h2, h3, h4 { color: var(--sofecta-white); margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.8rem; }
-    h4 { font-size: 1.2rem; color: var(--sofecta-accent-yellow); }
-    p { margin-bottom: 20px; color: var(--sofecta-text-medium); font-size: 1.1rem; }
-    
-    section { padding: 60px 0; border-bottom: 1px solid var(--sofecta-light-navy); }
-    section:last-of-type, .hero { border-bottom: none; }
-    .text-accent { color: var(--sofecta-accent-yellow); }
-
-    .main-header { background-color: var(--sofecta-deep-dark); padding: 15px 0; border-bottom: 1px solid var(--sofecta-light-navy); position: sticky; top: 0; z-index: 1000; }
-    .main-header .container { display: flex; justify-content: space-between; align-items: center; }
-    .logo img { height: 45px; }
-
-    .main-nav { display: none; }
-    .main-nav ul { display: flex; list-style: none; align-items: center; }
-    .main-nav li { margin-left: 25px; }
-    .main-nav a { color: var(--sofecta-text-light); text-decoration: none; font-weight: 500; transition: color 0.3s ease; font-size: 0.9rem; }
-    .main-nav a:hover, .main-nav a.active { color: var(--sofecta-accent-yellow); }
-
-    .menu-toggle { display: block; font-size: 2rem; color: var(--sofecta-text-light); background: none; border: none; cursor: pointer; z-index: 1100; }
-    .mobile-nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--sofecta-deep-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; z-index: 1050; }
-    .mobile-nav.active { right: 0; }
-    .mobile-nav ul { list-style: none; text-align: center; }
-    .mobile-nav li { margin: 20px 0; }
-    .mobile-nav a { color: var(--sofecta-white); text-decoration: none; font-size: 1.5rem; font-weight: 500; }
-
-    .partner-logos { display: flex; justify-content: center; align-items: center; gap: 25px; }
-    .partner-logos .ri-heart-fill { font-size: 60px; color: var(--sofecta-heart); }
-
-    .btn { display: inline-block; padding: 10px 20px; border-radius: var(--sofecta-border-radius); text-decoration: none; font-weight: 700; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
-    .btn-primary { background-color: var(--sofecta-accent-blue); color: var(--sofecta-deep-dark); border-color: var(--sofecta-accent-blue); }
-    .btn-primary:hover { background-color: transparent; color: var(--sofecta-accent-blue); }
-    .btn-full { width: 100%; }
-
-    /* --- NEW HEADER HERO (Specific for top of page) --- */
-    .hero-head {
-        text-align: center;
-        padding: 140px 0 100px 0; /* Taller padding for top impact */
-        position: relative;
-        background-color: var(--sofecta-dark-bg);
-        background-image: 
-            linear-gradient(to bottom, rgba(10, 25, 47, 0.50) 0%, var(--sofecta-dark-bg) 100%),
-            url('assets/background.png');
-        background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
-        background-position: center center, center -200px;
-    }
-
-    .hero-head h1, 
-    .hero-head .subtitle, 
-    .hero-head .partner-logos {
-        position: relative;
-        z-index: 2;
-        text-shadow: 0 4px 8px rgba(0,0,0,0.6);
-    }
-    
-    .hero-head .subtitle {
-        font-size: 1.35rem;
-        color: var(--sofecta-text-light);
-        max-width: 800px; 
-        margin: 0 auto 30px auto;
-    }
-
-    .hero { text-align: center; padding: 80px 0; }
-    .hero .subtitle { font-size: 1.25rem; color: var(--sofecta-text-medium); max-width: 800px; margin: 0 auto 30px auto; }
-    
-    /* --- CARD STYLES: Non-Hover Base --- */
-    .info-card { 
-        background-color: var(--sofecta-navy); 
-        padding: 40px 25px; 
-        border-radius: var(--sofecta-border-radius); 
-        text-align: center; 
-        max-width: 900px; 
-        margin: 0 auto;
-        /* Explicitly no border or transition */
-        border: none;
-        transition: none;
-    }
-    
-    .grid-card {
-        background-color: var(--sofecta-navy);
-        padding: 30px;
-        border-radius: var(--sofecta-border-radius);
-        text-align: center;
-        /* Explicitly no border or transition */
-        border: none;
-        transition: none;
-    }
-
-    /* --- CARD STYLES: Hover Enabled --- */
-    .info-card-hover { 
-        background-color: var(--sofecta-navy); 
-        padding: 40px 25px; 
-        border-radius: var(--sofecta-border-radius); 
-        text-align: center; 
-        max-width: 900px; 
-        margin: 0 auto;
-        border: 1px solid var(--sofecta-light-navy);
-        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .grid-card-hover {
-        background-color: var(--sofecta-navy);
-        padding: 30px;
-        border-radius: var(--sofecta-border-radius);
-        text-align: center;
-        border: 1px solid var(--sofecta-light-navy);
-        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Collective hover selector for all hoverable cards */
-    .grid-card-hover:hover, 
-    .info-card-hover:hover, 
-    .use-case-card:hover, 
-    .stat-card:hover
-    { 
-        border-color: var(--sofecta-accent-yellow);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.2); 
-    }
-
-    .grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-
-    .card-icon { font-size: 2.5rem; color: var(--sofecta-accent-blue); margin-bottom: 15px; }
-
-    .table-wrapper { overflow-x: auto; }
-    .comparison-table { width: 100%; margin-top: 40px; border-collapse: collapse; background-color: var(--sofecta-navy); border-radius: var(--sofecta-border-radius); min-width: 800px; }
-    .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border: 1px solid var(--sofecta-light-navy); }
-
-    .use-case-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-    .use-case-card { 
-        background-color: var(--sofecta-navy); 
-        padding: 30px; 
-        border-radius: var(--sofecta-border-radius);
-        border: 1px solid var(--sofecta-light-navy);
-        transition: border-color 0.3s ease, transform 0.3s ease;
-    }
-    
-    .stat-card {
-        border: 1px solid var(--sofecta-light-navy);
-        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .use-case-cols { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    .use-case-cols h5 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-    .use-case-cols .fail i { color: #e57373; }
-    .use-case-cols .success i { color: #81c784; }
-
-    blockquote { border-left: 3px solid var(--sofecta-accent-yellow); padding-left: 20px; margin-top: 20px; font-style: italic; color: var(--sofecta-text-medium); }
-    blockquote footer { color: var(--sofecta-text-medium); font-style: normal; margin-top: 5px; }
-
-    .main-footer { background-color: var(--sofecta-deep-dark); padding: 40px 0; text-align: center; border-top: 1px solid var(--sofecta-light-navy); font-size: 0.9rem; color: var(--sofecta-text-medium); }
-    .faq-item { 
-        margin-bottom: 20px; 
-        background-color: var(--sofecta-navy);
-        border: 1px solid var(--sofecta-light-navy);
-        border-radius: var(--sofecta-border-radius);
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    .faq-item:hover {
-        border-color: var(--sofecta-accent-yellow);
-    }
-    .faq-question {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 25px;
-        cursor: pointer;
-        user-select: none;
-        transition: background-color 0.3s ease;
-    }
-    .faq-question:hover {
-        background-color: var(--sofecta-light-navy);
-    }
-    .faq-question h4 {
+      * {
         margin: 0;
-        font-size: 1.1rem;
-        color: var(--sofecta-white);
-        flex: 1;
-        padding-right: 15px;
-    }
-    .faq-icon {
-        font-size: 1.5rem;
-        color: var(--sofecta-accent-yellow);
-        transition: transform 0.3s ease;
-        flex-shrink: 0;
-    }
-    .faq-item.active .faq-icon {
-        transform: rotate(45deg);
-    }
-    .faq-answer {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
-    }
-    .faq-item.active .faq-answer {
-        max-height: 500px;
-        padding: 20px 25px 20px 25px; 
-    }
-    .faq-answer p {
-        margin: 0;
-        color: var(--sofecta-text-medium);
-        line-height: 1.6;
-    }
-    .resource-links { 
-        display: grid; 
-        grid-template-columns: 1fr; 
-        gap: 20px; 
-        margin: 30px 0; 
-    }
-    
-    .resource-link-card { 
-        background-color: var(--sofecta-light-navy); 
-        padding: 25px; 
-        border-radius: var(--sofecta-border-radius); 
-        border: 1px solid var(--sofecta-light-navy);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-    
-    .resource-link-card:hover {
-        border-color: var(--sofecta-accent-yellow);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.2);
-    }
-    
-    .resource-icon {
-        font-size: 2.5rem;
-        color: var(--sofecta-accent-yellow);
-        flex-shrink: 0;
-    }
-    
-    .resource-content h4 {
-        margin: 0 0 8px 0;
-        color: var(--sofecta-white);
-        font-size: 1.2rem;
-    }
-    
-    .resource-content p {
-        margin: 0;
-        color: var(--sofecta-text-medium);
-        font-size: 0.95rem;
-    }
-
-    /* New Pricing Section Styles */
-    .pricing-grid {
-        display: grid; 
-        grid-template-columns: 1fr;
-        gap: 40px; 
-        margin-top: 40px;
-    }
-
-    .package-card {
-        background-color: var(--sofecta-navy);
-        border: 1px solid var(--sofecta-light-navy);
-        border-radius: var(--sofecta-border-radius);
-        padding: 30px;
-        position: relative;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: column;
-    }
-
-    .package-content {
-        flex-grow: 1;
-    }
-
-    .package-card:hover {
-        border-color: var(--sofecta-accent-yellow);
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
-        transform: translateY(-5px);
-    }
-
-    .package-card h3 {
-        color: var(--sofecta-accent-yellow);
-        margin-bottom: 15px;
-        font-size: 1.6rem;
-    }
-
-    .package-card .package-description {
-        font-style: italic;
-        font-size: 0.95rem;
-        color: var(--sofecta-text-medium);
-        margin-bottom: 25px;
-        border-bottom: 1px dashed var(--sofecta-light-navy);
-        padding-bottom: 20px;
-    }
-
-    .feature-list {
-        margin-bottom: 30px;
-    }
-
-    .feature-list h4 {
-        color: var(--sofecta-white);
-        font-size: 1.2rem;
-        margin-top: 0;
-        margin-bottom: 15px;
-        border-left: 3px solid var(--sofecta-accent-yellow);
-        padding-left: 15px;
-    }
-
-    .feature-list ul {
-        list-style: none;
         padding: 0;
-    }
+        box-sizing: border-box;
+      }
 
-    .feature-list li {
-        display: flex;
-        align-items: flex-start;
-        color: var(--sofecta-text-light);
-        margin-bottom: 12px;
-        font-size: 1rem;
-        line-height: 1.4;
-    }
+      body {
+        font-family: "Readex Pro", sans-serif;
+        background: #0e0e0e;
+        color: #fff;
+      }
 
-    .feature-list li i {
-        color: #81c784; /* Success color for checkmark */
-        font-size: 1.2rem;
-        margin-right: 10px;
-        flex-shrink: 0;
-        margin-top: 3px;
-    }
+      h1,
+      h2 {
+        font-family: "Readex Pro", sans-serif;
+      }
 
-    .feature-list li strong {
-        color: var(--sofecta-white);
-    }
+      .gradient-text {
+        background: linear-gradient(135deg, #ffa300 0%, #94dee8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-    .complete-list .list-subtitle {
-        color: var(--sofecta-accent-yellow);
-        font-weight: 500;
-        font-size: 1rem;
-        margin-top: -10px;
-        margin-bottom: 20px;
-    }
+      .card-glow {
+        position: relative;
+        overflow: hidden;
+      }
 
-    .pricing-heading {
-        border-top: 1px solid var(--sofecta-light-navy);
-        padding-top: 20px;
-        margin-bottom: 15px;
-    }
-
-    .pricing-tiers {
-        background-color: var(--sofecta-light-navy);
-        padding: 20px;
-        border-radius: var(--sofecta-border-radius);
-    }
-
-    .tier-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0;
-        font-size: 1rem;
-        border-bottom: 1px dashed var(--sofecta-navy);
-    }
-
-    .tier-item:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .tier-item span {
-        color: var(--sofecta-text-light);
-    }
-
-    .tier-item .price-value {
-        color: var(--sofecta-accent-yellow);
-        font-weight: 700;
-        font-size: 1.1rem;
-    }
-
-    .badge {
+      .card-glow::before {
+        content: "";
         position: absolute;
-        top: -15px;
-        right: 20px;
-        background-color: var(--sofecta-accent-yellow);
-        color: var(--sofecta-deep-dark);
-        font-weight: 700;
-        padding: 4px 12px;
-        border-radius: var(--sofecta-border-radius);
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 163, 0, 0.1),
+          rgba(148, 222, 232, 0.1)
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
 
-    .package-card .btn-full {
-        margin-top: 1rem;
-    }
+      .card-glow:hover::before {
+        opacity: 1;
+      }
 
-    /* Custom CSS for Charts */
-        .donut-chart-container { width: 100%; padding-bottom: 100%; position: relative; border-radius: 9999px; overflow: visible; background-color: transparent; box-shadow: 0 0 0 8px var(--sofecta-light-navy); }
-        .donut-chart-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; }
-        .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; background-color: var(--sofecta-dark-bg); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); }
-        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; color: var(--sofecta-text-light); }
+      .smooth-transition {
+        transition: all 0.3s ease;
+      }
 
-        /* Generic Bar Chart styles */
-        .chart-bar-container { width: 100%; background-color: var(--sofecta-light-navy); border-radius: 9999px; height: 12px; overflow: hidden; }
-        .chart-bar { height: 100%; transition: width 1s ease-out; border-radius: 9999px; }
-        /* End Custom CSS For Charts */
+      details summary::-webkit-details-marker {
+        display: none;
+      }
 
-    /* Responsive Adjustments */
-    @media (min-width: 769px) {
-        .menu-toggle { display: none; }
-        .main-nav { display: block; }
-        .logo img { height: 50px; }
+      details summary {
+        cursor: pointer;
+      }
 
-        h1 { font-size: 3.2rem; }
-        h2 { font-size: 2.5rem; }
-        h3 { font-size: 1.8rem; }
+      .active-tab {
+        border-left: 4px solid #ffa300;
+        background: rgba(255, 163, 0, 0.1);
+      }
 
-        .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .grid.five-col { grid-template-columns: repeat(5, 1fr); gap: 20px; }
-        
-        .use-case-container { grid-template-columns: repeat(2, 1fr); }
-        .use-case-cols { grid-template-columns: 1fr 1fr; }
+      .scenario-active-tab {
+        border: 2px solid #ffa300 !important;
+        background: rgba(255, 163, 0, 0.15);
+      }
 
-        .resource-links { 
-            grid-template-columns: repeat(2, 1fr); 
-        }
+      .scenario-tab {
+        transition: all 0.3s ease;
+      }
 
-        .pricing-grid { 
-            grid-template-columns: 1fr 1fr; 
-        }
+      .scenario-tab:hover:not(.scenario-active-tab) {
+        border-color: rgba(255, 163, 0, 0.3) !important;
+      }
 
-        .trust-grid {
-            grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
-            gap: 30px;
-        }
+      .hero-gradient {
+        background: radial-gradient(
+            ellipse at top,
+            rgba(255, 163, 0, 0.05),
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at bottom,
+            rgba(255, 163, 0, 0.1),
+            transparent 50%
+          );
+      }
 
-        /* Target the last element explicitly to center it in a two-column span */
-        .trust-grid .grid-card-hover:last-child {
-            grid-column: 1 / -1; /* Span all columns */
-            max-width: 600px; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        /* Ensure the single card maintains margin for centering on mobile */
-        .trust-grid .grid-card-hover:last-child {
-            max-width: 600px; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
+      .hero-background {
+        background: url("assets/background.png") no-repeat center center;
+        background-size: cover;
+      }
     </style>
-</head>
-<body>
-    <header class="main-header">
-        <div class="container">
-            <a href="#hero-head" class="logo"><img src="assets/sofecta-logo-full-color.png" alt="Sofecta Labs Logo"></a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#hero-head">Home</a></li>
-                    <li><a href="#challenge">The Challenge</a></li>
-                    <li><a href="#solution">Our Solution</a></li>
-                    <li><a href="#benefits">Benefits</a></li>
-                    <li><a href="#why-us">Why Us</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#results">Results</a></li>
-                    <li><a href="#differentiators">Key Differentiators</a></li>
-                    <li><a href="#use-cases">Use Cases</a></li>
-                    <li><a href="#trust">Trust</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#resources">Resources</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
-                </ul>
-            </nav>
-            <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
+  </head>
+  <body class="antialiased">
+    <header
+      class="bg-sofecta-very-dark fixed w-full z-10 border-b border-sofecta-dark"
+    >
+      <nav
+        aria-label="Global"
+        class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+      >
+        <div class="flex lg:flex-1">
+          <a href="#" class="-m-1.5 p-1.5">
+            <img
+              src="assets/sofecta-logo-full-color.png"
+              alt=""
+              class="h-12 w-auto"
+            />
+          </a>
         </div>
+        <div class="flex lg:hidden">
+          <button
+            type="button"
+            command="show-modal"
+            commandfor="mobile-menu"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
+            onclick="showMobileMenu()"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              data-slot="icon"
+              aria-hidden="true"
+              class="size-6"
+            >
+              <path
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="hidden lg:flex lg:gap-x-12">
+          <a href="#statistics" class="text-base font-normal text-white"
+            >Statistics</a
+          >
+          <a href="#why-need" class="text-base font-normal text-white"
+            >Why You Need This</a
+          >
+          <a href="#how-it-works" class="text-base font-normal text-white"
+            >How It Works</a
+          >
+          <a href="#what-you-get" class="text-base font-normal text-white"
+            >What You Get</a
+          >
+          <a href="#pricing" class="text-base font-normal text-white"
+            >Pricing</a
+          >
+          <a href="#faq" class="text-base font-normal text-white">FAQ</a>
+        </div>
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <button
+            type="button"
+            class="rounded-full uppercase bg-sofecta-primary px-3.5 py-2.5 text-sm font-normal text-sofecta-very-dark hover:bg-sofecta-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sofecta-primary"
+          >
+            Book a Demo
+          </button>
+        </div>
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          class="hidden lg:hidden fixed inset-0 z-50 overflow-y-auto"
+        >
+          <div class="fixed inset-0 z-50 bg-sofecta-very-dark/70"></div>
+          <div
+            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-sofecta-very-dark px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+          >
+            <div class="flex items-center justify-between">
+              <a href="#" class="-m-1.5 p-1.5">
+                <div class="h-12 w-auto">
+                  <img
+                    src="assets/sofecta-logo-full-color.png"
+                    alt=""
+                    class="h-full w-auto"
+                  />
+                </div>
+              </a>
+              <button
+                type="button"
+                class="-m-2.5 rounded-md p-2.5 text-white/70"
+                onclick="closeMobileMenu()"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  data-slot="icon"
+                  class="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div class="mt-6 divide-y divide-gray-500/10">
+              <a
+                onclick="closeMobileMenu()"
+                href="#statistics"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Statistics</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#why-need"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Why You Need This</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#how-it-works"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >How It Works</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#what-you-get"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >What You Get</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#pricing"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >Pricing</a
+              >
+              <a
+                onclick="closeMobileMenu()"
+                href="#faq"
+                class="-mx-3 block px-3 py-2 text-base/7 font-normal text-white/70 hover:text-sofecta-primary"
+                >FAQ</a
+              >
+            </div>
+            <button
+              type="button"
+              class="mt-6 rounded-full uppercase bg-sofecta-primary px-3.5 py-2.5 text-sm font-normal text-sofecta-very-dark hover:bg-sofecta-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sofecta-primary"
+            >
+              Book a Demo
+            </button>
+          </div>
+        </div>
+      </nav>
     </header>
+    <section
+      class="pt-20 relative text-white overflow-hidden border-b border-sofecta-dark hero-background"
+    >
+      <div class="absolute w-full h-full bg-black/60 hero-gradient"></div>
+      <div class="absolute inset-0 overflow-hidden">
+        <div
+          class="absolute w-96 h-96 -top-48 -left-48 bg-sofecta-primary/10 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute w-96 h-96 top-1/2 -right-48 bg-sofecta-primary/10 rounded-full blur-3xl"
+        ></div>
+      </div>
 
-    <nav class="mobile-nav" id="mobile-nav">
-        <ul>
-            <li><a href="#hero-head">Home</a></li>
-            <li><a href="#challenge">The Challenge</a></li>
-            <li><a href="#solution">Our Solution</a></li>
-            <li><a href="#benefits">Benefits</a></li>
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#results">Results</a></li>
-            <li><a href="#differentiators">Key Differentiators</a></li>
-            <li><a href="#use-cases">Use Cases</a></li>
-            <li><a href="#trust">Trust</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact" class="btn btn-primary">Schedule a Demo</a></li>
-
-        </ul>
-    </nav>
-
-    <main>
-        <section id="hero-head" class="hero-head">
-            <div class="container">
-                <h1>Managed Email Protection – Built to <span class="text-accent">Protect Your Business</span></h1>
-                <p class="subtitle">Email remains the #1 attack vector. The threats such as sophisticated phishing, business email compromise (BEC), and credential theft bypass legacy filters every day.</p>
-                <p class="subtitle">Our Managed Email Protection service protects your organization from evolving email threats—powered by the Sublime Security platform and backed by our 24/7 security experts.</p>
-                <div class="partner-logos">
-                    <img src="assets/sofecta-logo-full-color-mdr.png" alt="Sofecta Labs" style="height: 80px;">
-                    <i class="ri-heart-fill"></i>
-                    <img src="assets/sublime-logo.png" alt="Sublime Security" style="height: 45px;">
-                </div>
+      <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-32">
+        <div class="grid lg:grid-cols-1 gap-8 items-center">
+          <div>
+            <div>
+              <h1
+                class="text-5xl lg:text-7xl font-normal mb-12 leading-tight text-center"
+              >
+                Managed Email Protection <br />
+                Built to
+                <span class="text-sofecta-primary">Protect Your Business</span>
+              </h1>
+              <p
+                class="text-xl text-gray-300 mb-12 leading-relaxed text-center"
+              >
+                Email remains the #1 attack vector. The threats such as
+                sophisticated phishing, business email compromise (BEC), and
+                credential theft bypass legacy filters every day.
+              </p>
+              <p
+                class="text-xl text-gray-300 mb-12 leading-relaxed text-center"
+              >
+                Our Managed Email Protection service protects your organization
+                from evolving email threats—powered by the Sublime Security
+                platform and backed by our 24/7 security experts.
+              </p>
             </div>
-        </section>
-
-        <section id="statistics" class="hero">
-            <div class="container">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 text-sofecta-white">
-                    Email Attack Statistics
-                </h2>
-                <div class="mt-16">
-                    <h3 class="text-2xl font-bold text-center mb-4">Executive Email Threat Summary</h3>
-                    <p class="text-center max-w-3xl mx-auto mb-10">In Q1 2025, email threats continued to evolve rapidly, with adversaries demonstrating increased sophistication in both novel attack vectors and evasion techniques.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        
-                        <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
-                            <div class="card-icon"><i class="ri-qr-code-line"></i></div>
-                            <h4 class="text-sofecta-white text-lg font-semibold mb-2">QR Code Phishing</h4>
-                            <p class="text-sofecta-text-medium text-sm">A significant volume of "Quishing" attempts persists, with attackers using increasingly varied evasion techniques to bypass filters.</p>
-                        </div>
-
-                        <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
-                            <div class="card-icon"><i class="ri-key-2-line"></i></div>
-                            <h4 class="text-sofecta-white text-lg font-semibold mb-2">OAuth Phishing</h4>
-                            <p class="text-sofecta-text-medium text-sm">An increasing number of credential theft attempts now target OAuth, using adversary-in-the-middle (AITM) attacks to steal authentication tokens.</p>
-                        </div>
-                        
-                        <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
-                            <div class="card-icon"><i class="ri-cloud-line"></i></div>
-                            <h4 class="text-sofecta-white text-lg font-semibold mb-2">Living Off Trusted Sites</h4>
-                            <p class="text-sofecta-text-medium text-sm">A growing trend of attacks abuse trusted cloud services like Microsoft 365, Google Workspace, DocuSign, and even PayPal.</p>
-                        </div>
-
-                        <div class="p-6 bg-sofecta-navy rounded-xl shadow-lg text-center flex flex-col stat-card">
-                            <div class="card-icon"><i class="ri-robot-2-line"></i></div>
-                            <h4 class="text-sofecta-white text-lg font-semibold mb-2">GenAI Threats</h4>
-                            <p class="text-sofecta-text-medium text-sm">A significant increase in BEC and fraud campaigns leveraging AI-generated content to create tailored attacks at scale.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col items-center stat-card">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
-                            Financial Fraud Claims by Entry Vector
-                        </h3>
-                        <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 w-full max-w-md">
-                            <div id="donut-chart-wrapper" class="w-full max-w-[200px] sm:max-w-[250px] mb-8 md:mb-0 relative">
-                                <div class="donut-chart-container">
-                                    <div id="segments" class="donut-chart-segment"></div>
-                                    <div class="donut-hole"></div>
-                                    <div class="center-text">
-                                        <div id="main-stat-pct" class="text-4xl sm:text-5xl font-extrabold text-sofecta-accent-yellow leading-none"></div>
-                                        <div id="main-stat-label" class="text-base sm:text-lg font-medium mt-1 text-sofecta-text-light"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/2">
-                                <div id="donut-legend" class="space-y-4">
-                                    </div>
-                            </div>
-                        </div>
-                        <p class="text-xs text-sofecta-text-medium text-center mt-6">*Corporate System refers to VPN, RDP, or Remote Access Tools.</p>
-                    </div>
-
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 stat-card">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
-                            Phishing Attacks by Targeted Industry (Top 5)
-                        </h3>
-                        <div id="industry-bar-chart-container" class="space-y-6 pt-2">
-                            </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-                    
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 stat-card">
-                        <h3 class="text-xl font-semibold mb-6 text-sofecta-text-light border-b border-sofecta-light-navy pb-3 w-full text-center">
-                            Top 5 Most Imitated Brands in Phishing
-                        </h3>
-                        <div id="brand-bar-chart-container" class="space-y-6 pt-2">
-                            </div>
-                    </div>
-
-                    <div class="p-6 bg-sofecta-navy rounded-xl shadow-xl shadow-sofecta-light-navy/50 flex flex-col justify-center items-center text-center stat-card">
-                        <p class="text-sofecta-text-medium text-lg font-medium uppercase mb-4 tracking-wider">
-                            BEC Fraud direct losses in 2023
-                        </p>
-                        <div class="text-6xl sm:text-7xl font-extrabold text-sofecta-accent-yellow leading-tight mb-4">
-                            $3B
-                        </div>
-                        <p class="text-sofecta-text-light text-xl font-semibold max-w-sm">
-                            The total losses from BEC scams in 2023 <div><a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2ffe82b40d5a21d392_Threat_Research_Report_G8ESeq7ujKLtPF538LWye.pdf" 
-                                target="_blank" class="resource-link-card"><i class="ri-file-chart-line resource-icon"></i><div class="resource-content"><h4>Sublime Email Threat Report</h4></div></a></div>
-                    </div>
-                </div>
-            </div> 
-        </section>
-
-        <section id="challenge">
-            <div class="container" style="text-align:center;">
-                <h2>The Challenge: Why Legacy Tools Aren't Enough</h2>
-                <p>Attackers are evolving faster than traditional email defences. You need continuous protection and expert response—not another console to manage.</p>
-                <div class="grid five-col">
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-mail-unread-line"></i></div><p>94% of breaches start with an email.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><p>AI-generated attacks bypass static rules.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-filter-off-line"></i></div><p>Built-in filters miss targeted threats.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-time-line"></i></div><p>Internal teams spend countless hours on triage.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-stack-line"></i></div><p>Security requires expertise, not just another tool.</p></div>
-                </div>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                99.9%
+              </div>
+              <div class="text-gray-400">Uptime SLA</div>
             </div>
-        </section>
-
-        <section id="solution">
-            <div class="container" style="text-align:center;">
-                <h2>Our Solution</h2>
-                <p>We deliver a turnkey Managed Service for email protection—combining the powerful detection of Sublime Security with our 24/7 security operations.</p>
-                <h3 style="margin-top: 40px;">How It Works</h3>
-                <div class="grid five-col">
-                    <div class="grid-card-hover"><h4>1. Deploy</h4><p>Quick setup via API integration (no MX changes).</p></div>
-                    <div class="grid-card-hover"><h4>2. Detect</h4><p>Advanced behavioral analytics identify malicious emails.</p></div>
-                    <div class="grid-card-hover"><h4>3. Monitor</h4><p>Our analysts review, investigate, and prioritize all alerts.</p></div>
-                    <div class="grid-card-hover"><h4>4. Respond</h4><p>We take containment actions (quarantine, revoke, alert users).</p></div>
-                    <div class="grid-card-hover"><h4>5. Maintain</h4><p>We manage tuning, updates, and platform optimization on your behalf.</p></div>
-                </div>
-                <p style="margin-top: 40px; font-size: 1.2rem; color: var(--sofecta-text-light);">You get continuous protection, clear reporting, and zero operational burden.</p>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                5 min
+              </div>
+              <div class="text-gray-400">Setup Time</div>
             </div>
-        </section>
-
-        <section id="benefits">
-            <div class="container" style="text-align:center;">
-                <h2>Key Benefits</h2>
-                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-flash-line"></i></div><h4>Lower Your Risk</h4><p>Stop sophisticated attacks like BEC and zero-day phishing that bypass traditional filters.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-user-unfollow-line"></i></div><h4>Lessen Your Burden</h4><p>Eliminate manual triage and maintenance with a fully managed, 24/7 SOC-backed service.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-timer-flash-line"></i></div><h4>Faster Detection</h4><p>Identify and remediate threats in minutes, not hours or days, with automated and human-led responses.</p></div>
-                </div>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                11+
+              </div>
+              <div class="text-gray-400">Core Features</div>
             </div>
-        </section>
-
-        <section id="why-us">
-            <div class="container" style="text-align:center;">
-                <h2>Why Choose Managed Email Protection?</h2>
-                <p>We don't just provide a platform—we operate email protection for you. Compare your situation to our managed service.</p>
-                <div class="table-wrapper">
-                    <table class="comparison-table">
-                        <thead><tr><th>Challenge</th><th>Questions to Ask Yourself</th><th>Our Managed Service</th></tr></thead>
-                        <tbody>
-                            <tr><td>Setup & Config</td><td>Are your tools correctly configured for sophisticated attacks? Do you have time to optimize rules?</td><td>Turnkey API deployment. We handle all setup, tuning, and policy optimization.</td></tr>
-                            <tr><td>Monitoring</td><td>Can your team investigate threats 24/7, including outside business hours?</td><td>Continuous monitoring by expert analysts around the clock so nothing slips through.</td></tr>
-                            <tr><td>Alert Triage</td><td>Are you drowning in false positives or missing alerts due to alert fatigue?</td><td>Human-in-the-loop triage with analyst review ensures accuracy and eliminates alert overload.</td></tr>
-                            <tr><td>Response</td><td>How long does it take your team to contain and remediate an incident?</td><td>Immediate, AI-enhanced + human response. Malicious messages removed before damage occurs.</td></tr>
-                            <tr><td>Maintenance</td><td>Who updates detection rules, retrains AI, or manages integrations as threats evolve?</td><td>We continuously maintain and optimize your protection, adapting to new attack techniques.</td></tr>
-                            <tr><td>Visibility</td><td>Do you have a clear picture of what’s happening in your email environment?</td><td>Full transparency through dashboards and reports, keeping you informed and in control.</td></tr>
-                            <tr><td>Expertise</td><td>Can your IT team keep pace with the volume and sophistication of modern threats?</td><td>Expert SOC team included. Our certified analysts act as an extension of your team without increasing headcount.</td></tr>
-                            <tr><td>ROI</td><td>Are your tools delivering measurable value, or just consuming time and budget?</td><td>Predictable value with quantifiable risk reduction and no hidden operational costs.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div
+              class="text-center p-6 rounded-xl bg-sofecta-dark/50 border-2 border-white/10 backdrop-blur"
+            >
+              <div class="text-4xl font-normal text-sofecta-primary mb-2">
+                GDPR
+              </div>
+              <div class="text-gray-400">Compliant</div>
             </div>
-        </section>
-
-        <section id="features">
-            <div class="container" style="text-align:center;">
-                <h2>Built on Sublime Security — Enterprise-Grade Technology</h2>
-                <p>Our service provides enterprise-grade protection without the complexity and cost, featuring:</p>
-                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-psychotherapy-line"></i></div><h4>Behavioural Analysis</h4><p>Contextual analysis of content, headers, and sender dynamics.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-robot-2-line"></i></div><h4>AI/ML-Driven Detection</h4><p>Finds sophisticated attacks like BEC, credential phishing, and ransomware.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-radar-line"></i></div><h4>Emerging Threat Detection</h4><p>Catches zero-day and GenAI-powered phishing attacks.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Abuse Mailbox Automation</h4><p>Automates the handling of user-reported phishing emails.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-eye-line"></i></div><h4>Transparent Verdicts</h4><p>Provides explainable logic, unlike an opaque "black box".</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-tools-line"></i></div><h4>Customisable Logic</h4><p>Define custom rules tailored to your business needs.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Deployment</h4><p>Go live in minutes via API into M365 / Google Workspace.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>SOC-Ready Reporting</h4><p>Full visibility into mail-based threats and our response.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-node-tree"></i></div><h4>MDR Stack Integration</h4><p>Correlate email alerts with endpoint and network signals.</p></div>
-                </div>
+          </div>
+          <div>
+            <div
+              class="flex flex-col sm:flex-row items-center justify-center gap-6"
+            >
+              <img
+                src="assets/sofecta-logo-full-color-mdr.png"
+                alt="Sofecta Labs"
+                class="h-[80px] w-auto"
+              />
+              <i class="ri-heart-fill text-red-500 text-4xl"></i>
+              <img
+                src="assets/sublime-logo.png"
+                alt="Sublime Security"
+                class="h-[45px] w-auto"
+              />
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section id="results">
-            <div class="container" style="text-align:center;">
-                <h2>Case Studies</h2>
-                <p style="max-width: 800px; margin: 0 auto 40px auto;">
-                    See how Sofecta Labs has transformed email security for diverse organizations. From eliminating alert fatigue to stopping advanced BEC and supply chain attacks, these case studies demonstrate the tangible impact of our managed service.
+    <section class="py-20 bg-sofecta-very-dark" id="statistics">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Email Attack Statistics
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            In Q1 2025, email threats continued to evolve rapidly, with
+            adversaries demonstrating increased sophistication in both novel
+            attack vectors and evasion techniques.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div
+            class="bg-sofecta-dark rounded-2xl border-2 border-white/10 hover:border-sofecta-primary p-6 shadow-lg card-glow smooth-transition hover:shadow-2xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-qr-code-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-2">QR Code Phishing</h3>
+            <p class="text-white/70 mb-4">
+              A significant volume of "Quishing" attempts persists, with
+              attackers using increasingly varied evasion techniques to bypass
+              filters.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl border-2 border-white/10 p-6 hover:border-sofecta-primary shadow-lg card-glow smooth-transition hover:shadow-2xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-key-2-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-2">OAuth Phishing</h3>
+            <p class="text-white/70 mb-4">
+              An increasing number of credential theft attempts now target
+              OAuth, using adversary-in-the-middle (AITM) attacks to steal
+              authentication tokens.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl border-2 border-white/10 p-6 hover:border-sofecta-primary shadow-lg card-glow smooth-transition hover:shadow-2xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-cloud-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-2">Living Off Trusted Sites</h3>
+            <p class="text-white/70 mb-4">
+              A growing trend of attacks abuse trusted cloud services like
+              Microsoft 365, Google Workspace, DocuSign, and even PayPal.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl border-2 border-white/10 p-6 hover:border-sofecta-primary shadow-lg card-glow smooth-transition hover:shadow-2xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-robot-2-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-2">GenAI Threats</h3>
+            <p class="text-white/70 mb-4">
+              A significant increase in BEC and fraud campaigns leveraging
+              AI-generated content to create tailored attacks at scale.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-sofecta-dark rounded-3xl p-8 shadow-xl mb-8">
+          <h3 class="text-3xl font-normal mb-12 text-center">
+            Financial Fraud Claims by Entry Vector
+          </h3>
+          <div class="grid md:grid-cols-5 gap-8">
+            <div class="text-center">
+              <div class="relative w-40 h-40 mx-auto mb-4">
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#4e4e4c"
+                    stroke-width="12"
+                    fill="none"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#ffa300"
+                    stroke-width="12"
+                    fill="none"
+                    stroke-dasharray="439.8"
+                    stroke-dashoffset="74.77"
+                    class="smooth-transition"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-3xl font-normal">83%</div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/70">Email</p>
+            </div>
+
+            <div class="text-center">
+              <div class="relative w-40 h-40 mx-auto mb-4">
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#4e4e4c"
+                    stroke-width="12"
+                    fill="none"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#ffa300"
+                    stroke-width="12"
+                    fill="none"
+                    stroke-dasharray="439.8"
+                    stroke-dashoffset="307.86"
+                    class="smooth-transition"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-3xl font-normal">30%</div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/70">Insured's Vendor or Client</p>
+            </div>
+
+            <div class="text-center">
+              <div class="relative w-40 h-40 mx-auto mb-4">
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#4e4e4c"
+                    stroke-width="12"
+                    fill="none"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#ffa300"
+                    stroke-width="12"
+                    fill="none"
+                    stroke-dasharray="439.8"
+                    stroke-dashoffset="422.21"
+                    class="smooth-transition"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-3xl font-normal">4%</div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/70">
+                Corporate System (VPN, RDP, or Remote Access Tools)
+              </p>
+            </div>
+
+            <div class="text-center">
+              <div class="relative w-40 h-40 mx-auto mb-4">
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#4e4e4c"
+                    stroke-width="12"
+                    fill="none"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#ffa300"
+                    stroke-width="12"
+                    fill="none"
+                    stroke-dasharray="439.8"
+                    stroke-dashoffset="395.82"
+                    class="smooth-transition"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-3xl font-normal">10%</div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/70">Misc. Malicious Incidents</p>
+            </div>
+
+            <div class="text-center">
+              <div class="relative w-40 h-40 mx-auto mb-4">
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#4e4e4c"
+                    stroke-width="12"
+                    fill="none"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    stroke="#ffa300"
+                    stroke-width="12"
+                    fill="none"
+                    stroke-dasharray="439.8"
+                    stroke-dashoffset="431.00"
+                    class="smooth-transition"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-3xl font-normal">2%</div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/70">Other</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-white rounded-3xl p-8 shadow-xl mb-8">
+          <h3 class="text-3xl font-normal mb-12 text-center">
+            Most Targeted Industries
+          </h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-normal">Financial Institutions</span>
+                <span class="font-normal">27.7%</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-3">
+                <div
+                  class="bg-sofecta-primary h-3 rounded-full"
+                  style="width: 100%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-normal">SaaS Industries</span>
+                <span class="font-normal">17.7%</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-3">
+                <div
+                  class="bg-[#bdbdbc] h-3 rounded-full"
+                  style="width: 64%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-normal">Social Media Platforms</span>
+                <span class="font-normal">10.4%</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-3">
+                <div
+                  class="bg-sofecta-primary h-3 rounded-full"
+                  style="width: 37%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-normal">Logistics and Shipping</span>
+                <span class="font-normal">9%</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-3">
+                <div
+                  class="bg-[#bdbdbc] h-3 rounded-full"
+                  style="width: 32%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-normal">Payment Services</span>
+                <span class="font-normal">6%</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-3">
+                <div
+                  class="bg-sofecta-primary h-3 rounded-full"
+                  style="width: 22%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-sofecta-dark border-2 border-white/10 hover:border-sofecta-primary card-glow rounded-3xl p-8 shadow-xl mb-8"
+        >
+          <h3 class="text-3xl font-normal mb-12 text-center">
+            Top 5 Most Imitated Brands in Phishing
+          </h3>
+          <div class="grid md:grid-cols-5 gap-6">
+            <div
+              class="text-center p-6 rounded-xl border border-white/10 bg-sofecta-dark"
+            >
+              <h4 class="font-normal text-lg mb-2">LinkedIn</h4>
+              <p class="text-3xl font-normal text-sofecta-primary">52%</p>
+              <p class="text-sm text-white/70 mt-2">of phishing attacks</p>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl border border-white/10 bg-sofecta-dark"
+            >
+              <h4 class="font-normal text-lg mb-2">DHL</h4>
+              <p class="text-3xl font-normal text-sofecta-primary">14%</p>
+              <p class="text-sm text-white/70 mt-2">of phishing attacks</p>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl border border-white/10 bg-sofecta-dark"
+            >
+              <h4 class="font-normal text-lg mb-2">Google</h4>
+              <p class="text-3xl font-normal text-sofecta-primary">7%</p>
+              <p class="text-sm text-white/70 mt-2">of phishing attacks</p>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl border border-white/10 bg-sofecta-dark"
+            >
+              <h4 class="font-normal text-lg mb-2">Microsoft</h4>
+              <p class="text-3xl font-normal text-sofecta-primary">6%</p>
+              <p class="text-sm text-white/70 mt-2">of phishing attacks</p>
+            </div>
+            <div
+              class="text-center p-6 rounded-xl border border-white/10 bg-sofecta-dark"
+            >
+              <h4 class="font-normal text-lg mb-2">FedEx</h4>
+              <p class="text-3xl font-normal text-sofecta-primary">6%</p>
+              <p class="text-sm text-white/70 mt-2">of phishing attacks</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-[#380101] border-2 border-[#710000] text-white rounded-3xl p-12 text-center shadow-2xl"
+        >
+          <h3 class="text-2xl font-semibold mb-4 text-white/90">
+            Total Global Losses from Email Attacks (2023)
+          </h3>
+          <div class="text-7xl font-bold mb-4">$3B</div>
+          <p class="text-xl text-white/90">
+            The total losses from BEC scams in 2023
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-sofecta-very-dark" id="why-need">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Why You Need This
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            Email is the **#1 attack vector**—**94% of breaches start here**.
+            AI-powered attacks and sophisticated BEC bypass legacy filters, while
+            manual triage drains your team's time. You need expert-managed
+            protection that stops threats in minutes.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="border-2 border-white/10 hover:border-sofecta-primary bg-sofecta-dark rounded-2xl p-8 card-glow smooth-transition hover:shadow-xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-mail-unread-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-4">Stop Advanced Attacks</h3>
+            <p class="text-white/70 leading-relaxed">
+              Block sophisticated phishing and zero-day threats missed by native
+              and legacy tools.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-white/10 hover:border-sofecta-primary bg-sofecta-dark rounded-2xl p-8 card-glow smooth-transition hover:shadow-xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-user-unfollow-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-4">Eliminate Triage Burden</h3>
+            <p class="text-white/70 leading-relaxed">
+              Replace countless hours of manual triage with a 24/7 fully managed
+              service.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-white/10 hover:border-sofecta-primary bg-sofecta-dark rounded-2xl p-8 card-glow smooth-transition hover:shadow-xl"
+          >
+            <div class="flex items-center justify-start mb-4">
+              <i class="ri-timer-flash-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-4">Rapid Response</h3>
+            <p class="text-white/70 leading-relaxed">
+              Contain and remediate malicious emails in minutes, not hours or
+              days.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="py-20 bg-gradient-to-br from-sofecta-dark via-sofecta-dark to-sofecta-dark text-white"
+      id="how-it-works"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4">How It Works</h2>
+          <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            We deliver a **turnkey Managed Service** for email protection—combining the
+            powerful detection of Sublime Security with our **24/7 security
+            operations**.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-6">
+          <div
+            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 card-glow"
+          >
+            <div
+              class="bg-sofecta-primary rounded-full size-10 flex items-center justify-center mb-4 text-sofecta-dark font-normal text-lg"
+            >
+              1
+            </div>
+            <h3 class="text-xl font-normal mb-3">Deploy</h3>
+            <p class="text-gray-300 text-sm">
+              **Deploy in 5 Minutes:** API integration with M365/Google Workspace.
+              Quick setup via API integration (no MX changes).
+            </p>
+          </div>
+
+          <div
+            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 card-glow"
+          >
+            <div
+              class="bg-[#bdbdbc] rounded-full size-10 flex items-center justify-center mb-4 text-sofecta-dark font-normal text-lg"
+            >
+              2
+            </div>
+            <h3 class="text-xl font-normal mb-3">Detect</h3>
+            <p class="text-gray-300 text-sm">
+              **AI Detection:** Behavioral analytics catch phishing, BEC,
+              ransomware, and zero-day threats. Advanced behavioral analytics
+              identify malicious emails.
+            </p>
+          </div>
+
+          <div
+            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 card-glow"
+          >
+            <div
+              class="bg-sofecta-primary rounded-full size-10 flex items-center justify-center mb-4 text-sofecta-dark font-normal text-lg"
+            >
+              3
+            </div>
+            <h3 class="text-xl font-normal mb-3">Monitor</h3>
+            <p class="text-gray-300 text-sm">
+              **24/7 SOC:** Our analysts monitor, investigate, and respond around the
+              clock. Our analysts review, investigate, and prioritize all alerts.
+            </p>
+          </div>
+
+          <div
+            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 card-glow"
+          >
+            <div
+              class="bg-[#bdbdbc] rounded-full size-10 flex items-center justify-center mb-4 text-sofecta-dark font-normal text-lg"
+            >
+              4
+            </div>
+            <h3 class="text-xl font-normal mb-3">Respond</h3>
+            <p class="text-gray-300 text-sm">
+              **Automated Response:** Immediate quarantine, access revocation,
+              and user alerts. We take containment actions (quarantine, revoke,
+              alert users).
+            </p>
+          </div>
+
+          <div
+            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 card-glow"
+          >
+            <div
+              class="bg-sofecta-primary rounded-full size-10 flex items-center justify-center mb-4 text-sofecta-dark font-normal text-lg"
+            >
+              5
+            </div>
+            <h3 class="text-xl font-normal mb-3">Maintain</h3>
+            <p class="text-gray-300 text-sm">
+              We manage tuning, updates, and platform optimization on your
+              behalf.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-sofecta-very-dark" id="what-you-get">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            What You Get
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            Consolidated value, platform capabilities, and expert service in one
+            turnkey solution.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-psychotherapy-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Stop Advanced Email Threats</h3>
+            <p class="text-white/70">
+              Block sophisticated email attacks like phishing, BEC, ransomware, and zero-day threats using advanced behavioral analytics, NLP, and AI-driven detection that traditional filters miss.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-user-unfollow-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Eliminate Manual Work</h3>
+            <p class="text-white/70">
+              Fully managed service removes triage burden from internal IT team with 24/7 expert monitoring and response.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-swap-box-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Seamless Integration</h3>
+            <p class="text-white/70">
+              Works seamlessly with M365, Google Workspace, SIEM, and SOAR tools—providing complete insight across your security ecosystem.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-timer-flash-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Rapid Response</h3>
+            <p class="text-white/70">
+              Threats contained in minutes with automated and human-led responses.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-line-chart-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Full Visibility</h3>
+            <p class="text-white/70">
+              SOC-ready dashboards with explainable detection logic that shows exactly why each threat was flagged.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-eye-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Transparent & Customizable</h3>
+            <p class="text-white/70">
+              Every detection is explainable and fully adjustable, giving you clear visibility and the ability to tailor protection to your unique environment.
+            </p>
+          </div>
+          
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-building-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Enterprise-Grade & Trusted</h3>
+            <p class="text-white/70">
+              Built on Sublime Security platform, trusted by leading global companies and security-mature organizations.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-shield-check-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Compliance Assured</h3>
+            <p class="text-white/70">
+              GDPR compliant with audited security controls and strong data-protection practices that support regional and industry-specific requirements.
+            </p>
+          </div>
+
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-line-chart-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Continuous Innovation</h3>
+            <p class="text-white/70">
+              Platform evolves rapidly to counter emerging phishing, BEC, and AI-driven threats with strong financial backing and an active roadmap.
+            </p>
+          </div>
+          
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 shadow-lg card-glow smooth-transition hover:shadow-2xl border-2 border-white/10 hover:border-sofecta-primary"
+          >
+            <div class="mb-6">
+              <i class="ri-team-line text-3xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-3">Expert-Managed Service</h3>
+            <p class="text-white/70">
+              Sofecta Labs analysts monitor, tune, and respond around the clock—combining human expertise with automation for reliable, hands-off protection.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-sofecta-very-dark">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Case Studies
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            See how Sofecta Labs has transformed email security for diverse
+            organizations. From eliminating alert fatigue to stopping advanced
+            BEC and supply chain attacks, these case studies demonstrate the
+            tangible impact of our managed service.
+          </p>
+        </div>
+
+        <div class="space-y-12">
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 lg:p-12 shadow-lg border-2 border-white/10 hover:border-sofecta-primary card-glow"
+          >
+            <div class="flex items-start gap-4 mb-6">
+              <div>
+                <h3 class="text-3xl font-normal mb-2 text-white">
+                  Case 1: Transforming Email Security for a Metal Industry
+                  Organization
+                </h3>
+              </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Challenge
+                </h4>
+                <p class="text-white/70 leading-relaxed">
+                  A mid-sized manufacturing group with 400 mailboxes and 10,000
+                  emails daily struggled to keep their built-in protection
+                  updated. The team had no time to maintain rules, missed
+                  early-warning signals, and couldn't stop advanced phishing and
+                  supplier impersonation attacks.
                 </p>
-                <div class="info-card" style="text-align:left; margin-bottom: 40px;">
-                    <h3>Case 1: Transforming Email Security for a Metal Industry Organization</h3>
-                    <h4>The Challenge</h4><p>A mid-sized manufacturing group with 400 mailboxes and 10,000 emails daily struggled to keep their built-in protection updated. The team had no time to maintain rules, missed early-warning signals, and couldn't stop advanced phishing and supplier impersonation attacks.</p>
-                    <h4>The Solution</h4><p>Adopting our Managed Email Protection service reversed the trend through real-time behavioral analysis, automated detection, instant remediation, and a fully managed service that eliminated the need for internal rule updates or manual triage.</p>
-                    <h4>The Results</h4><ul><li>100% removal of malicious emails from the 10,000-message daily flow.</li><li>Complete elimination of manual rule management and alert oversight.</li><li>Zero dependency on IT for maintenance, freeing up internal resources.</li></ul>
-                    <blockquote><p>"The difference was immediate... The Sofecta Labs’ team removed the noise, stopped the targeted attacks, and eliminated our maintenance workload entirely. It feels like we finally have enterprise-level protection—without the enterprise burden."</p><footer>— IT Director, Manufacturing Industry</footer></blockquote>
-                </div>
-                <div class="info-card" style="text-align:left;">
-                    <h3>Case 2: Transforming Email Security for a Multi-Industry Enterprise</h3>
-                    <h4>The Challenge</h4><p>With 600+ mailboxes and over 1.6 million monthly emails, this global enterprise faced critical blind spots. Compromised supplier emails, AI-generated phishing, and overwhelming alert fatigue left their international operations exposed across multiple countries.</p>
-                    <h4>The Solution</h4><p>Our service provided a behavior-driven, fully supervised security layer that adapted to their complex communication patterns. It offered real-time analysis, contextual detection, seamless integration with Google Workspace, and centralized global oversight.</p>
-                    <h4>The Results</h4><ul><li>Almost 100% cleanup of the entire 20 million email annual flow.</li><li>Advanced phishing and supplier-domain compromises stopped in real-time.</li><li>Immediate reduction in SOC noise and elimination of false positives.</li></ul>
-                    <blockquote><p>"Advanced attacks stopped appearing in user inboxes, and the noise that used to overwhelm our IT teams disappeared almost immediately."</p><footer>— CIO, International Multi-Industry Group</footer></blockquote>
-                </div>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Solution
+                </h4>
+                <p class="text-white/70 leading-relaxed">
+                  Adopting our Managed Email Protection service reversed the
+                  trend through real-time behavioral analysis, automated
+                  detection, instant remediation, and a fully managed service
+                  that eliminated the need for internal rule updates or manual
+                  triage.
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Results
+                </h4>
+                <ul class="space-y-2 text-white/70">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >100% removal of malicious emails from the 10,000-message
+                      daily flow.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >Complete elimination of manual rule management and alert
+                      oversight.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >Zero dependency on IT for maintenance, freeing up
+                      internal resources.</span
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
-        </section>
 
-        <section id="differentiators">
-             <div class="container" style="text-align:center;">
-                 <h2>Key Differentiators</h2>
-                 <p>Our service is built on enterprise-grade technology and run by a team of certified security experts.</p>
-                 <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-shield-user-line"></i></div><h4>Turnkey Service</h4><p>Platform + AI + Human Expertise.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-swap-box-line"></i></div><h4>Fully Compatible</h4><p>Works seamlessly with Microsoft 365 and Google Workspace.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-rocket-2-line"></i></div><h4>Rapid Onboarding</h4><p>Minimal internal overhead to get started.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-search-eye-line"></i></div><h4>Proactive Detection</h4><p>We find threats, we don't just react to them.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-line-chart-line"></i></div><h4>Full Visibility</h4><p>Actionable metrics and clear reporting via dashboards.</p></div>
-                    <div class="grid-card-hover"><div class="card-icon"><i class="ri-scales-3-line"></i></div><h4>Scalable & Flexible</h4><p>Our service grows with your business needs.</p></div>
-                 </div>
+            <div
+              class="bg-white/5 rounded-xl p-6 border-l-4 border-sofecta-primary"
+            >
+              <p class="text-white/90 italic mb-3 leading-relaxed">
+                "The difference was immediate... The Sofecta Labs' team removed
+                the noise, stopped the targeted attacks, and eliminated our
+                maintenance workload entirely. It feels like we finally have
+                enterprise-level protection—without the enterprise burden."
+              </p>
+              <p class="text-sofecta-primary font-bold">
+                — IT Director, Manufacturing Industry
+              </p>
             </div>
-        </section>
+          </div>
 
-        <section id="use-cases">
-            <div class="container" style="text-align:center;">
-                <h2>Who It's For: Modern Threat Scenarios</h2>
-                <p>Our service is designed for organizations that cannot afford to be compromised by sophisticated email attacks that bypass traditional filters.</p>
-                <div class="use-case-container">
-                    <div class="use-case-card">
-                        <h4>Supplier-Domain Impersonation</h4>
-                        <div class="use-case-cols">
-                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Trusts the sender, delivers the email. Employee follows fraudulent instructions.</p></div>
-                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Behavioral analysis flags unusual sender patterns. Message is quarantined.</p></div>
-                        </div>
-                    </div>
-                    <div class="use-case-card">
-                        <h4>AI-Enhanced Phishing</h4>
-                        <div class="use-case-cols">
-                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees normal language and allows the email. User receives an urgent request and complies.</p></div>
-                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Content & metadata analysis detects a mismatch. AI validates the threat and removes it.</p></div>
-                        </div>
-                    </div>
-                     <div class="use-case-card">
-                        <h4>Malicious Attachments</h4>
-                        <div class="use-case-cols">
-                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Sees a "harmless" attachment and delivers it. Employee opens the file, running malware.</p></div>
-                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Attachment is scanned for anomalies. Threat is validated and email is quarantined.</p></div>
-                        </div>
-                    </div>
-                    <div class="use-case-card">
-                        <h4>QR Code Phishing ("Quishing")</h4>
-                        <div class="use-case-cols">
-                            <div class="legacy-col fail"><h5><i class="ri-close-circle-line"></i>Legacy (Fails)</h5><p>Does not inspect QR codes, so the email is delivered. User scans code, leading to credential theft.</p></div>
-                            <div class="managed-col success"><h5><i class="ri-checkbox-circle-line"></i>Managed (Succeeds)</h5><p>Image is analyzed for QR codes and the decoded URL is inspected. Email is quarantined.</p></div>
-                        </div>
-                    </div>
-                </div>
+          <div
+            class="bg-sofecta-dark rounded-2xl p-8 lg:p-12 shadow-lg border-2 border-white/10 hover:border-sofecta-primary card-glow"
+          >
+            <div class="flex items-start gap-4 mb-6">
+              <div>
+                <h3 class="text-3xl font-normal mb-2 text-white">
+                  Case 2: Transforming Email Security for a Multi-Industry
+                  Enterprise
+                </h3>
+              </div>
             </div>
-        </section>
 
-        <section id="trust">
-            <div class="container" style="text-align: center;">
-                <h2>Secure by Design. Managed by Professionals.</h2>
-                <p>Our commitment to security is built into our platform and driven by our expert team.</p>
-                
-                <div class="grid trust-grid">
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-ruler-2-line"></i></div>
-                        <h4>Platform Technology</h4>
-                        <p>Built on the Sublime Security platform, our service uses advanced behavioral analytics, NLP, and AI-driven detection to stop threats that traditional filters miss.</p>
-                    </div>
-                    
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-eye-line"></i></div>
-                        <h4>Transparent & Customisable</h4>
-                        <p>Every detection is explainable and fully adjustable, giving you clear visibility and the ability to tailor protection to your unique environment.</p>
-                    </div>
-                    
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-plug-line"></i></div>
-                        <h4>Integration & Visibility</h4>
-                        <p>The platform integrates seamlessly with Microsoft 365, Google Workspace, SIEM, and SOAR tools—providing complete insight across your security ecosystem.</p>
-                    </div>
-                    
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-shield-check-line"></i></div>
-                        <h4>Compliance Assured</h4>
-                        <p>Backed by audited security controls and strong data-protection practices, our service supports your compliance with regional and industry-specific requirements.</p>
-                    </div>
-                    
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-building-line"></i></div>
-                        <h4>Trusted by Enterprises</h4>
-                        <p>The underlying Sublime Security technology is trusted by leading global companies and security-mature organizations.</p>
-                    </div>
-                    
-                    <div class="grid-card-hover">
-                        <div class="card-icon"><i class="ri-line-chart-line"></i></div>
-                        <h4>Continuous Innovation</h4>
-                        <p>With strong financial backing and an active roadmap, the platform evolves rapidly to counter emerging phishing, BEC, and AI-driven threats.</p>
-                    </div>
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Challenge
+                </h4>
+                <p class="text-white/70 leading-relaxed">
+                  With 600+ mailboxes and over 1.6 million monthly emails, this
+                  global enterprise faced critical blind spots. Compromised
+                  supplier emails, AI-generated phishing, and overwhelming alert
+                  fatigue left their international operations exposed across
+                  multiple countries.
+                </p>
+              </div>
 
-                    <div class="grid-card-hover" style="grid-column: span 2; max-width: 600px; margin: 0 auto;">
-                        <div class="card-icon"><i class="ri-team-line"></i></div>
-                        <h4>Expert-Managed Service</h4>
-                        <p>Sofecta Labs analysts monitor, tune, and respond around the clock—combining human expertise with automation for reliable, hands-off protection.</p>
-                    </div>
-                </div>
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Solution
+                </h4>
+                <p class="text-white/70 leading-relaxed">
+                  Our service provided a behavior-driven, fully supervised
+                  security layer that adapted to their complex communication
+                  patterns. It offered real-time analysis, contextual detection,
+                  seamless integration with Google Workspace, and centralized
+                  global oversight.
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="text-xl font-bold text-sofecta-primary">
+                  The Results
+                </h4>
+                <ul class="space-y-2 text-white/70">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >Almost 100% cleanup of the entire 20 million email annual
+                      flow.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >Advanced phishing and supplier-domain compromises stopped
+                      in real-time.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sofecta-primary mt-1">✓</span>
+                    <span
+                      >Immediate reduction in SOC noise and elimination of false
+                      positives.</span
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
-        </section>
 
-        <section id="pricing">
-            <div class="container" style="text-align: center;">
-                <h2>Pricing & Packages</h2>
-                <p style="max-width: 800px; margin: 0 auto 40px auto;">Choose the level of protection and operational support that fits your business needs, from cutting-edge detection to a fully managed 24/7 security service.</p>
-
-                <div class="pricing-grid">
-                    <div class="package-card">
-                        <div class="package-content">
-                            <h3>Managed Email Protection - CORE</h3>
-                            <p>A cutting-edge email security layer that identifies and neutralizes modern phishing, impersonation, and domain-based attacks in real time.</p>
-                            <p class="package-description">Best for small/medium businesses that want modern detection without the operational burden of managing rules.</p>
-
-                            <div class="feature-list core-list">
-                                <h4>Core – What’s Included:</h4>
-                                <ul>
-                                    <li><i class="ri-check-line"></i> <strong>Behavioral and context-based detection:</strong> Detects threats by analyzing how the email behaves, not just what it looks like.</li>
-                                    <li><i class="ri-check-line"></i> Automated remediation actions (quarantine/removal) for detected threats.</li>
-                                    <li><i class="ri-check-line"></i> Continuous detection updates based on evolving threat patterns.</li>
-                                    <li><i class="ri-check-line"></i> Monitoring of sender and domain reputation changes.</li>
-                                    <li><i class="ri-check-line"></i> Protection against AI-enhanced and image/QR-based phishing attempts.</li>
-                                    <li><i class="ri-check-line"></i> Automated link rescanning to detect delayed payload changes.</li>
-                                    <li><i class="ri-check-line"></i> Inspection of attachments and embedded content (PDF/HTML/ICS).</li>
-                                    <li><i class="ri-check-line"></i> Basic anomaly detection for compromised vendor or internal accounts.</li>
-                                    <li><i class="ri-check-line"></i> Dashboard access for visibility into detections, events, and trends.</li>
-                                    <li><i class="ri-check-line"></i> API-based integration with Microsoft 365 and Google Workspace.</li>
-                                    <li><i class="ri-check-line"></i> Expert-Led Support During Business Hours.</li>
-                                    <li><i class="ri-check-line"></i> Alert forwarding to customer SIEM/SOC where applicable.</li>
-                                    <li><i class="ri-check-line"></i> Zero maintenance required from customer (automatic rule/logic upkeep).</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <h4 class="pricing-heading">Pricing Tiers:</h4>
-                        <div class="pricing-tiers">
-                            <div class="tier-item"><span>Small Organizations (1 - 100 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Mid-Sized (101 – 250 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                        </div>
-                        <a href="#contact" class="btn btn-primary btn-full">Get Started with Core</a>
-                    </div>
-
-                    <div class="package-card complete-package">
-                        <span class="badge">Most Popular</span>
-                        <div class="package-content">
-                            <h3>Managed Email Protection - COMPLETE</h3>
-                            <p>Fully managed email threat protection combining real-time automated detection with expert-led investigation and response.</p>
-                            <p class="package-description">Ideal for organizations who want strong protection without maintaining rules, monitoring, or alert triage themselves.</p>
-
-                            <div class="feature-list complete-list">
-                                <h4>COMPLETE - What’s Included</h4>
-                                <p class="list-subtitle">Everything in Core, plus:</p>
-                                <ul>
-                                    <li><i class="ri-check-line"></i> <strong>Expert-Led Threat Investigation & Validation:</strong> Human review of high-risk alerts and suspicious patterns.</li>
-                                    <li><i class="ri-check-line"></i> Guided Response & Incident Handling.</li>
-                                    <li><i class="ri-check-line"></i> Continuous Optimization & Tuning.</li>
-                                    <li><i class="ri-check-line"></i> Enhanced Behavioral & Identity Correlation.</li>
-                                    <li><i class="ri-check-line"></i> Proactive Threat Hunting.</li>
-                                    <li><i class="ri-check-line"></i> Reporting & Security Insights.</li>
-                                    <li><i class="ri-check-line"></i> Operational Communication & Support.</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <h4 class="pricing-heading">Pricing Tiers:</h4>
-                        <div class="pricing-tiers">
-                            <div class="tier-item"><span>Small Organizations (1 - 100 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Mid-Sized (101 – 250 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Large Organizations (251 - 1000 inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                            <div class="tier-item"><span>Enterprises (1000+ inboxes)</span><span class="price-value">xx €/inbox</span></div>
-                        </div>
-                        <a href="#contact" class="btn btn-primary btn-full">Schedule a Consultation</a>
-                    </div>
-                </div>
+            <div
+              class="bg-white/5 rounded-xl p-6 border-l-4 border-sofecta-primary"
+            >
+              <p class="text-white/90 italic mb-3 leading-relaxed">
+                "Advanced attacks stopped appearing in user inboxes, and the
+                noise that used to overwhelm our IT teams disappeared almost
+                immediately."
+              </p>
+              <p class="text-sofecta-primary font-bold">
+                — CIO, International Multi-Industry Group
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section id="resources">
-            <div class="container" style="text-align: center;">
-                <div class="info-card">
-                    <h2>Resource Library</h2>
-                    <p>Want to learn more? Explore our library of white papers, threat reports, and best practice guides to stay ahead of the latest email threats.</p>
-                    
-                    <div class="resource-links">
-                        <a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2ffe82b40d5a21d392_Threat_Research_Report_G8ESeq7ujKLtPF538LWye.pdf" 
-                        target="_blank" 
-                        class="resource-link-card">
-                            <i class="ri-file-chart-line resource-icon"></i>
-                            <div class="resource-content">
-                                <h4>Sublime Email Threat Report</h4>
-                                <p>Comprehensive analysis of current email threats and attack vectors</p>
-                            </div>
-                        </a>
-                        
-                        <a href="https://cdn.prod.website-files.com/68d0d3deea83674e59bf4046/68f7cd2779d2881db1ffa811_Buyers_Guide_F1XE4c-k6u7wOc7WS1nUS.pdf" 
-                        target="_blank" 
-                        class="resource-link-card">
-                            <i class="ri-shopping-cart-line resource-icon"></i>
-                            <div class="resource-content">
-                                <h4>Email Security Buyers Guide</h4>
-                                <p>Expert guide to selecting the right email security solution</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+    <section class="py-20 bg-sofecta-very-dark" id="why">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Modern Threat Landscape
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            Our service is designed for organizations that cannot afford to be
+            compromised by sophisticated email attacks that bypass traditional
+            filters.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex flex-wrap gap-3">
+            <div
+              class="flex items-center justify-center scenario-tab scenario-active-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(0)"
+            >
+              <h3 class="font-bold text-sm md:text-base text-center">
+                Supplier-Domain Impersonation
+              </h3>
             </div>
-        </section>
-
-        <section id="contact">
-            <div class="container" style="text-align: center;">
-                <div class="info-card">
-                    <h2>Take the Next Step</h2>
-                    <p>Ready to see how our Managed Email Protection can shield your business? Schedule a live demo and consultation with our security experts.</p>
-                    
-                    <div class="calendly-inline-widget" 
-                        data-url="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?background_color=112240&text_color=ccd6f6&primary_color=ffc107" 
-                        style="min-width:320px;height:700px;margin-top:30px;">
-                    </div>
-                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-                    <div style="text-align:center;margin-top:30px;">
-                        <p style="color:var(--sofecta-text-medium);margin-bottom:15px;">Prefer to view available times in a new window?</p>
-                        <a href="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?month=2025-11" 
-                        target="_blank" 
-                        class="btn btn-primary">Open Calendly Scheduler</a>
-                    </div>
-                </div>
+            <div
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(1)"
+            >
+              <h3 class="font-bold text-sm md:text-base text-center">
+                AI-Enhanced Phishing
+              </h3>
             </div>
-        </section>
-
-        <section id="faq">
-            <div class="container" style="text-align:center;">
-                <h2>Frequently Asked Questions</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>How is this different from Microsoft 365's built-in protection?</h4>
-                        <i class="ri-add-line faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Microsoft stops known spam and malware. We detect and respond to advanced, targeted attacks—and our team handles the complex remediation for you.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>Do you support Google Workspace?</h4>
-                        <i class="ri-add-line faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes. We provide full protection for both Google Workspace and Microsoft 365 via API, with no MX record changes needed.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>Do we still need this if we have an email gateway?</h4>
-                        <i class="ri-add-line faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes. Traditional gateways miss modern attacks like BEC. Our managed service adds human analysis and real-time response to close those gaps.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>Will you quarantine legitimate emails?</h4>
-                        <i class="ri-add-line faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Our detection is behavioural and context-aware. Every high-risk alert is reviewed by an analyst, resulting in very low false positives.</p>
-                    </div>
-                </div>
+            <div
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(2)"
+            >
+              <h3 class="font-bold text-sm md:text-base text-center">
+                Malicious Attachments
+              </h3>
             </div>
-        </section>
-    </main>
+            <div
+              class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 flex-1 min-w-[200px]"
+              onclick="showThreatScenario(3)"
+            >
+              <h3 class="font-bold text-sm md:text-base text-center">
+                QR Code Phishing ("Quishing")
+              </h3>
+            </div>
+          </div>
 
-    <footer class="main-footer">
-        <p>&copy; 2025 Sofecta Labs Oy. All Rights Reserved.</p>
+          <div>
+            <div
+              id="threat-scenario-0"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow from-sofecta-dark to-sofecta-dark text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">
+                Supplier-Domain Impersonation
+              </h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Trusts the sender, delivers the email. Employee follows
+                    fraudulent instructions.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Behavioral analysis flags unusual sender patterns. Message
+                    is quarantined.
+                  </p>
+                </div>
+              </div>
+              <img
+                src="assets/graphs/graph-supplier-domain-inpersonation-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
+            </div>
+
+            <div
+              id="threat-scenario-1"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">AI-Enhanced Phishing</h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Sees normal language and allows the email. User receives an
+                    urgent request and complies.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Content & metadata analysis detects a mismatch. AI validates
+                    the threat and removes it.
+                  </p>
+                </div>
+              </div>
+
+              <img
+                src="assets/graphs/graph-targeted-ai-enhanced-phishing-attack-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
+            </div>
+
+            <div
+              id="threat-scenario-2"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">Malicious Attachments</h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Sees a "harmless" attachment and delivers it. Employee opens
+                    the file, running malware.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Attachment is scanned for anomalies. Threat is validated and
+                    email is quarantined.
+                  </p>
+                </div>
+              </div>
+              <img
+                src="assets/graphs/graph-malicious-attachment-fake-document-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
+            </div>
+
+            <div
+              id="threat-scenario-3"
+              class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8"
+            >
+              <h3 class="text-3xl font-normal mb-4">
+                QR Code Phishing ("Quishing")
+              </h3>
+              <div class="grid grid-cols-2">
+                <div class="p-6 border-r-2 border-white/10">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-red-700 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-close-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-red-700">
+                      Legacy Problem
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Does not inspect QR codes, so the email is delivered. User
+                    scans code, leading to credential theft.
+                  </p>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <div
+                      class="bg-green-500 rounded-full size-7 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <i class="ri-check-line text-lg"></i>
+                    </div>
+                    <h4 class="text-lg font-normal text-green-700">
+                      Modern Solution
+                    </h4>
+                  </div>
+                  <p class="text-white/70 text-base leading-relaxed">
+                    Image is analyzed for QR codes and the decoded URL is
+                    inspected. Email is quarantined.
+                  </p>
+                </div>
+              </div>
+              <img
+                src="assets/graphs/graph-qr-code-phishing-dark.svg"
+                alt="AI-Enhanced Phishing Detection Graph"
+                class="mt-6 rounded-lg shadow-lg w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-sofecta-dark">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Pricing &amp; Plans
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            Choose the level of protection and operational support that fits
+            your business needs, from cutting-edge detection to a fully managed
+            24/7 security service.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div
+            class="bg-white/10 rounded-3xl p-8 shadow-xl border-2 border-white/20 hover:border-sofecta-primary smooth-transition"
+          >
+            <div class="mb-6">
+              <h3 class="text-3xl font-normal mb-3 text-white">
+                Managed Email Protection - CORE
+              </h3>
+              <p class="text-white/80 leading-relaxed mb-4">
+                A cutting-edge email security layer that identifies and
+                neutralizes modern phishing, impersonation, and domain-based
+                attacks in real time.
+              </p>
+              <p class="text-sofecta-primary font-normal">
+                Best for small/medium businesses that want modern detection
+                without the operational burden of managing rules.
+              </p>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="text-xl font-normal text-white mb-4">
+                Core – What's Included:
+              </h4>
+              <ul class="space-y-2 text-sm">
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    ><strong>Behavioral and context-based detection:</strong>
+                    Detects threats by analyzing how the email behaves, not just
+                    what it looks like.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Automated remediation actions (quarantine/removal) for
+                    detected threats.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Continuous detection updates based on evolving threat
+                    patterns.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Monitoring of sender and domain reputation changes.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Protection against AI-enhanced and image/QR-based phishing
+                    attempts.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Automated link rescanning to detect delayed payload
+                    changes.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Inspection of attachments and embedded content
+                    (PDF/HTML/ICS).</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Basic anomaly detection for compromised vendor or internal
+                    accounts.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Dashboard access for visibility into detections, events,
+                    and trends.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >API-based integration with Microsoft 365 and Google
+                    Workspace.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Expert-Led Support During Business Hours.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Alert forwarding to customer SIEM/SOC where
+                    applicable.</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <i
+                    class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                  ></i>
+                  <span class="text-white/80"
+                    >Zero maintenance required from customer (automatic
+                    rule/logic upkeep).</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="text-lg font-bold text-white mb-3">Pricing Tiers:</h4>
+              <div class="space-y-2 text-white/80">
+                <div
+                  class="flex justify-between items-center py-2 border-b border-white/10"
+                >
+                  <span>Small Organizations (1 - 100 inboxes)</span>
+                  <span class="font-bold">xx €/inbox</span>
+                </div>
+                <div
+                  class="flex justify-between items-center py-2 border-b border-white/10"
+                >
+                  <span>Mid-Sized (101 – 250 inboxes)</span>
+                  <span class="font-bold">xx €/inbox</span>
+                </div>
+                <div
+                  class="flex justify-between items-center py-2 border-b border-white/10"
+                >
+                  <span>Large Organizations (251 - 1000 inboxes)</span>
+                  <span class="font-bold">xx €/inbox</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span>Enterprises (1000+ inboxes)</span>
+                  <span class="font-bold">xx €/inbox</span>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="#demo"
+              class="block text-center bg-gray-100 hover:bg-gray-200 text-sofecta-dark font-bold py-4 rounded-xl smooth-transition"
+            >
+              Get Started with Core
+            </a>
+          </div>
+
+          <div class="relative">
+            <div
+              class="absolute top-0 left-[50%] -translate-y-1/2 -translate-x-1/2 z-50"
+            >
+              <span
+                class="bg-sofecta-primary text-sofecta-dark px-6 py-2 rounded-full font-bold text-sm"
+                >MOST POPULAR</span
+              >
+            </div>
+            <div
+              class="text-white rounded-3xl p-8 shadow-2xl border-2 border-sofecta-primary relative bg-sofecta-very-dark to-sofecta-dark card-glow"
+            >
+              <div class="mb-6">
+                <h3 class="text-3xl font-normal mb-3 text-white">
+                  Managed Email Protection - COMPLETE
+                </h3>
+                <p class="text-white/80 leading-relaxed mb-4">
+                  Fully managed email threat protection combining real-time
+                  automated detection with expert-led investigation and
+                  response.
+                </p>
+                <p class="text-sofecta-primary font-normal">
+                  Ideal for organizations who want strong protection without
+                  maintaining rules, monitoring, or alert triage themselves.
+                </p>
+              </div>
+
+              <div class="mb-6">
+                <h4 class="text-xl font-normal text-white mb-4">
+                  COMPLETE - What's Included:
+                </h4>
+                <p class="text-white/90 mb-3 font-normal">
+                  Everything in Core, plus:
+                </p>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      ><strong
+                        >Expert-Led Threat Investigation & Validation:</strong
+                      >
+                      Human review of high-risk alerts and suspicious
+                      patterns.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      >Guided Response & Incident Handling.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      >Continuous Optimization & Tuning.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      >Enhanced Behavioral & Identity Correlation.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80">Proactive Threat Hunting.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      >Reporting & Security Insights.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i
+                      class="ri-check-line text-sofecta-primary text-lg mt-0.5"
+                    ></i>
+                    <span class="text-white/80"
+                      >Operational Communication & Support.</span
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div class="mb-6">
+                <h4 class="text-lg font-bold text-white mb-3">
+                  Pricing Tiers:
+                </h4>
+                <div class="space-y-2 text-white/80">
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-white/10"
+                  >
+                    <span>Small Organizations (1 - 100 inboxes)</span>
+                    <span class="font-bold">xx €/inbox</span>
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-white/10"
+                  >
+                    <span>Mid-Sized (101 – 250 inboxes)</span>
+                    <span class="font-bold">xx €/inbox</span>
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-white/10"
+                  >
+                    <span>Large Organizations (251 - 1000 inboxes)</span>
+                    <span class="font-bold">xx €/inbox</span>
+                  </div>
+                  <div class="flex justify-between items-center py-2">
+                    <span>Enterprises (1000+ inboxes)</span>
+                    <span class="font-bold">xx €/inbox</span>
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#demo"
+                class="block text-center bg-sofecta-primary hover:bg-opacity-90 text-sofecta-dark font-bold py-4 rounded-xl smooth-transition cursor-pointer"
+              >
+                Schedule a Consultation
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="learn-more" class="py-20 bg-sofecta-very-dark">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Want to Learn More?
+          </h2>
+          <p class="text-xl text-white/70 max-w-3xl mx-auto">
+            Explore our library of white papers, threat reports, and best
+            practice guides to stay ahead of the latest email threats.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div class="text-white rounded-2xl p-8 shadow-xl">
+            <div class="mb-6">
+              <i class="ri-file-chart-line text-4xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-4">2024 Email Threat Report</h3>
+            <p class="text-gray-300 mb-6 leading-relaxed">
+              Comprehensive analysis of email attack trends, threat actors, and
+              security recommendations based on data from 10,000+ organizations.
+            </p>
+            <ul class="space-y-2 mb-8 text-sm text-gray-300">
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>Latest attack statistics and trends</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>Industry-specific threat analysis</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>Expert security recommendations</span>
+              </li>
+            </ul>
+            <button
+              class="bg-sofecta-primary hover:bg-opacity-90 text-sofecta-dark font-normal px-8 py-3 rounded-lg smooth-transition w-full"
+            >
+              Download Report
+            </button>
+          </div>
+
+          <div
+            class="bg-sofecta-dark text-sofecta-dark rounded-2xl p-8 shadow-xl border-2 border-white/10 hover:border-sofecta-primary card-glow"
+          >
+            <div class="mb-6">
+              <i class="ri-book-open-line text-4xl text-sofecta-primary"></i>
+            </div>
+            <h3 class="text-2xl font-normal mb-4 text-white">
+              Email Security Buyer's Guide
+            </h3>
+            <p class="text-white/70 mb-6 leading-relaxed">
+              Everything you need to know to evaluate email security solutions
+              and choose the right protection for your organization.
+            </p>
+            <ul class="space-y-2 mb-8 text-sm text-white/70">
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>Key features and capabilities to evaluate</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>Questions to ask vendors</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-check-line text-sofecta-primary"></i>
+                <span>ROI calculation worksheet</span>
+              </li>
+            </ul>
+            <button
+              class="bg-sofecta-very-dark hover:bg-opacity-90 text-white font-normal px-8 py-3 rounded-lg smooth-transition w-full"
+            >
+              Download Guide
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="demo"
+      class="py-20 bg-gradient-to-br from-sofecta-dark via-sofecta-dark to-sofecta-dark text-white"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4">
+            Take the Next Step
+          </h2>
+          <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            Ready to see how our Managed Email Protection can shield your
+            business? Schedule a live demo and consultation with our security
+            experts.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-sofecta-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0"
+                >
+                  <i
+                    class="ri-presentation-line text-2xl text-sofecta-dark"
+                  ></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-normal mb-2">Personalized Demo</h3>
+                  <p class="text-gray-300">
+                    30-minute session tailored to your industry and security
+                    challenges
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-[#bdbdbc] rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0"
+                >
+                  <i class="ri-eye-line text-2xl text-sofecta-dark"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-normal mb-2">
+                    Live Threat Detection
+                  </h3>
+                  <p class="text-gray-300">
+                    Watch our AI identify and block real phishing attempts in
+                    real-time
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-sofecta-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0"
+                >
+                  <i
+                    class="ri-question-answer-line text-2xl text-sofecta-dark"
+                  ></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-normal mb-2">Expert Consultation</h3>
+                  <p class="text-gray-300">
+                    Get answers to your security questions from our specialists
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div
+                  class="bg-[#bdbdbc] rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0"
+                >
+                  <i class="ri-file-text-line text-2xl text-sofecta-dark"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-normal mb-2">Custom Proposal</h3>
+                  <p class="text-gray-300">
+                    Receive a tailored security plan and pricing for your
+                    organization
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-sofecta-dark rounded-2xl lg:p-8">
+            <div class="text-center text-sofecta-dark">
+              <div class="flex flex-row items-center justify-center mb-6">
+                <i
+                  class="ri-calendar-check-line text-6xl text-sofecta-primary"
+                ></i>
+                <div class="flex flex-col ml-4 text-left">
+                  <h3 class="text-2xl font-bold mb-2 text-white">
+                    Schedule Your Demo
+                  </h3>
+                  <p class="text-white/70">Choose a time that works for you</p>
+                </div>
+              </div>
+
+              <div
+                class="bg-sofecta-very-dark rounded-xl min-h-[400px] flex flex-col items-center justify-center overflow-hidden"
+              >
+                <div
+                  class="calendly-inline-widget lg:min-w-[320px]"
+                  data-url="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?background_color=0e0e0e&text_color=fff&primary_color=ffc107"
+                  style="width: 100%; height: 800px"
+                ></div>
+                <script
+                  type="text/javascript"
+                  src="https://assets.calendly.com/assets/external/widget.js"
+                  async
+                ></script>
+                <div class="my-4 text-center px-4">
+                  <p class="text-white/70">
+                    Prefer to view available times in a new window?
+                  </p>
+                  <a
+                    href="https://calendly.com/d/cw7p-byn-dkz/managed-email-protection-with-sublime-security?month=2025-11"
+                    target="_blank"
+                    class="text-sofecta-primary"
+                    >Open Calendly Scheduler</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-sofecta-very-dark" id="faq">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl lg:text-5xl font-normal mb-4 text-white">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-xl text-white/70">
+            Get answers to common questions about Sublime Protection
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <details
+            class="bg-sofecta-dark rounded-xl shadow-lg overflow-hidden"
+            open
+          >
+            <summary
+              class="p-6 font-bold text-lg cursor-pointer hover:bg-sofecta-very-dark smooth-transition flex items-center justify-between"
+            >
+              <span
+                >How is this different from Microsoft 365's built-in
+                protection?</span
+              >
+              <i class="ri-arrow-down-s-line text-2xl text-sofecta-primary"></i>
+            </summary>
+            <div class="px-6 pb-6 text-white/70 leading-relaxed">
+              Microsoft stops known spam and malware. We detect and respond to
+              advanced, targeted attacks—and our team handles the complex
+              remediation for you.
+            </div>
+          </details>
+
+          <details class="bg-sofecta-dark rounded-xl shadow-lg overflow-hidden">
+            <summary
+              class="p-6 font-bold text-lg cursor-pointer hover:bg-sofecta-very-dark smooth-transition flex items-center justify-between"
+            >
+              <span>Do you support Google Workspace?</span>
+              <i class="ri-arrow-down-s-line text-2xl text-sofecta-primary"></i>
+            </summary>
+            <div class="px-6 pb-6 text-white/70 leading-relaxed">
+              Yes. We provide full protection for both Google Workspace and
+              Microsoft 365 via API, with no MX record changes needed.
+            </div>
+          </details>
+
+          <details class="bg-sofecta-dark rounded-xl shadow-lg overflow-hidden">
+            <summary
+              class="p-6 font-bold text-lg cursor-pointer hover:bg-sofecta-very-dark smooth-transition flex items-center justify-between"
+            >
+              <span>Do we still need this if we have an email gateway?</span>
+              <i class="ri-arrow-down-s-line text-2xl text-sofecta-primary"></i>
+            </summary>
+            <div class="px-6 pb-6 text-white/70 leading-relaxed">
+              Yes. Traditional gateways miss modern attacks like BEC. Our
+              managed service adds human analysis and real-time response to
+              close those gaps.
+            </div>
+          </details>
+
+          <details class="bg-sofecta-dark rounded-xl shadow-lg overflow-hidden">
+            <summary
+              class="p-6 font-bold text-lg cursor-pointer hover:bg-sofecta-very-dark smooth-transition flex items-center justify-between"
+            >
+              <span>Will you quarantine legitimate emails?</span>
+              <i class="ri-arrow-down-s-line text-2xl text-sofecta-primary"></i>
+            </summary>
+            <div class="px-6 pb-6 text-white/70 leading-relaxed">
+              Our detection is behavioural and context-aware. Every high-risk
+              alert is reviewed by an analyst, resulting in very low false
+              positives.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-sofecta-very-dark text-white py-12">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <img
+              src="assets/sofecta-logo-full-color.png"
+              alt="Sofecta Labs Logo"
+              class="h-16 w-auto"
+            />
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Solutions</h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/mdr"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Managed Detection and Response</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/managed-observability"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Managed Observability</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/managed-implementations"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Security Consulting</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Company</h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/contact"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/about"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/careers"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Careers</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Resources</h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://www.sofectalabs.io/blog"
+                  class="text-gray-400 hover:text-sofecta-primary smooth-transition"
+                  >Blog</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400 flex justify-between"
+        >
+          <p>
+            &copy; 2025 Sofecta. All rights reserved.
+            <a
+              href="https://www.sofectalabs.io/privacy-policy/privacy"
+              class="pl-12 hover:text-sofecta-primary smooth-transition"
+            >
+              Privacy Policy</a
+            >
+          </p>
+          <div class="flex items-center gap-3">
+            <a
+              href="https://twitter.com/sofectalabs"
+              target="_blank"
+              class="size-5 block"
+            >
+              <svg viewBox="0 0 18 17" fill="none" class="sm-icon">
+                <path
+                  d="M14.1761 0.227539H16.9362L10.9061 7.00494L18 16.2275H12.4456L8.0951 10.6341L3.11723 16.2275H0.35544L6.80517 8.97834L0 0.227539H5.69545L9.6279 5.34016L14.1761 0.227539ZM13.2073 14.6029H14.7368L4.86441 1.76682H3.2232L13.2073 14.6029Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/sofecta/"
+              target="_blank"
+              class="size-5 block"
+              ><div class="sm-icon w-embed">
+                <svg
+                  width="100%"
+                  height="100%"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M1.5 0C0.67157 0 0 0.67157 0 1.5V16.5C0 17.3284 0.67157 18 1.5 18H16.5C17.3284 18 18 17.3284 18 16.5V1.5C18 0.67157 17.3284 0 16.5 0H1.5ZM5.52076 4.00272C5.52639 4.95897 4.81061 5.54819 3.96123 5.54397C3.16107 5.53975 2.46357 4.90272 2.46779 4.00413C2.47201 3.15897 3.13998 2.47975 4.00764 2.49944C4.88795 2.51913 5.52639 3.1646 5.52076 4.00272ZM9.2797 6.76176H6.75971H6.7583V15.3216H9.4217V15.1219C9.4217 14.742 9.4214 14.362 9.4211 13.9819C9.4203 12.9681 9.4194 11.9532 9.4246 10.9397C9.426 10.6936 9.4372 10.4377 9.5005 10.2028C9.7381 9.3253 10.5271 8.7586 11.4074 8.8979C11.9727 8.9864 12.3467 9.3141 12.5042 9.8471C12.6013 10.1803 12.6449 10.5389 12.6491 10.8863C12.6605 11.9339 12.6589 12.9815 12.6573 14.0292C12.6567 14.399 12.6561 14.769 12.6561 15.1388V15.3202H15.328V15.1149C15.328 14.6629 15.3278 14.211 15.3275 13.7591C15.327 12.6296 15.3264 11.5001 15.3294 10.3702C15.3308 9.8597 15.276 9.3563 15.1508 8.8627C14.9638 8.1286 14.5771 7.5211 13.9485 7.0824C13.5027 6.77019 13.0133 6.5691 12.4663 6.5466C12.404 6.54401 12.3412 6.54062 12.2781 6.53721C11.9984 6.52209 11.7141 6.50673 11.4467 6.56066C10.6817 6.71394 10.0096 7.0641 9.5019 7.6814C9.4429 7.7522 9.3852 7.8241 9.2991 7.9314L9.2797 7.9557V6.76176ZM2.68164 15.3244H5.33242V6.76733H2.68164V15.3244Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script>
-        // --- Data Configuration ---
-        const DONUT_DATA = [
-            { label: 'Email', value: 83, color: 'var(--sofecta-accent-yellow)' }, 
-            { label: "Insured's Vendor or Client", value: 1, color: 'var(--sofecta-navy)' }, 
-            { label: 'Corporate System*', value: 4, color: 'var(--sofecta-light-navy)' }, 
-            { label: 'Misc. Malicious Incidents', value: 10, color: 'var(--sofecta-text-medium)' }, 
-            { label: 'Other', value: 2, color: 'var(--sofecta-text-light)' } 
-        ];
+      // Challenge tab switching (Kept for compatibility, though interactive section is removed)
+      function showChallenge(index) {
+        // Hide all challenge contents
+        const contents = document.querySelectorAll(".challenge-content");
+        contents.forEach((content) => content.classList.add("hidden"));
 
-        const INDUSTRY_BAR_DATA = [
-            { label: 'Financial Institutions', value: 27.7, color: 'var(--sofecta-accent-yellow)' },
-            { label: 'SaaS Industries', value: 17.7, color: 'var(--sofecta-accent-yellow)' },
-            { label: 'Social Media Platforms', value: 10.4, color: 'var(--sofecta-accent-yellow)' },
-            { label: 'Logistics and Shipping', value: 9.0, color: 'var(--sofecta-accent-yellow)' },
-            { label: 'Payment Services', value: 6.0, color: 'var(--sofecta-accent-yellow)' }
-        ];
-
-        const BRAND_IMITATION_DATA = [
-            { label: 'LinkedIn', value: 52, color: 'var(--brand-linkedin)' },
-            { label: 'DHL', value: 14, color: 'var(--brand-dhl)' },
-            { label: 'Google', value: 7, color: 'var(--brand-google)' },
-            { label: 'Microsoft', value: 6, color: 'var(--brand-microsoft)' },
-            { label: 'FedEx', value: 6, color: 'var(--brand-fedex)' }
-        ];
-    </script>
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileNav = document.getElementById('mobile-nav');
-        const body = document.body;
-
-        menuToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-            body.classList.toggle('no-scroll');
-            const icon = menuToggle.querySelector('i');
-            if (icon.classList.contains('ri-menu-line')) {
-                icon.classList.remove('ri-menu-line');
-                icon.classList.add('ri-close-line');
-            } else {
-                icon.classList.remove('ri-close-line');
-                icon.classList.add('ri-menu-line');
-            }
-        });
-
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                body.classList.remove('no-scroll');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.remove('ri-close-line');
-                icon.classList.add('ri-menu-line');
-            });
-        });
-    </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // FAQ Accordion functionality
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            question.addEventListener('click', () => {
-                // Close other items (accordion behavior)
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('active')) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // Toggle current item
-                item.classList.toggle('active');
-            });
-        });
-    });
-</script>
-
-    <script>
-        // --- Chart Rendering Functions ---
-
-        // Function to render the Donut Chart (Remains the same)
-        function renderDonutChart() {
-            const chartSegments = document.getElementById('segments');
-            const legendContainer = document.getElementById('donut-legend');
-            const chartContainer = document.getElementById('donut-chart-wrapper'); 
-            
-            if (!chartContainer || !chartSegments || !legendContainer) {
-                console.error("Error: Could not find necessary donut chart elements.");
-                return; 
-            }
-
-            document.getElementById('main-stat-pct').textContent = `${DONUT_DATA[0].value}%`; 
-            document.getElementById('main-stat-label').textContent = DONUT_DATA[0].label;
-
-            let gradientString = 'conic-gradient(';
-            let currentDegree = 0;
-
-            legendContainer.innerHTML = ''; // Clear previous legends
-            Array.from(chartContainer.querySelectorAll('.center-text ~ div:not(.center-text)')).forEach(el => el.remove()); // Clear previous labels
-
-            DONUT_DATA.forEach((item, index) => {
-                const degrees = (item.value / 100) * 360;
-                const startDegree = currentDegree;
-                const endDegree = currentDegree + degrees;
-                const midDegree = startDegree + degrees / 2;
-
-                if (item.value > 0) {
-                    gradientString += `${item.color} ${startDegree}deg ${endDegree}deg`;
-                    if (index < DONUT_DATA.length - 1) gradientString += ', ';
-                }
-                currentDegree = endDegree;
-
-                if (item.value > 0) {
-                    const angleRad = (midDegree - 90) * (Math.PI / 180); 
-                    let radiusFactor = 0.40; 
-                    if (item.value <= 2) radiusFactor = 0.55; 
-
-                    const x = 50 + radiusFactor * 100 * Math.cos(angleRad);
-                    const y = 50 + radiusFactor * 100 * Math.sin(angleRad);
-
-                    const labelDiv = document.createElement('div');
-                    const labelColor = (item.value > 50) ? 'text-dark-bg' : 'text-text-light';
-                    let fontSizeClass = 'text-sm sm:text-lg'; 
-                    if (item.value > 50) fontSizeClass = 'text-lg sm:text-xl';
-                    else if (item.value <= 4) fontSizeClass = 'text-[0.6rem] sm:text-xs';
-
-                    labelDiv.className = `absolute text-center transition-opacity duration-300 ${labelColor} pointer-events-none`;
-                    labelDiv.style.opacity = '1';
-                    labelDiv.style.transform = 'translate(-50%, -50%)'; 
-                    labelDiv.style.left = `${x}%`;
-                    labelDiv.style.top = `${y}%`;
-                    labelDiv.innerHTML = `<div class="font-extrabold leading-tight ${fontSizeClass}">${item.value}%</div>`;
-                    chartContainer.appendChild(labelDiv);
-                }
-
-                const legendItem = document.createElement('div');
-                legendItem.className = 'flex items-center justify-between text-base';
-                const valueTextColor = 'text-text-light';
-
-                legendItem.innerHTML = `
-                    <div class="flex items-center">
-                        <span class="w-4 h-4 rounded-sm mr-3 flex-shrink-0" style="background-color: ${item.color}; border: 1px solid var(--sofecta-light-navy);"></span>
-                        <span class="text-text-light text-sm sm:text-base">${item.label}</span>
-                    </div>
-                    <span class="font-bold text-lg ${valueTextColor}">${item.value}%</span>
-                `;
-                legendContainer.appendChild(legendItem);
-            });
-
-            if (gradientString.endsWith(', ')) gradientString = gradientString.slice(0, -2);
-            gradientString += ')';
-            chartSegments.style.backgroundImage = gradientString;
+        // Show selected challenge content
+        const challengeElement = document.getElementById("challenge-" + index);
+        if (challengeElement) {
+          challengeElement.classList.remove("hidden");
         }
 
-        function renderBarChart(containerId, data, colorProp) {
-            const container = document.getElementById(containerId);
-            if (!container) {
-                console.error(`Error: Could not find bar chart container with ID: ${containerId}`);
-                return;
-            }
 
-            const maxVal = Math.max(...data.map(item => item.value));
-
-            // Clear existing content to prevent re-rendering issues if this function is called multiple times
-            container.innerHTML = '';
-
-            data.forEach(item => {
-                const widthPercent = (item.value / maxVal) * 100;
-                
-                const barItem = document.createElement('div');
-                // Ensure Tailwind classes are correctly applied for spacing and column direction
-                barItem.className = 'group mb-4 flex flex-col'; 
-                
-                // Inline style for background color ensures it takes precedence
-                // Note: The 'style' attribute is used directly here.
-                barItem.innerHTML = `
-                    <div class="flex justify-between mb-1 text-sm sm:text-base">
-                        <span class="text-text-light">${item.label}</span>
-                        <span class="font-bold" style="color: ${item.color};">${item.value}%</span>
-                    </div>
-                    <div class="chart-bar-container">
-                        <div class="chart-bar" style="width: 0%; background-color: ${item.color};" data-width="${widthPercent}"></div>
-                    </div>
-                `;
-                container.appendChild(barItem);
-            });
-        }
-
-        function animateAllBars() {
-            // Use a slight delay to ensure elements are fully rendered and transitions are ready
-            setTimeout(() => {
-                // Select ALL bars within the relevant containers
-                const barsToAnimate = document.querySelectorAll('#industry-bar-chart-container .chart-bar, #brand-bar-chart-container .chart-bar');
-                
-                barsToAnimate.forEach(bar => {
-                    if (bar.dataset.width && !isNaN(parseFloat(bar.dataset.width))) {
-                        bar.style.width = bar.dataset.width + '%';
-                    } else {
-                        console.warn("Bar element missing valid 'data-width' attribute:", bar);
-                    }
-                });
-            }, 100);
-        }
-
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderDonutChart();
-            renderBarChart('industry-bar-chart-container', INDUSTRY_BAR_DATA, 'color');
-            renderBarChart('brand-bar-chart-container', BRAND_IMITATION_DATA, 'color'); 
-            animateAllBars(); 
+        // Update active tab styling
+        const tabs = document.querySelectorAll(".challenge-tab");
+        tabs.forEach((tab) => {
+          tab.classList.remove("active-tab");
         });
+        if (tabs[index]) {
+            tabs[index].classList.add("active-tab");
+        }
+      }
+
+      function showThreatScenario(index) {
+        // Hide all threat scenario contents
+        const contents = document.querySelectorAll(".scenario-content");
+        contents.forEach((content) => content.classList.add("hidden"));
+
+        // Show selected threat scenario content
+        document
+          .getElementById("threat-scenario-" + index)
+          .classList.remove("hidden");
+
+        // Update active tab styling
+        const tabs = document.querySelectorAll(".scenario-tab");
+        tabs.forEach((tab) => {
+          tab.classList.remove("scenario-active-tab");
+        });
+        tabs[index].classList.add("scenario-active-tab");
+      }
+
+      function showMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.remove("hidden");
+      }
+
+      function closeMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.add("hidden");
+      }
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Initial call for the remaining interactive section
+      document.addEventListener('DOMContentLoaded', () => {
+        showThreatScenario(0); 
+      });
+
     </script>
-</body>
+  </body>
+</html>
