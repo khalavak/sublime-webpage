@@ -298,6 +298,131 @@
       input[type="number"] {
         -moz-appearance: textfield;
       }
+
+      /* Fullscreen Modal Styles */
+      .scenario-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .scenario-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .scenario-modal-content {
+        position: relative;
+        max-width: 95vw;
+        max-height: 95vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .scenario-modal-image {
+        max-width: 100%;
+        max-height: 95vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 0 50px rgba(255, 163, 0, 0.3);
+      }
+
+      .scenario-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 163, 0, 0.2);
+        border: 2px solid rgba(255, 163, 0, 0.5);
+        border-radius: 50%;
+        color: #ffa300;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10001;
+      }
+
+      .scenario-modal-close:hover {
+        background: rgba(255, 163, 0, 0.4);
+        border-color: #ffa300;
+        transform: scale(1.1) rotate(90deg);
+      }
+
+      .scenario-modal img {
+        cursor: default;
+      }
+
+      /* Make scenario images clickable */
+      .scenario-content img {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .scenario-content img:hover {
+        transform: scale(1.02);
+      }
+
+      /* Scenario Content Navigation Arrows */
+      .scenario-content-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 163, 0, 0.15);
+        border: 2px solid rgba(255, 163, 0, 0.4);
+        border-radius: 50%;
+        color: #ffa300;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+
+      .scenario-content-nav:hover {
+        background: rgba(255, 163, 0, 0.3);
+        border-color: #ffa300;
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .scenario-content-nav:active {
+        transform: translateY(-50%) scale(0.95);
+      }
+
+      .scenario-content-nav.left {
+        left: -60px;
+      }
+
+      .scenario-content-nav.right {
+        right: -60px;
+      }
+
+      @media (max-width: 1024px) {
+        .scenario-content-nav.left {
+          left: 10px;
+        }
+
+        .scenario-content-nav.right {
+          right: 10px;
+        }
+      }
     </style>
   </head>
 
@@ -566,6 +691,41 @@
         </div>
       </nav>
     </header>
+    <!-- <div
+      class="top-[80px] left-0 z-[100] w-full h-20 fixed flex items-center gap-x-6 overflow-hidden bg-sofecta-primary/80 px-6 py-2.5 sm:px-3.5"
+    >
+      <div class="flex flex-row w-full max-w-7xl mx-auto">
+        <p class="text-sm/6 text-white">
+          Think your email security is Good enough? <b>Prove it.</b>
+          <br />
+          Run our Enterprise-level protection in your own environment for 30 days - free - and discover the threats your current solutions lets through.
+          <a
+            href="#demo"
+            class="whitespace-nowrap font-semibold text-white hover:text-gray-300"
+            >Let's start the trial!&nbsp;<span aria-hidden="true">&rarr;</span></a
+          >
+        </p>
+        <div class="flex flex-1 justify-end">
+          <button
+            type="button"
+            class="-m-3 p-3 focus-visible:-outline-offset-4"
+          >
+            <span class="sr-only">Dismiss</span>
+            <svg
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              data-slot="icon"
+              aria-hidden="true"
+              class="size-5 text-white"
+            >
+              <path
+                d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div> -->
     <section class="pt-20 relative text-white overflow-hidden hero-background">
       <div class="absolute w-full h-full bg-black/70 hero-gradient"></div>
       <div class="absolute inset-0 overflow-hidden">
@@ -2195,7 +2355,45 @@
             ></div>
           </div>
 
-          <div>
+          <div class="relative">
+            <button
+              id="scenario-content-prev"
+              class="scenario-content-nav left"
+              onclick="navigateScenario('prev')"
+              aria-label="Previous scenario"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button
+              id="scenario-content-next"
+              class="scenario-content-nav right"
+              onclick="navigateScenario('next')"
+              aria-label="Next scenario"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
             <div
               id="threat-scenario-0"
               class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow from-sofecta-dark to-sofecta-dark text-white rounded-2xl p-8"
@@ -2206,7 +2404,7 @@
               >
                 Supplier-Domain Impersonation
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2269,7 +2467,7 @@
               >
                 AI-Enhanced Phishing
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2333,7 +2531,7 @@
               >
                 Malicious Attachments
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2396,7 +2594,7 @@
               >
                 QR Code Phishing ("Quishing")
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2459,7 +2657,7 @@
               >
                 Business Email Compromise
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2522,7 +2720,7 @@
               >
                 Account Takeover Attacks
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2585,7 +2783,7 @@
               >
                 Zero-Day Exploits
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -2648,7 +2846,7 @@
               >
                 Credential Harvesting
               </h3>
-              <div class="grid grid-cols-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="p-6 border-r-2 border-white/10">
                   <div class="flex items-center gap-2 mb-3">
                     <div
@@ -4097,6 +4295,25 @@
       </div>
     </footer>
 
+    <!-- Fullscreen Modal for Scenario Images -->
+    <div id="scenario-modal" class="scenario-modal bg-black">
+      <button
+        id="scenario-modal-close"
+        class="scenario-modal-close"
+        aria-label="Close modal"
+      >
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="w-full h-full flex items-center justify-center p-12">
+        <img
+          id="scenario-modal-image"
+          class="w-full h-auto max-h-full object-contain"
+          src=""
+          alt="Scenario diagram"
+        />
+      </div>
+    </div>
+
     <script>
       // Challenge tab switching
       function showChallenge(index) {
@@ -4234,6 +4451,18 @@
         }, scenarioRotationTime);
       }
 
+      function navigateScenario(direction) {
+        let newIndex;
+        if (direction === "next") {
+          newIndex = (currentThreatScenario + 1) % threatScenarioCount;
+        } else {
+          newIndex =
+            (currentThreatScenario - 1 + threatScenarioCount) %
+            threatScenarioCount;
+        }
+        showThreatScenario(newIndex);
+      }
+
       // Start auto-rotation when page loads
       document.addEventListener("DOMContentLoaded", () => {
         startThreatScenarioAutoRotation();
@@ -4264,6 +4493,56 @@
         const menu = document.getElementById("mobile-menu");
         menu.classList.add("hidden");
       }
+
+      // Fullscreen Modal for Scenario Images
+      function openScenarioModal(imageUrl) {
+        const modal = document.getElementById("scenario-modal");
+        const modalImage = document.getElementById("scenario-modal-image");
+
+        modalImage.src = imageUrl;
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeScenarioModal() {
+        const modal = document.getElementById("scenario-modal");
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      // Initialize modal event listeners
+      document.addEventListener("DOMContentLoaded", () => {
+        // Close button
+        document
+          .getElementById("scenario-modal-close")
+          .addEventListener("click", closeScenarioModal);
+
+        // Close on background click
+        document
+          .getElementById("scenario-modal")
+          .addEventListener("click", (e) => {
+            if (e.target.id === "scenario-modal") {
+              closeScenarioModal();
+            }
+          });
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+          const modal = document.getElementById("scenario-modal");
+          if (!modal.classList.contains("active")) return;
+
+          if (e.key === "Escape") {
+            closeScenarioModal();
+          }
+        });
+
+        // Make scenario images clickable
+        document.querySelectorAll(".scenario-content img").forEach((img) => {
+          img.addEventListener("click", () => {
+            openScenarioModal(img.src);
+          });
+        });
+      });
 
       // Smooth scroll for anchor links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
