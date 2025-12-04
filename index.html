@@ -1147,14 +1147,14 @@
                 class="flex items-center justify-center scenario-tab scenario-active-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 min-w-[250px]"
                 onclick="showThreatScenario(0)">
                 <h3 class="font-bold text-sm md:text-base text-center" data-i18n="scenarios.scenario0.tab">
-                  Supplier-Domain Impersonation
+                  Supplier Invoice Fraud Attack
                 </h3>
               </div>
               <div
                 class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 min-w-[250px]"
                 onclick="showThreatScenario(1)">
                 <h3 class="font-bold text-sm md:text-base text-center" data-i18n="scenarios.scenario1.tab">
-                  AI-Enhanced Phishing
+                  VIP Impersonation
                 </h3>
               </div>
               <div
@@ -1168,7 +1168,7 @@
                 class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 min-w-[250px]"
                 onclick="showThreatScenario(3)">
                 <h3 class="font-bold text-sm md:text-base text-center" data-i18n="scenarios.scenario3.tab">
-                  QR Code Phishing ("Quishing")
+                  QR Code Phishing
                 </h3>
               </div>
               <div
@@ -3792,11 +3792,11 @@
     "scenarios.scenario0.desc": "Attackers distribute fraudulent invoices carefully disguised as legitimate supplier documents, designed to manipulate payment processes or compromise organizational systems.",
     "scenarios.scenario0.legacydesc": "Traditional email filters rely on static sender authentication (SPF, DKIM, DMARC) and reputation-based blocking. When a supplier's domain is legitimately configured and the sender's reputation is clean, these filters allow the invoice through—even if payment details have been altered, the attachment contains hidden malware, or the invoice itself is entirely fraudulent. Legacy systems cannot detect subtle manipulations within trusted supplier communications, leaving organizations vulnerable to unauthorized payments and financial fraud.",
     "scenarios.scenario0.moderndesc": "Sublime Security analyzes supplier invoices using behavioral intelligence and contextual awareness that extends far beyond traditional authentication checks. The platform examines payment details, attachment characteristics, sender patterns, and communication history to detect anomalies that indicate fraud—even when emails come from legitimate, properly configured supplier domains. When an invoice arrives, Sublime compares payment details against historical supplier communication patterns to identify altered bank accounts or routing numbers. It analyzes attachment metadata and embedded content for signs of manipulation or hidden malware, while evaluating sender behavior, timing, and communication context to detect compromised accounts or social engineering attempts. The platform cross-references invoice amounts, formatting, and language patterns with established supplier baselines, and applies real-time threat intelligence to identify known fraud campaigns and emerging attack techniques. This behavioral approach stops fraudulent invoices before they reach finance teams—protecting organizations from unauthorized payments and financial loss, even when attackers successfully compromise trusted supplier infrastructure.",
-    <!-- "scenarios.scenario0.readmore": "",-->
+    "scenarios.scenario0.readmore": "",
     "scenarios.scenario1.legacydesc": "Traditional email filters rely primarily on display name matching, domain reputation checks, and basic header analysis. When an attacker uses a lookalike domain, creates a new account with an executive's name, or sends from a legitimate but compromised external account, these filters often allow the message through—especially if the domain has no negative reputation and passes basic authentication checks. Legacy systems cannot detect subtle linguistic manipulation, AI-generated content patterns, or behavioral anomalies within the message itself, leaving organizations vulnerable to sophisticated impersonation attacks that exploit human trust and organizational hierarchies.",
     "scenarios.scenario1.moderndesc": "Sublime Security detects VIP impersonation by analyzing sender behavior, message structure, linguistic patterns, and organizational relationships—identifying sophisticated attacks even when AI mimics executive communication styles. The platform evaluates sender addresses, applies NLP to detect AI-generated content and stylistic inconsistencies, and cross-references requests against organizational hierarchies and historical patterns. By combining threat intelligence with behavioral baselines, it stops impersonation attempts before they reach employees—protecting against fraudulent wire transfers, credential theft, and social engineering attacks.",
     "scenarios.scenario1.desc": "Attackers leverage artificial intelligence to craft highly convincing impersonation messages that mimic executive communication styles, using publicly available data from LinkedIn and compromised mailbox content to generate authentic-sounding correspondence.",
-    "scenarios.scenario1.tab": "VIP Impersonation Using AI-Generated Email Contentg",
+    "scenarios.scenario1.tab": "VIP Impersonation",
     "scenarios.scenario1.title": "VIP Impersonation Using AI-Generated Email Content",
     "scenarios.scenario2.readmore": "",
     "scenarios.scenario2.legacydesc": "Traditional email filters rely on signature-based antivirus scanning and basic file type blocking. When attackers use obfuscation techniques, zero-day exploits, or file formats that appear legitimate, these filters often allow malicious attachments through—especially if the file type is commonly used in business communication. Legacy systems cannot detect subtle manipulation within document structure, hidden payloads embedded in metadata, or polymorphic malware that changes with each iteration, leaving organizations vulnerable to ransomware, data theft, and system compromise through seemingly harmless attachments.",
@@ -3808,7 +3808,7 @@
     "scenarios.scenario3.legacydesc": "Does not inspect QR codes, so the email is delivered. User scans code, leading to credential theft.",
     "scenarios.scenario3.moderndesc": "Image is analyzed for QR codes and the decoded URL is inspected. Email is quarantined.",
     "scenarios.scenario3.desc": "Malicious attachments remain one of the most common vectors for malware delivery, data theft, and system compromise. Attackers embed threats within seemingly legitimate files—PDFs with hidden scripts, Office documents with macro exploits, HTML files disguised as invoices, and calendar invites containing phishing links. Traditional antivirus solutions rely on signature matching, which fails against polymorphic malware, obfuscated payloads, and weaponized documents that appear benign until execution.",
-    "scenarios.scenario3.tab": "QR Code Phishing 'Quishing'",
+    "scenarios.scenario3.tab": "QR Code Phishing",
     "scenarios.scenario3.title": "QR Code Phishing 'Quishing'",
     "scenarios.scenario3.readmore": "QR Code Phishing: Decoding Hidden Threats",
     "scenarios.scenario4.legacydesc": "Legacy filters do not detect BEC language in emails.",
@@ -3817,38 +3817,38 @@
     "scenarios.scenario4.tab": "Business Email Compromise Description",
     "scenarios.scenario4.title": "Business Email Compromise",
     "scenarios.scenario4.readmore": "Fake invoice used to conduct $16,800 BEC attempt https://sublime.security/blog/business-email-compromise-fake-invoice-16800/",
-
     "scenarios.scenario5.legacydesc": "Legacy filters do not detect BEC language in emails.",
     "scenarios.scenario5.moderndesc": "Sublime detects BEC and fraud language and flags the message.",
     "scenarios.scenario5.desc": "Account Takeover Attacks Description",
     "scenarios.scenario5.tab": "Account Takeover Attacks",
     "scenarios.scenario5.title": "Account Takeover Attacks",
     "scenarios.scenario5.readmore": "",
+    "scenarios.scenario6.legacydesc": "Legacy filters do not ...",
+    "scenarios.scenario6.moderndesc": "Sublime detects ...",
+    "scenarios.scenario6.desc": "Zero-Day Exploits Description",
+    "scenarios.scenario6.tab": "Zero-Day Exploits",
+    "scenarios.scenario6.title": "Zero-Day Exploits",
+    "scenarios.scenario6.readmore": "",
     "scenarios.scenario7.legacydesc": "Legacy filters do not ...",
     "scenarios.scenario7.moderndesc": "Sublime detects ...",
-    "scenarios.scenario7.tab": "Zero-Day Exploits",
-    "scenarios.scenario7.title": "Zero-Day Exploits",
+    "scenarios.scenario7.tab": "Credential Harvesting",
+    "scenarios.scenario7.title": "Credential Harvesting",
     "scenarios.scenario7.readmore": "",
     "scenarios.scenario8.legacydesc": "Legacy filters do not ...",
     "scenarios.scenario8.moderndesc": "Sublime detects ...",
-    "scenarios.scenario8.tab": "Credential Harvesting",
-    "scenarios.scenario8.title": "Credential Harvesting",
+    "scenarios.scenario8.tab": "Fake HR Communication",
+    "scenarios.scenario8.title": "Fake HR Communication",
     "scenarios.scenario8.readmore": "",
     "scenarios.scenario9.legacydesc": "Legacy filters do not ...",
     "scenarios.scenario9.moderndesc": "Sublime detects ...",
-    "scenarios.scenario9.tab": "Fake HR Communication",
-    "scenarios.scenario9.title": "Fake HR Communication",
+    "scenarios.scenario9.tab": "Shared-Drive Access Phishing",
+    "scenarios.scenario9.title": "Shared-Drive Access Phishing",
     "scenarios.scenario9.readmore": "",
     "scenarios.scenario10.legacydesc": "Legacy filters do not ...",
     "scenarios.scenario10.moderndesc": "Sublime detects ...",
-    "scenarios.scenario10.tab": "Shared-Drive Access Phishing",
-    "scenarios.scenario10.title": "Shared-Drive Access Phishing",
+    "scenarios.scenario10.tab": "Supplier Invoice Manipulation",
+    "scenarios.scenario10.title": "Supplier Invoice Manipulation",
     "scenarios.scenario10.readmore": "",
-    "scenarios.scenario11.legacydesc": "Legacy filters do not ...",
-    "scenarios.scenario11.moderndesc": "Sublime detects ...",
-    "scenarios.scenario11.tab": "Supplier Invoice Manipulation",
-    "scenarios.scenario11.title": "Supplier Invoice Manipulation",
-    "scenarios.scenario11.readmore": "",
     "scenarios.title": "How it Protects Your Business",
     "statistics.description": "In 2025, email threats evolved faster than ever, as attackers introduced more sophisticated techniques, new attack vectors, and smarter evasion methods — particularly in the following areas:",
     "statistics.financialfraudtitle": "How Fraud Enters Your Business",
@@ -3904,14 +3904,14 @@
     "whatyouget.card10title": "Expert-Managed Service",
     "whatyouget.description": "One turnkey solution that brings together enterprise-grade protection, intelligent platform capabilities, and expert operational service — all in a single, streamlined offering.",
     "whatyouget.title": "What You Get",
-    "whyNeed.card1desc": "Block sophisticated phishing and zero-day threats missed by native and/or legacy tools.",
-    "whyNeed.card1title": "Stop Advanced Attacks",
-    "whyNeed.card2desc": "Free your team from endless manual triage and rely on a fully managed, always-on protection service.",
-    "whyNeed.card2title": "Eliminate Triage Burden",
-    "whyNeed.card3desc": "Neutralize and remove malicious emails immediately — keeping your operations secure and uninterrupted.",
-    "whyNeed.card3title": "Rapid Response",
-    "whyNeed.description": "Email is the primary entry point for cyberattacks, with 94% of breaches originating in the inbox. Today’s AI-driven phishing and sophisticated BEC campaigns bypass outdated filters and overwhelm IT teams with alert noise. You need managed, continuously updated protection that identifies and stops threats immediately — before any damage is done.",
-    "whyNeed.title": "Why You Need This"
+    "whyneed.card1desc": "Block sophisticated phishing and zero-day threats missed by native and/or legacy tools.",
+    "whyneed.card1title": "Stop Advanced Attacks",
+    "whyneed.card2desc": "Free your team from endless manual triage and rely on a fully managed, always-on protection service.",
+    "whyneed.card2title": "Eliminate Triage Burden",
+    "whyneed.card3desc": "Neutralize and remove malicious emails immediately — keeping your operations secure and uninterrupted.",
+    "whyneed.card3title": "Rapid Response",
+    "whyneed.description": "Email is the primary entry point for cyberattacks, with 94% of breaches originating in the inbox. Today’s AI-driven phishing and sophisticated BEC campaigns bypass outdated filters and overwhelm IT teams with alert noise. You need managed, continuously updated protection that identifies and stops threats immediately — before any damage is done.",
+    "whyneed.title": "Why You Need This"
   },
   fi: {
     "banner.description": "Käytä yritystason suojaustamme omassa ympäristössäsi 30 päivää – maksutta – ja löydä uhat, jotka nykyiset ratkaisusi päästävät läpi.",
@@ -4200,14 +4200,14 @@
     "whatyouget.card10title": "Asiantuntijoiden hallinnoima palvelu",
     "whatyouget.description": "Avaimet käteen -ratkaisu, joka yhdistää yritystasoisen suojauksen, älykkäät alustakyvykkyydet ja asiantuntijoiden tuottaman operatiivisen palvelun — kaikki yhdessä selkeässä ja suoraviivaisessa kokonaisuudessa.",
     "whatyouget.title": "Mitä Palvelu tarjoaa",
-    "whyNeed.card1desc": "Torju modernit phishing ja zero-day-uhat, jotka ohittavat sisäänrakennetut ja/tai vanhentuneet suojausratkaisut.",
-    "whyNeed.card1title": "Torju kehittyneet hyökkäykset",
-    "whyNeed.card2desc": "Päästä tiimisi irti manuaalisesta triage-rumbasta ja siirry täysin hallittuun, jatkuvasti toimivaan suojauspalveluun.",
-    "whyNeed.card2title": "Poista tarpeeton triage-kuorma",
-    "whyNeed.card3desc": "Pysäytä ja poista haitalliset sähköpostit hetkessä – suojaat toimintaasi keskeytyksiltä",
-    "whyNeed.card3title": "Välitön vaste",
-    "whyNeed.description": "Sähköposti on kyberhyökkäysten ensisijainen aloituspiste - jopa 94 % murroista saa alkunsa saapuneista viesteistä. Tekoälyllä toteutetut phishing- ja BEC-hyökkäykset ohittavat vanhentuneet suodattimet ja kuormittavat IT-henkilöstöä. Tarvitset hallitun, aina ajantasaisen suojauksen, joka tunnistaa ja pysäyttää uhkat välittömästi — ennen kuin vahinkoa ehtii syntyä.",
-    "whyNeed.title": "Miksi tarvitset ratkaisumme?"
+    "whyneed.card1desc": "Torju modernit phishing ja zero-day-uhat, jotka ohittavat sisäänrakennetut ja/tai vanhentuneet suojausratkaisut.",
+    "whyneed.card1title": "Torju kehittyneet hyökkäykset",
+    "whyneed.card2desc": "Päästä tiimisi irti manuaalisesta triage-rumbasta ja siirry täysin hallittuun, jatkuvasti toimivaan suojauspalveluun.",
+    "whyneed.card2title": "Poista tarpeeton triage-kuorma",
+    "whyneed.card3desc": "Pysäytä ja poista haitalliset sähköpostit hetkessä – suojaat toimintaasi keskeytyksiltä",
+    "whyneed.card3title": "Välitön vaste",
+    "whyneed.description": "Sähköposti on kyberhyökkäysten ensisijainen aloituspiste - jopa 94 % murroista saa alkunsa saapuneista viesteistä. Tekoälyllä toteutetut phishing- ja BEC-hyökkäykset ohittavat vanhentuneet suodattimet ja kuormittavat IT-henkilöstöä. Tarvitset hallitun, aina ajantasaisen suojauksen, joka tunnistaa ja pysäyttää uhkat välittömästi — ennen kuin vahinkoa ehtii syntyä.",
+    "whyneed.title": "Miksi tarvitset ratkaisumme?"
   },
   sv: {
     "banner.description": "Kör vårt skydd i Enterprise-klass i din egen miljö i 30 dagar – gratis – och upptäck de hot som dina nuvarande lösningar släpper igenom.",
@@ -4496,14 +4496,14 @@
     "whatyouget.card10title": "Experthanterad tjänst",
     "whatyouget.description": "Konsoliderat värde, plattformskapacitet och experttjänst i en nyckelfärdig lösning.",
     "whatyouget.title": "Vad du får",
-    "whyNeed.card1desc": "Blockera sofistikerad nätfiske och noll-dagars hot som missas av inbyggda och äldre verktyg.",
-    "whyNeed.card1title": "Stoppa avancerade attacker",
-    "whyNeed.card2desc": "Ersätt otaliga timmar av manuell triage med en 24/7 fullt hanterad tjänst.",
-    "whyNeed.card2title": "Eliminera triagebördan",
-    "whyNeed.card3desc": "Inneslut och åtgärda skadliga e-postmeddelanden på minuter, inte timmar eller dagar.",
-    "whyNeed.card3title": "Snabb respons",
-    "whyNeed.description": "E-post är den <strong>främsta attackvektorn</strong>, 94% av intrång börjar här**. AI-drivna attacker och sofistikerade BEC kringgår äldre filter, samtidigt som manuell triage dränerar ditt teams tid. Du behöver experthanterat skydd som stoppar hot på minuter.",
-    "whyNeed.title": "Varför du behöver detta"
+    "whyneed.card1desc": "Blockera sofistikerad nätfiske och noll-dagars hot som missas av inbyggda och äldre verktyg.",
+    "whyneed.card1title": "Stoppa avancerade attacker",
+    "whyneed.card2desc": "Ersätt otaliga timmar av manuell triage med en 24/7 fullt hanterad tjänst.",
+    "whyneed.card2title": "Eliminera triagebördan",
+    "whyneed.card3desc": "Inneslut och åtgärda skadliga e-postmeddelanden på minuter, inte timmar eller dagar.",
+    "whyneed.card3title": "Snabb respons",
+    "whyneed.description": "E-post är den <strong>främsta attackvektorn</strong>, 94% av intrång börjar här**. AI-drivna attacker och sofistikerade BEC kringgår äldre filter, samtidigt som manuell triage dränerar ditt teams tid. Du behöver experthanterat skydd som stoppar hot på minuter.",
+    "whyneed.title": "Varför du behöver detta"
   }
 };
 
