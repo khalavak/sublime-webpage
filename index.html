@@ -1189,9 +1189,10 @@
                 class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 min-w-[250px]"
                 onclick="showThreatScenario(6)">
                 <h3 class="font-bold text-sm md:text-base text-center" data-i18n="scenarios.scenario6.tab">
-                  Zero-Day Exploits
+                  MFA Fatigue
                 </h3>
               </div>
+
               <div
                 class="flex items-center justify-center scenario-tab px-6 py-3 rounded-lg smooth-transition cursor-pointer hover:bg-sofecta-dark/30 border-2 border-white/10 min-w-[250px]"
                 onclick="showThreatScenario(7)">
@@ -1292,8 +1293,8 @@
                 </p>
               </div>
             </div>
-            <img src="assets/graphs/graph-supplier-domain-inpersonation.svg"
-              alt="AI-Enhanced Phishing Detection Graph" class="mt-6 rounded-lg shadow-lg w-full" />
+            <img src="assets/graphs/graph-supplier-domain-inpersonation.svg" alt="AI-Enhanced Phishing Detection Graph"
+              class="mt-6 rounded-lg shadow-lg w-full" />
             <div class="mt-6 flex gap-6">
               <a href="https://sublime.security/blog/figma-abuse-from-compromised-vendor-used-in-credential-theft-attack/"
                 target="_blank"
@@ -1557,13 +1558,16 @@
             </div>
           </div>
 
+
           <div id="threat-scenario-6"
             class="scenario-content border-2 border-white/10 hover:border-sofecta-primary card-glow hidden text-white rounded-2xl p-8">
             <h3 class="text-3xl font-normal mb-4" data-i18n="scenarios.scenario6.title">
-              Zero-Day Exploits
+              MFA Fatigue Attack
             </h3>
             <p class="text-white/70 text-lg mb-6 leading-relaxed" data-i18n="scenarios.scenario6.desc">
-              Placeholder
+              MFA Fatigue (or MFA Bombing) occurs when an attacker spams a user's device with login approval
+              notifications. The goal is to annoy or confuse the user into approving the request just to make the
+              notifications stop.
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2">
               <div class="p-6 border-r-2 border-white/10">
@@ -1576,8 +1580,9 @@
                   </h4>
                 </div>
                 <p class="text-white/70 text-base leading-relaxed" data-i18n="scenarios.scenario6.legacydesc">
-                  Does not inspect QR codes, so the email is delivered. User
-                  scans code, leading to credential theft.
+                  Legacy MFA setups simply verify that the user clicked 'Approve'. They do not analyze the frequency of
+                  requests or the context, relying entirely on the user's patience. If the user gets frustrated and
+                  clicks approve, the attacker gains access.
                 </p>
               </div>
               <div class="p-6">
@@ -1591,8 +1596,9 @@
                   </h4>
                 </div>
                 <p class="text-white/70 text-base leading-relaxed" data-i18n="scenarios.scenario6.moderndesc">
-                  Image is analyzed for QR codes and the decoded URL is
-                  inspected. Email is quarantined.
+                  Sublime monitors authentication behavior for anomalies, such as a sudden flood of push notifications
+                  or login attempts from unusual locations. It flags this 'MFA bombing' activity and can block the
+                  compromised user account before an accidental approval occurs.
                 </p>
               </div>
             </div>
@@ -3952,11 +3958,11 @@
         "scenarios.scenario5.tab": "Account Takeover Attacks",
         "scenarios.scenario5.title": "Account Takeover Attacks",
         "scenarios.scenario5.readmore": "What is email security? Complete 2026 guide to threats and solutions",
-        "scenarios.scenario6.legacydesc": "Legacy security relies entirely on known signatures and defined rule sets, which means any zero-day exploit is treated as benign. Filters allow the malicious payload to pass through because it is unknown to security databases. The organization remains exposed until vendors release a critical patch or signature update.",
-        "scenarios.scenario6.moderndesc": "Sublime uses sandboxing and dynamic analysis to execute unknown attachments and links in a controlled environment. It monitors the file’s behavior for signs of unusual process creation, memory corruption, or network calls. This proactive analysis stops novel attacks based on anomalous behavior, not just known signatures.",
-        "scenarios.scenario6.desc": "A zero-day exploit leverages a vulnerability unknown to the software vendor and security defenses. These highly dangerous attacks rely on stealth and the lack of a current security patch or signature.",
-        "scenarios.scenario6.tab": "Zero-Day Exploits",
-        "scenarios.scenario6.title": "Zero-Day Exploits",
+        "scenarios.scenario6.legacydesc": "Legacy MFA setups simply verify that the user clicked 'Approve'. They do not analyze the frequency of requests or the context, relying entirely on the user's patience. If the user gets frustrated and clicks approve, the attacker gains access.",
+        "scenarios.scenario6.moderndesc": "Sublime monitors authentication behavior for anomalies, such as a sudden flood of push notifications or login attempts from unusual locations. It flags this 'MFA bombing' activity and can block the compromised user account before an accidental approval occurs.",
+        "scenarios.scenario6.desc": "MFA Fatigue (or MFA Bombing) occurs when an attacker spams a user's device with login approval notifications. The goal is to annoy or confuse the user into approving the request just to make the notifications stop.",
+        "scenarios.scenario6.tab": "MFA Fatigue",
+        "scenarios.scenario6.title": "MFA Fatigue Attack",
         "scenarios.scenario6.readmore": "",
         "scenarios.scenario7.legacydesc": "Legacy systems rely on reputation, failing on personalized phishing pages hosted on legitimate services (e.g., Google Sites) or new lookalike domains. Since the initial URL is often clean, the message passes easily. Users are then tricked into submitting credentials to a seemingly safe, yet fraudulent, login page.",
         "scenarios.scenario7.moderndesc": "Sublime performs deep link analysis, inspecting the HTML structure, form fields, and hidden page content of all URLs post-click. It identifies credential submission forms and matches them against known corporate logins and security policies. This contextual inspection quarantines messages leading to lookalike login pages, regardless of the hosting reputation.",
@@ -4310,11 +4316,11 @@
         "scenarios.scenario5.tab": "Yrityksen sähköpostitilin kaappaus",
         "scenarios.scenario5.title": "Tilinvaltaushyökkäykset",
         "scenarios.scenario5.readmore": "What is email security? Complete 2026 guide to threats and solutions",
-        "scenarios.scenario6.legacydesc": "Perinteinen tietoturva perustuu tunnettuihin allekirjoituksiin ja sääntöihin, jolloin mikä tahansa nollapäivähyödyntäminen käsitellään harmittomana. Suodattimet sallivat haitallisen sisällön läpi, koska se on tuntematon tietoturvatietokannoille. Organisaatio on altistunut, kunnes toimittajat julkaisevat kriittisen korjauspäivityksen.",
-        "scenarios.scenario6.moderndesc": "Sublime käyttää hiekkalaatikkoa ja dynaamista analyysiä tuntemattomien liitteiden ja linkkien suorittamiseen kontrolloidussa ympäristössä. Se valvoo tiedoston käyttäytymistä epätavallisen prosessin luomisen, muistin korruption tai verkkoviestinnän varalta. Tämä ennakoiva analyysi pysäyttää uudet hyökkäykset käyttäytymisen perusteella, ei pelkästään tunnettujen allekirjoitusten.",
-        "scenarios.scenario6.desc": "Nollapäivähyödyntäminen käyttää hyväksi haavoittuvuutta, joka on tuntematon sekä ohjelmistotoimittajalle että tietoturvajärjestelmille. Nämä erittäin vaaralliset hyökkäykset perustuvat piilotteluun ja nykyisen tietoturvakorjauksen puutteeseen.",
-        "scenarios.scenario6.tab": "Tilinhallussottohyökkäykset",
-        "scenarios.scenario6.title": "Nollapäivän hyväksikäytöt",
+        "scenarios.scenario6.legacydesc": "Perinteinen monivaiheinen tunnistautuminen (MFA) luottaa siihen, että käyttäjä hylkää luvattomat pyynnöt. Se ei analysoi pyyntöjen tiheyttä, jolloin hyökkääjä voi 'väsyttää' käyttäjän hyväksymään kirjautumisen vain saadakseen ilmoitustulvan loppumaan.",
+        "scenarios.scenario6.moderndesc": "Sublime valvoo tunnistautumiskäyttäytymistä poikkeavuuksien, kuten äkillisten ilmoitusryöppyjen, varalta. Se tunnistaa MFA-pommituksen ja voi estää vaarantuneen käyttäjätilin automaattisesti ennen kuin käyttäjä ehtii hyväksyä pyynnön vahingossa.",
+        "scenarios.scenario6.desc": "MFA-väsymyshyökkäyksessä (MFA Fatigue) hyökkääjä spämmää käyttäjän puhelimeen kirjautumispyyntöjä. Tavoitteena on saada uhri hyväksymään pyyntö joko turhautumisesta, tottumuksesta tai hämmennyksestä.",
+        "scenarios.scenario6.tab": "MFA-väsymys",
+        "scenarios.scenario6.title": "MFA-väsymyshyökkäys",
         "scenarios.scenario6.readmore": "",
         "scenarios.scenario7.legacydesc": "Perinteiset järjestelmät luottavat maineeseen, mutta ne epäonnistuvat uusilla tai räätälöidyillä kalastelusivuilla, jotka on isännöity luotetuilla palveluilla, kuten Google Sites. Koska alkuperäinen URL-osoite on usein puhdas, viesti menee helposti läpi. Käyttäjät huijataan lähettämään tunnukset näennäisesti turvalliselle kirjautumissivulle.",
         "scenarios.scenario7.moderndesc": "Sublime suorittaa syvän linkkianalyysin, tarkastamalla kaikkien URL-osoitteiden HTML-rakenteen, lomakekentät ja piilotetun sivun sisällön napsautuksen jälkeen. Se tunnistaa tunnistetietojen lähetyslomakkeet ja vertaa niitä tunnettuihin yrityksen kirjautumistietoihin. Tämä kontekstuaalinen tarkastus asettaa karanteeniin viestit, jotka johtavat samankaltaisille kirjautumissivuille, isännöintipalvelun maineesta riippumatta.",
@@ -4630,7 +4636,7 @@
         "currency.month": "€/mo",
         "currency.year": "€/year",
         "scenarios.description": "Vår tjänst är utformad för organisationer som inte har råd med operativa risker från e-postattacker. Utforska attackscenarierna för att se hur effektivt vårt skydd hanterar moderna hot jämfört med traditionella lösningar.",
-        "scenarios.legacyproblem": "Äldre lösning",
+        "scenarios.legacyproblem": "Traditionell lösning",
         "scenarios.modernsolution": "Sublime lösning",
         "scenarios.scenario0.tab": "Fakturabedrägeriattack från Leverantör",
         "scenarios.scenario0.title": "Fakturabedrägeriattack från Leverantör",
@@ -4661,18 +4667,18 @@
         "scenarios.scenario4.desc": "BEC-attacker innebär sofistikerad social ingenjörskonst där angripare imiterar chefer eller partners för att initiera bedrägliga överföringar.",
         "scenarios.scenario4.tab": "Affärs-e-postkompromiss Beskrivning",
         "scenarios.scenario4.title": "Företags-e-postkompromettering",
-        "scenarios.scenario4.readmore": "Falsk faktura användes för att genomföra ett BEC-försök på $16,800 https://sublime.security/blog/business-email-compromise-fake-invoice-16800/",
+        "scenarios.scenario4.readmore": "Falsk faktura användes för att genomföra ett BEC-försök på $16,800",
         "scenarios.scenario5.legacydesc": "Äldre system kontrollerar primärt externa hot, vilket missar intern lateral rörelse helt. När ett internt konto komprometterats behandlas avsändaren som fullt betrodd, vilket tillåter skadliga interna e-postmeddelanden att passera fritt. Detta möjliggör snabbt internt nätfiske och datastöld.",
         "scenarios.scenario5.moderndesc": "Sublime övervakar aktivitet efter leverans och upptäcker avvikande interna sändningsmönster (t.ex. massvidarebefordran till ovanliga mottagare). Den korrelerar inloggning, enhets- och e-postbeteende för att bekräfta kontotövertagande. Systemet begränsar automatiskt åtkomst eller tvingar omedelbar om-autentisering, vilket stoppar intern spridning.",
         "scenarios.scenario5.desc": "Angripare får obehörig åtkomst till en intern användares brevlåda genom nätfiske eller läckta referenser. De använder denna betrodda interna position för att starta efterföljande skadliga kampanjer.",
         "scenarios.scenario5.tab": "Affärs-e-postkompromiss",
         "scenarios.scenario5.title": "Kontotövertagandeattacker",
         "scenarios.scenario5.readmore": "What is email security? Complete 2026 guide to threats and solutions",
-        "scenarios.scenario6.legacydesc": "Äldre säkerhet förlitar sig helt på kända signaturer och definierade regeluppsättningar, vilket gör att alla zero-day-exploits behandlas som ofarliga. Filter tillåter skadlig nyttolast att passera eftersom den är okänd för säkerhetsdatabaserna. Organisationen är exponerad tills leverantörer släpper en kritisk patch eller signaturuppdatering.",
-        "scenarios.scenario6.moderndesc": "Sublime använder sandboxing och dynamisk analys för att köra okända bilagor och länkar i en kontrollerad miljö. Den övervakar filens beteende för tecken på ovanlig processskapande, minneskorruption eller nätverksanrop. Denna proaktiva analys stoppar nya attacker baserat på avvikande beteende, inte bara kända signaturer.",
-        "scenarios.scenario6.desc": "En zero-day exploit utnyttjar en sårbarhet som är okänd för både mjukvaruleverantören och säkerhetsförsvaret. Dessa mycket farliga attacker förlitar sig på smyg och bristen på en aktuell säkerhetsuppdatering.",
-        "scenarios.scenario6.tab": "Kontotövertagandeattacker",
-        "scenarios.scenario6.title": "Noll-dagars utnyttjanden",
+        "scenarios.scenario6.legacydesc": "Traditionell flerfaktorsautentisering (MFA) förlitar sig på att användaren nekar obehöriga förfrågningar. Den analyserar inte frekvensen av förfrågningar, vilket gör att en angripare kan 'trötta ut' användaren tills de godkänner inloggningen bara för att få stopp på notiserna.",
+        "scenarios.scenario6.moderndesc": "Sublime övervakar autentiseringsbeteende för avvikelser, såsom en plötslig flod av push-notiser. Den identifierar denna 'MFA-bombning' och kan blockera det komprometterade kontot innan användaren hinner godkänna åtkomsten av misstag.",
+        "scenarios.scenario6.desc": "MFA-trötthet (MFA Fatigue) inträffar när en angripare spammar en användares enhet med inloggningsnotiser. Målet är att få offret att godkänna förfrågan av frustration, vana eller förvirring.",
+        "scenarios.scenario6.tab": "MFA-trötthet",
+        "scenarios.scenario6.title": "MFA-trötthetsattack",
         "scenarios.scenario6.readmore": "",
         "scenarios.scenario7.legacydesc": "Äldre system förlitar sig på rykte och misslyckas med personliga nätfiskesidor som ligger på legitima tjänster (t.ex. Google Sites) eller nya lookalike-domäner. Eftersom den initiala URL:en ofta är ren, passerar meddelandet lätt. Användare luras att ange referenser på en till synes säker, men bedräglig, inloggningssida.",
         "scenarios.scenario7.moderndesc": "Sublime utför djup länkanalys och inspekterar HTML-strukturen, formulärfälten och dolt sidinnehåll för alla URL:er efter klick. Den identifierar formulär för inlämning av referenser och matchar dem mot kända företagsinloggningar. Denna kontextuella inspektion sätter meddelanden som leder till lookalike-inloggningssidor i karantän, oavsett värdtjänstens rykte.",
