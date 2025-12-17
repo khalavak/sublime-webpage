@@ -1983,14 +1983,14 @@
       <div class="w-full max-w-6xl mx-auto mb-12">
         <div class="rounded-2xl bg-sofecta-very-dark p-8 border-2 border-white/10 shadow-2xl">
           <div class="text-center mb-8">
-            <label class="block text-white/90 text-lg font-medium mb-4 tracking-wide">Select Number of Inboxes</label>
+            <label class="block text-white/90 text-lg font-medium mb-4 tracking-wide" data-i18n="pricing.selectNumberOfInboxes">Select Number of Inboxes</label>
             <div class="relative flex justify-center">
               <div
                 class="w-full sm:w-fit flex items-center flex-col sm:flex-row justify-center gap-1 bg-gradient-to-br from-sofecta-primary/20 to-sofecta-primary/5 px-8 py-4 rounded-2xl border-2 border-sofecta-primary/30 shadow-lg">
                 <input type="number" id="inbox-input"
                   class="w-fit px-2 py-1 text-center text-4xl font-normal bg-transparent border-none text-sofecta-primary focus:outline-none transition-all"
-                  min="0" max="1000" value="0" />
-                <span class="text-white/70 text-xl font-medium">inboxes</span>
+                  min="20" max="1000" value="0" />
+                <span class="text-white/70 text-xl font-medium" data-i18n="pricing.inboxes">inboxes</span>
               </div>
             </div>
           </div>
@@ -1999,7 +1999,7 @@
             <div class="relative pb-4">
               <div class="relative">
                 <input type="range" id="inbox-range"
-                  class="inbox-slider w-full h-3 appearance-none bg-transparent cursor-pointer" min="0" max="1000"
+                  class="inbox-slider w-full h-3 appearance-none bg-transparent cursor-pointer" min="20" max="1000"
                   value="0" />
                 <div id="slider-progress"
                   class="absolute top-1/2 -translate-y-1/2 left-0 h-3 bg-gradient-to-r from-sofecta-primary to-sofecta-primary/60 rounded-full pointer-events-none transition-all duration-200"
@@ -2008,7 +2008,7 @@
               <div class="flex justify-between px-2">
                 <div class="flex flex-col items-center" style="margin-left: 0%">
                   <div class="w-0.5 h-4 bg-white/30"></div>
-                  <span class="text-xs text-white/50 mt-1">1</span>
+                  <span class="text-xs text-white/50 mt-1">20</span>
                 </div>
                 <div class="flex flex-col items-center" style="margin-right: -2%">
                   <div class="w-0.5 h-4 bg-white/40"></div>
@@ -2033,13 +2033,13 @@
               <div
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
                 id="tier-small">
-                <div class="text-xs font-semibold text-white/60">Small</div>
-                <div class="text-xs text-white/40">1-100</div>
+                <div class="text-xs font-semibold text-white/60" data-i18n="pricing.small">Small</div>
+                <div class="text-xs text-white/40">20-100</div>
               </div>
               <div
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
                 id="tier-mid">
-                <div class="text-xs font-semibold text-white/60">
+                <div class="text-xs font-semibold text-white/60" data-i18n="pricing.mid">
                   Mid-Sized
                 </div>
                 <div class="text-xs text-white/40">101-250</div>
@@ -2047,13 +2047,13 @@
               <div
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
                 id="tier-large">
-                <div class="text-xs font-semibold text-white/60">Large</div>
+                <div class="text-xs font-semibold text-white/60" data-i18n="pricing.large">Large</div>
                 <div class="text-xs text-white/40">251-1000</div>
               </div>
               <div
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
                 id="tier-enterprise">
-                <div class="text-xs font-semibold text-white/60">
+                <div class="text-xs font-semibold text-white/60" data-i18n="pricing.enterprise">
                   Enterprise
                 </div>
                 <div class="text-xs text-white/40">1000+</div>
@@ -3830,6 +3830,12 @@
         "nav.pricing": "Pricing",
         "nav.statistics": "Why Email Protection",
         "nav.howItWorks": "How it works",
+        "pricing.selectNumberOfInboxes": "Number of Inboxes",
+        "pricing.inboxes": "inboxes",
+        "pricing.small": "Small",
+        "pricing.mid": "Mid",
+        "pricing.large": "Large",
+        "pricing.enterprise": "Enterprise",
         "pricing.complete.bestfor": "Ideal for organizations that want robust protection without dealing with critical alert triage, containment tasks, or continuous industry threat updates.",
         "pricing.complete.desc": "Managed email protection that blends real-time automated defense with dedicated security expert support.",
         "pricing.complete.everythingincore": "Everything in Core, plus:",
@@ -4188,6 +4194,12 @@
         "nav.pricing": "Hinnoittelu",
         "nav.statistics": "Miksi sähköpostisuojaus",
         "nav.howItWorks": "Kuinka se toimii",
+        "pricing.small": "Pieni",
+        "pricing.mid": "Keskikokoinen",
+        "pricing.large": "Suuri",
+        "pricing.enterprise": "Yritys",
+        "pricing.selectNumberOfInboxes": "Sähköpostilaatikoiden määrä",
+        "pricing.inboxes": "sähköpostilaatikkoa",
         "pricing.complete.desc": "Hallittu sähköpostiuhkien torjunta, joka yhdistää reaaliaikaisen automaattisen suojauksen ja asiantuntijatuen.",
         "pricing.complete.bestfor": "Suunniteltu organisaatioille, jotka tarvitsevat vahvan suojauksen ilman kriittisten hälytysten analyysia, torjuntatoimien hallintaa tai jatkuvien toimialakohtaisten uhkapäivitysten käsittelyä.",
         "pricing.complete.everythingincore": "Kaikki Core-paketista, plus:",
@@ -4546,6 +4558,12 @@
         "nav.pricing": "Prissättning",
         "nav.statistics": "Varför e-postskydd",
         "nav.howItWorks": "Hur det fungerar",
+        "pricing.selectNumberOfInboxes": "Antalet inkorgar",
+        "pricing.inboxes": "inkorgar",
+        "pricing.small": "Små",
+        "pricing.mid": "Medium",
+        "pricing.large": "Stor",
+        "pricing.enterprise": "Företag",
         "pricing.complete.desc": "Fullt hanterat e-posthotskydd som kombinerar automatisk detektion i realtid med expertdriven undersökning och respons.",
         "pricing.complete.bestfor": "Idealisk för organisationer som vill ha starkt skydd utan att själva underhålla regler, övervakning eller larmtriage.",
         "pricing.complete.everythingincore": "Allt i Core, plus:",
@@ -5239,14 +5257,30 @@
             debouncedWebhook(value);
           }
         });
-
+        var inputTimeoutBounce = null;
         // Sync input -> slider and send webhook
         inboxInput.addEventListener("input", (e) => {
           let value = parseInt(e.target.value);
+          clearTimeout(inputTimeoutBounce);
 
-          // Clamp value between min and max
-          if (value < 0) value = 0;
+          inputTimeoutBounce = setTimeout(() => {
+            // if value under 20 then set to 20
+            if (value < 20) {
+              console.log("Input under 20, setting to 20");
+              e.target.value = 20;
+              value = 20;
+            }
+          }, 1000);
+          
+          console.log("Input changed to:", value, value < 20);
+          
+          if (value < 0) {
+            e.target.value = 0;
+            value = 0;
+          }
           if (value > 1000) value = 1000;
+          // Clamp value between min and max
+
 
           inboxRange.value = value;
           updateTierDisplay(value);
