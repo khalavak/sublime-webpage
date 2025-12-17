@@ -5106,7 +5106,7 @@
           const netIncome = parseFloat(coreROI.net_income_yearly);
           const netIncomeElem = document.getElementById("core-net-income");
           netIncomeElem.textContent = formatCurrency(
-            coreROI.net_income_yearly,
+            coreROI.net_income_yearly / 12,
             true
           );
 
@@ -5160,7 +5160,7 @@
             "complete-net-income"
           );
           netIncomeElem.textContent = formatCurrency(
-            completeROI.net_income_yearly,
+            completeROI.net_income_yearly / 12,
             true
           );
 
@@ -5190,6 +5190,10 @@
 
       // Function to send webhook
       async function sendInboxWebhook(mailboxCount) {
+        if (mailboxCount < 20) {
+          mailboxCount = 20;
+        }
+        
         try {
           const response = await fetch(
             "https://meandering-firefly-1008.tines.com/webhook/customer-stories/9ce551b145273b68a3192e806f172366",
