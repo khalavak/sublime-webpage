@@ -5487,6 +5487,31 @@
       });
     });
   </script>
+  <script>
+    window.pipedriveLeadboosterConfig = {
+      base: "leadbooster-chat.pipedrive.com",
+      companyId: 19834850,
+      playbookUuid: "2c6f74cf-db41-4e43-a3a0-2cabf0340e29",
+      version: 2,
+    };
+    (function () {
+      var w = window;
+      if (w.LeadBooster) {
+        console.warn("LeadBooster already exists");
+      } else {
+        w.LeadBooster = {
+          q: [],
+          on: function (n, h) {
+            this.q.push({ t: "o", n: n, h: h });
+          },
+          trigger: function (n) {
+            this.q.push({ t: "t", n: n });
+          },
+        };
+      }
+    })();
+  </script>
+  <script src="https://leadbooster-chat.pipedrive.com/assets/loader.js" async></script>
 </body>
 
 </html>
