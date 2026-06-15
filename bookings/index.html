@@ -580,6 +580,7 @@
       </div>
       <div class="topbar-actions">
         <a class="btn-link" href="/">Back to Main Site</a>
+        <a class="btn-link" href="/bookings/admin/">Calendar Admin</a>
         <button class="btn" type="button" id="copy-link-btn">Copy Share Link</button>
       </div>
     </header>
@@ -612,31 +613,14 @@
 
         <section class="panel stack">
           <div>
-            <h3>Calendar Sources</h3>
-            <p>Add at least three Pipedrive scheduler links. Values are saved in your browser local storage.</p>
+            <h3>Calendar Configuration</h3>
+            <p>Manage person names, scheduler links, and colors in a separate admin page.</p>
           </div>
-
-          <div style="overflow:auto; max-height: 360px;">
-            <table class="calendar-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Person</th>
-                  <th>Color</th>
-                  <th>Scheduler URL</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="calendar-config-body"></tbody>
-            </table>
-          </div>
-
           <div class="inline-actions">
-            <button class="btn" type="button" id="add-calendar-btn">Add Calendar</button>
-            <button class="btn" type="button" id="reset-calendars-btn">Reset Defaults</button>
+            <a class="btn-link" href="/bookings/admin/">Open Calendar Admin</a>
+            <button class="btn" type="button" id="reload-calendars-btn">Reload Calendars</button>
           </div>
-          <div class="hint">Use links in format <span class="mono">https://&lt;company&gt;.pipedrive.com/scheduler/&lt;hash&gt;/&lt;name&gt;</span>.</div>
+          <div class="hint">Calendars persist in browser storage and can be exported/imported from the admin page.</div>
           <div class="status" id="save-status"></div>
         </section>
       </aside>
@@ -669,42 +653,31 @@
   <script>
     (function () {
       const DEFAULT_TIMEZONE = "Europe/Helsinki";
-      const CALENDAR_STORAGE_KEY = "sofecta_bookings_calendars_v1";
       const START_STORAGE_KEY = "sofecta_bookings_start_v1";
+      const CALENDARS_JSON_URL = "/bookings/calendars.json";
       const COLOR_PALETTE = ["#ffa300", "#36a2eb", "#ff6384", "#4bc0c0", "#9966ff", "#ff9f40", "#7bc043", "#f37736"];
-      
-      function createId() {
-        if (window.crypto && typeof window.crypto.randomUUID === "function") {
-          return window.crypto.randomUUID();
-        }
-        return `id-${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
-      }
 
-      function cloneDefaultCalendars() {
-        return JSON.parse(JSON.stringify(DEFAULT_CALENDARS));
-      }
-
-      const DEFAULT_CALENDARS = [
+      const FALLBACK_CALENDARS = [
         {
-          id: createId(),
-          name: "Sublime Demo",
-          person: "Rep 1",
+          id: "kim",
+          name: "Kim",
+          person: "Kim",
           color: "#ffa300",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
         },
         {
-          id: createId(),
-          name: "Sales Rep 2",
-          person: "Rep 2",
+          id: "jan",
+          name: "Jan",
+          person: "Jan",
           color: "#36a2eb",
-          url: "",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/W2p8prUy/sublime-demo",
         },
         {
-          id: createId(),
-          name: "Sales Rep 3",
-          person: "Rep 3",
+          id: "amos",
+          name: "Amos",
+          person: "Amos",
           color: "#ff6384",
-          url: "",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/qYLDLlC5/sublime-demo",
         },
       ];
 
@@ -716,9 +689,7 @@
         plusDayBtn: document.getElementById("plus-day-btn"),
         timezoneStatus: document.getElementById("timezone-status"),
         calendarGrid: document.getElementById("calendar-grid"),
-        configBody: document.getElementById("calendar-config-body"),
-        addCalendarBtn: document.getElementById("add-calendar-btn"),
-        resetCalendarsBtn: document.getElementById("reset-calendars-btn"),
+        reloadCalendarsBtn: document.getElementById("reload-calendars-btn"),
         saveStatus: document.getElementById("save-status"),
         copyLinkBtn: document.getElementById("copy-link-btn"),
         refreshAvailabilityBtn: document.getElementById("refresh-availability-btn"),
@@ -857,29 +828,38 @@
         return `${match[1]} ${match[2]}`;
       }
 
-      function loadCalendars() {
-        try {
-          const raw = localStorage.getItem(CALENDAR_STORAGE_KEY);
-          if (!raw) return cloneDefaultCalendars();
-          const parsed = JSON.parse(raw);
-          if (!Array.isArray(parsed) || parsed.length === 0) return cloneDefaultCalendars();
-          return parsed
-            .map((item, index) => ({
-              id: String(item.id || createId()),
-              name: String(item.name || `Calendar ${index + 1}`),
-              person: normalizePersonLabel(item.person || item.name, `Person ${index + 1}`),
-              color: normalizeHexColor(item.color || COLOR_PALETTE[index % COLOR_PALETTE.length], COLOR_PALETTE[index % COLOR_PALETTE.length]),
-              url: String(item.url || "").trim(),
-            }))
-            .slice(0, 20);
-        } catch {
-          return cloneDefaultCalendars();
-        }
+      function normalizeCalendarRecord(item, index) {
+        return {
+          id: String(item && item.id ? item.id : `calendar-${index + 1}`),
+          name: String((item && item.name) || `Calendar ${index + 1}`),
+          person: normalizePersonLabel(item && (item.person || item.name), `Person ${index + 1}`),
+          color: normalizeHexColor(item && item.color, COLOR_PALETTE[index % COLOR_PALETTE.length]),
+          url: String((item && item.url) || "").trim(),
+        };
       }
 
-      function saveCalendars() {
-        localStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(state.calendars));
-        els.saveStatus.innerHTML = `<strong class="ok">Saved</strong> ${state.calendars.length} calendar row(s) locally.`;
+      function normalizeCalendarList(rawList) {
+        if (!Array.isArray(rawList)) return [];
+        return rawList.map((item, index) => normalizeCalendarRecord(item, index)).slice(0, 40);
+      }
+
+      async function loadCalendarsFromConfig() {
+        try {
+          const response = await fetch(`${CALENDARS_JSON_URL}?v=${Date.now()}`, {
+            method: "GET",
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const parsed = await response.json();
+          const normalized = normalizeCalendarList(parsed);
+          if (normalized.length) {
+            return { calendars: normalized, source: "repo" };
+          }
+          throw new Error("Empty calendar list");
+        } catch {
+          const fallback = normalizeCalendarList(FALLBACK_CALENDARS);
+          return { calendars: fallback, source: "fallback" };
+        }
       }
 
       function setStartControls(startDateValue) {
@@ -942,98 +922,6 @@
         els.timezoneStatus.innerHTML = `Timezone: <strong>${DEFAULT_TIMEZONE}</strong><br/>Current synchronized start: <span class="mono">${start || "-"}</span>`;
       }
 
-      function renderCalendarConfig() {
-        els.configBody.innerHTML = "";
-
-        state.calendars.forEach((calendar, index) => {
-          const row = document.createElement("tr");
-
-          const indexCell = document.createElement("td");
-          indexCell.textContent = String(index + 1);
-
-          const nameCell = document.createElement("td");
-          const nameInput = document.createElement("input");
-          nameInput.className = "input";
-          nameInput.type = "text";
-          nameInput.value = calendar.name;
-          nameInput.placeholder = `Calendar ${index + 1}`;
-          nameInput.addEventListener("input", () => {
-            calendar.name = nameInput.value.trim() || `Calendar ${index + 1}`;
-            saveCalendars();
-            renderCalendars();
-            void refreshUnifiedAvailability();
-          });
-          nameCell.appendChild(nameInput);
-
-          const personCell = document.createElement("td");
-          const personInput = document.createElement("input");
-          personInput.className = "input";
-          personInput.type = "text";
-          personInput.value = calendar.person || "";
-          personInput.placeholder = `Person ${index + 1}`;
-          personInput.addEventListener("input", () => {
-            calendar.person = personInput.value.trim() || `Person ${index + 1}`;
-            saveCalendars();
-            renderCalendars();
-            void refreshUnifiedAvailability();
-          });
-          personCell.appendChild(personInput);
-
-          const colorCell = document.createElement("td");
-          const colorInput = document.createElement("input");
-          colorInput.type = "color";
-          colorInput.className = "input";
-          colorInput.value = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
-          colorInput.style.padding = "4px";
-          colorInput.style.height = "38px";
-          colorInput.addEventListener("change", () => {
-            calendar.color = normalizeHexColor(colorInput.value, COLOR_PALETTE[index % COLOR_PALETTE.length]);
-            saveCalendars();
-            renderCalendars();
-            void refreshUnifiedAvailability();
-          });
-          colorCell.appendChild(colorInput);
-
-          const urlCell = document.createElement("td");
-          const urlInput = document.createElement("input");
-          urlInput.className = "input mono";
-          urlInput.type = "url";
-          urlInput.value = calendar.url;
-          urlInput.placeholder = "https://.../scheduler/...";
-          urlInput.addEventListener("change", () => {
-            calendar.url = urlInput.value.trim();
-            saveCalendars();
-            renderCalendars();
-            void refreshUnifiedAvailability();
-          });
-          urlCell.appendChild(urlInput);
-
-          const actionCell = document.createElement("td");
-          const removeBtn = document.createElement("button");
-          removeBtn.className = "btn";
-          removeBtn.type = "button";
-          removeBtn.textContent = "Remove";
-          removeBtn.disabled = state.calendars.length <= 1;
-          removeBtn.addEventListener("click", () => {
-            state.calendars = state.calendars.filter((item) => item.id !== calendar.id);
-            saveCalendars();
-            renderCalendarConfig();
-            renderCalendars();
-            void refreshUnifiedAvailability();
-          });
-          actionCell.appendChild(removeBtn);
-
-          row.appendChild(indexCell);
-          row.appendChild(nameCell);
-          row.appendChild(personCell);
-          row.appendChild(colorCell);
-          row.appendChild(urlCell);
-          row.appendChild(actionCell);
-
-          els.configBody.appendChild(row);
-        });
-      }
-
       function renderCalendars() {
         const startValue = normalizeStartDate(getCurrentStartValue());
         els.calendarGrid.innerHTML = "";
@@ -1077,7 +965,7 @@
           if (!calendar.url.trim()) {
             const empty = document.createElement("div");
             empty.className = "empty-calendar";
-            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Set a Pipedrive scheduler link in the left panel for this row.</div>`;
+            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Open Calendar Admin to add scheduler links for this person.</div>`;
             card.appendChild(empty);
           } else if (!resolved) {
             const invalid = document.createElement("div");
@@ -1388,6 +1276,20 @@
         renderAvailabilityFromState();
       }
 
+      async function reloadCalendarsFromSource(showStatusMessage = false) {
+        const { calendars, source } = await loadCalendarsFromConfig();
+        state.calendars = calendars;
+        state.availabilityResults = [];
+        state.selectedPersons = new Set();
+        state.personSelectionInitialized = false;
+        renderCalendars();
+        await refreshUnifiedAvailability();
+        if (showStatusMessage && els.saveStatus) {
+          const sourceLabel = source === "repo" ? "GitHub config" : "fallback defaults";
+          els.saveStatus.innerHTML = `<strong class="ok">Loaded</strong> ${state.calendars.length} calendar row(s) from ${sourceLabel}.`;
+        }
+      }
+
       async function copyShareLink() {
         const start = normalizeStartDate(getCurrentStartValue());
         if (!start) return;
@@ -1456,28 +1358,8 @@
           void applyStartToAll();
         });
 
-        els.addCalendarBtn.addEventListener("click", () => {
-          const color = COLOR_PALETTE[state.calendars.length % COLOR_PALETTE.length];
-          state.calendars.push({
-            id: createId(),
-            name: `Calendar ${state.calendars.length + 1}`,
-            person: `Person ${state.calendars.length + 1}`,
-            color,
-            url: "",
-          });
-          saveCalendars();
-          renderCalendarConfig();
-          renderCalendars();
-          void refreshUnifiedAvailability();
-        });
-
-        els.resetCalendarsBtn.addEventListener("click", () => {
-          state.calendars = cloneDefaultCalendars();
-          saveCalendars();
-          renderCalendarConfig();
-          renderCalendars();
-          void refreshUnifiedAvailability();
-          els.saveStatus.innerHTML = `<strong class="ok">Reset</strong> calendar list restored to defaults.`;
+        els.reloadCalendarsBtn.addEventListener("click", () => {
+          void reloadCalendarsFromSource(true);
         });
 
         els.copyLinkBtn.addEventListener("click", copyShareLink);
@@ -1489,17 +1371,16 @@
         els.businessEnd.addEventListener("change", renderAvailabilityFromState);
       }
 
-      function init() {
-        state.calendars = loadCalendars();
+      async function init() {
         initializeStart();
+        const start = normalizeStartDate(getCurrentStartValue());
+        if (start) updateBrowserAndStorageStart(start);
         bindEvents();
-        renderCalendarConfig();
         renderTimezoneStatus();
-        renderCalendars();
-        void applyStartToAll();
+        await reloadCalendarsFromSource(true);
       }
 
-      init();
+      void init();
     })();
   </script>
 </body>

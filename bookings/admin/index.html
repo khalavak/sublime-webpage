@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofecta Labs | Booking Calendar Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --panel: #171717;
+      --panel-2: #1f1f1f;
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #ffffff;
+      --text-dim: rgba(255, 255, 255, 0.72);
+      --accent: #ffa300;
+      --accent-soft: rgba(255, 163, 0, 0.2);
+      --danger: #ff5a5a;
+      --ok: #31ad60;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Readex Pro", sans-serif;
+      background: radial-gradient(circle at 15% -10%, rgba(255, 163, 0, 0.14), transparent 42%), var(--bg);
+      color: var(--text);
+    }
+
+    .shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 18px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border: 1px solid var(--border);
+      background: rgba(12, 12, 12, 0.86);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand img {
+      height: 34px;
+      width: auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions,
+    .inline-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .panel {
+      background: linear-gradient(160deg, rgba(255, 163, 0, 0.05), transparent 22%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .panel p,
+    .hint {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .btn,
+    .btn-link {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.86rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .btn:hover,
+    .btn-link:hover {
+      border-color: rgba(255, 163, 0, 0.54);
+      background: rgba(255, 163, 0, 0.14);
+    }
+
+    .status {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      border: 1px dashed rgba(255, 255, 255, 0.24);
+      border-radius: 10px;
+      padding: 8px 9px;
+    }
+
+    .ok {
+      color: var(--ok);
+    }
+
+    .danger {
+      color: var(--danger);
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 64vh;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+    }
+
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.83rem;
+      min-width: 920px;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 6px;
+    }
+
+    .calendar-table th {
+      color: var(--text-dim);
+      font-weight: 500;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: rgba(20, 20, 20, 0.98);
+      z-index: 1;
+    }
+
+    .calendar-table td:last-child,
+    .calendar-table th:last-child {
+      text-align: right;
+    }
+
+    .input {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 9px 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.84rem;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: rgba(255, 163, 0, 0.7);
+      box-shadow: 0 0 0 2px var(--accent-soft);
+    }
+
+    .url-cell {
+      min-width: 300px;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.74rem;
+    }
+
+    .link-row .btn-link {
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      border-radius: 8px;
+    }
+
+    .source-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    @media (max-width: 920px) {
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/assets/sofecta-logo-full-color.png" alt="Sofecta Labs" />
+        <h1>Booking Calendar Admin</h1>
+      </div>
+      <div class="topbar-actions">
+        <a class="btn-link" href="/bookings/">Back to Booking View</a>
+        <a class="btn-link" href="/">Back to Main Site</a>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div>
+        <h2>Calendar Config In Git</h2>
+        <p>This page edits the calendar configuration and exports it as <span class="mono">bookings/calendars.json</span>. Commit that file to GitHub to persist globally for all users.</p>
+      </div>
+      <div class="source-row">
+        <span>Repo file:</span>
+        <span class="mono">bookings/calendars.json</span>
+        <a class="btn-link" href="https://github.com/khalavak/sublime-webpage/blob/main/bookings/calendars.json" target="_blank" rel="noopener noreferrer">Open In GitHub</a>
+      </div>
+      <div class="inline-actions">
+        <button class="btn" type="button" id="reload-btn">Reload From Repo</button>
+        <button class="btn" type="button" id="add-row-btn">Add Calendar</button>
+        <button class="btn" type="button" id="reset-btn">Reset Defaults</button>
+        <button class="btn" type="button" id="copy-json-btn">Copy JSON</button>
+        <button class="btn" type="button" id="download-json-btn">Download calendars.json</button>
+      </div>
+      <div class="hint">After download, replace <span class="mono">bookings/calendars.json</span> in the repo and push to apply changes in production.</div>
+      <div class="status" id="status-msg"></div>
+    </section>
+
+    <section class="panel">
+      <h3>Calendars</h3>
+      <div class="table-wrap">
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Person</th>
+              <th>Color</th>
+              <th>Scheduler URL</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="calendar-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const CALENDARS_JSON_URL = "/bookings/calendars.json";
+      const MAX_CALENDARS = 40;
+      const COLOR_PALETTE = ["#ffa300", "#36a2eb", "#ff6384", "#4bc0c0", "#9966ff", "#ff9f40", "#7bc043", "#f37736"];
+
+      const DEFAULT_CALENDARS = [
+        {
+          id: "kim",
+          name: "Kim",
+          person: "Kim",
+          color: "#ffa300",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
+        },
+        {
+          id: "jan",
+          name: "Jan",
+          person: "Jan",
+          color: "#36a2eb",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/W2p8prUy/sublime-demo",
+        },
+        {
+          id: "amos",
+          name: "Amos",
+          person: "Amos",
+          color: "#ff6384",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/qYLDLlC5/sublime-demo",
+        },
+      ];
+
+      const els = {
+        body: document.getElementById("calendar-body"),
+        status: document.getElementById("status-msg"),
+        reloadBtn: document.getElementById("reload-btn"),
+        addRowBtn: document.getElementById("add-row-btn"),
+        resetBtn: document.getElementById("reset-btn"),
+        copyJsonBtn: document.getElementById("copy-json-btn"),
+        downloadJsonBtn: document.getElementById("download-json-btn"),
+      };
+
+      const state = {
+        calendars: [],
+        lastSource: "repo",
+      };
+
+      function normalizePersonLabel(value, fallback = "Person") {
+        const token = String(value || "").trim();
+        return token || fallback;
+      }
+
+      function normalizeHexColor(rawColor, fallbackColor = "#ffa300") {
+        const token = String(rawColor || "").trim();
+        if (/^#([0-9a-fA-F]{6})$/.test(token)) return token.toLowerCase();
+        if (/^#([0-9a-fA-F]{3})$/.test(token)) {
+          const short = token.slice(1).toLowerCase();
+          return `#${short[0]}${short[0]}${short[1]}${short[1]}${short[2]}${short[2]}`;
+        }
+        return fallbackColor;
+      }
+
+      function getValidatedSchedulerUrl(rawUrl) {
+        const token = String(rawUrl || "").trim();
+        if (!token) return "";
+        try {
+          const url = new URL(token);
+          if (url.protocol !== "https:") return "";
+          if (!url.pathname.toLowerCase().includes("/scheduler/")) return "";
+          return url;
+        } catch {
+          return "";
+        }
+      }
+
+      function normalizeCalendarRecord(item, index) {
+        return {
+          id: String(item && item.id ? item.id : `calendar-${index + 1}`),
+          name: String((item && item.name) || `Calendar ${index + 1}`),
+          person: normalizePersonLabel(item && (item.person || item.name), `Person ${index + 1}`),
+          color: normalizeHexColor(item && item.color, COLOR_PALETTE[index % COLOR_PALETTE.length]),
+          url: String((item && item.url) || "").trim(),
+        };
+      }
+
+      function normalizeCalendarList(rawList) {
+        if (!Array.isArray(rawList)) return [];
+        return rawList.map((item, index) => normalizeCalendarRecord(item, index)).slice(0, MAX_CALENDARS);
+      }
+
+      async function loadFromRepo() {
+        try {
+          const response = await fetch(`${CALENDARS_JSON_URL}?v=${Date.now()}`, {
+            method: "GET",
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const payload = await response.json();
+          const normalized = normalizeCalendarList(payload);
+          if (!normalized.length) throw new Error("Empty calendars.json");
+          state.calendars = normalized;
+          state.lastSource = "repo";
+          renderTable();
+          els.status.innerHTML = `<strong class="ok">Loaded</strong> ${state.calendars.length} row(s) from <span class="mono">${CALENDARS_JSON_URL}</span>.`;
+        } catch (error) {
+          state.calendars = normalizeCalendarList(DEFAULT_CALENDARS);
+          state.lastSource = "fallback";
+          renderTable();
+          const message = error instanceof Error ? error.message : "load failed";
+          els.status.innerHTML = `<strong class="danger">Repo load failed</strong> ${message}. Fallback defaults loaded.`;
+        }
+      }
+
+      function buildOpenLink(urlToken) {
+        const parsed = getValidatedSchedulerUrl(urlToken);
+        if (!parsed) return `<span class="danger">Invalid URL</span>`;
+        return `<a class="btn-link" href="${parsed.toString()}" target="_blank" rel="noopener noreferrer">Open</a>`;
+      }
+
+      function renderTable() {
+        els.body.innerHTML = "";
+
+        state.calendars.forEach((calendar, index) => {
+          const row = document.createElement("tr");
+
+          const indexCell = document.createElement("td");
+          indexCell.textContent = String(index + 1);
+
+          const nameCell = document.createElement("td");
+          const nameInput = document.createElement("input");
+          nameInput.className = "input";
+          nameInput.type = "text";
+          nameInput.value = calendar.name;
+          nameInput.placeholder = `Calendar ${index + 1}`;
+          nameInput.addEventListener("change", () => {
+            calendar.name = nameInput.value.trim() || `Calendar ${index + 1}`;
+            updateStatusDraft();
+            renderTable();
+          });
+          nameCell.appendChild(nameInput);
+
+          const personCell = document.createElement("td");
+          const personInput = document.createElement("input");
+          personInput.className = "input";
+          personInput.type = "text";
+          personInput.value = calendar.person || "";
+          personInput.placeholder = `Person ${index + 1}`;
+          personInput.addEventListener("change", () => {
+            calendar.person = normalizePersonLabel(personInput.value, `Person ${index + 1}`);
+            updateStatusDraft();
+            renderTable();
+          });
+          personCell.appendChild(personInput);
+
+          const colorCell = document.createElement("td");
+          const colorInput = document.createElement("input");
+          colorInput.type = "color";
+          colorInput.className = "input";
+          colorInput.style.padding = "4px";
+          colorInput.style.height = "38px";
+          colorInput.value = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
+          colorInput.addEventListener("change", () => {
+            calendar.color = normalizeHexColor(colorInput.value, COLOR_PALETTE[index % COLOR_PALETTE.length]);
+            updateStatusDraft();
+          });
+          colorCell.appendChild(colorInput);
+
+          const urlCell = document.createElement("td");
+          urlCell.className = "url-cell";
+          const urlInput = document.createElement("input");
+          urlInput.className = "input mono";
+          urlInput.type = "url";
+          urlInput.value = calendar.url;
+          urlInput.placeholder = "https://.../scheduler/...";
+          urlInput.addEventListener("change", () => {
+            calendar.url = urlInput.value.trim();
+            updateStatusDraft();
+            renderTable();
+          });
+          const linkRow = document.createElement("div");
+          linkRow.className = "link-row";
+          linkRow.innerHTML = buildOpenLink(calendar.url);
+          urlCell.appendChild(urlInput);
+          urlCell.appendChild(linkRow);
+
+          const actionCell = document.createElement("td");
+          const removeBtn = document.createElement("button");
+          removeBtn.className = "btn";
+          removeBtn.type = "button";
+          removeBtn.textContent = "Remove";
+          removeBtn.disabled = state.calendars.length <= 1;
+          removeBtn.addEventListener("click", () => {
+            state.calendars = state.calendars.filter((item) => item.id !== calendar.id);
+            updateStatusDraft();
+            renderTable();
+          });
+          actionCell.appendChild(removeBtn);
+
+          row.appendChild(indexCell);
+          row.appendChild(nameCell);
+          row.appendChild(personCell);
+          row.appendChild(colorCell);
+          row.appendChild(urlCell);
+          row.appendChild(actionCell);
+          els.body.appendChild(row);
+        });
+      }
+
+      function updateStatusDraft() {
+        els.status.innerHTML = `<strong class="ok">Draft updated</strong> ${state.calendars.length} row(s) in memory. Download <span class="mono">calendars.json</span> and commit to GitHub.`;
+      }
+
+      function addRow() {
+        if (state.calendars.length >= MAX_CALENDARS) {
+          els.status.innerHTML = `<strong class="danger">Limit reached</strong> Maximum ${MAX_CALENDARS} calendars allowed.`;
+          return;
+        }
+        const index = state.calendars.length;
+        state.calendars.push({
+          id: `calendar-${index + 1}`,
+          name: `Calendar ${index + 1}`,
+          person: `Person ${index + 1}`,
+          color: COLOR_PALETTE[index % COLOR_PALETTE.length],
+          url: "",
+        });
+        updateStatusDraft();
+        renderTable();
+      }
+
+      function resetDefaults() {
+        state.calendars = normalizeCalendarList(DEFAULT_CALENDARS);
+        state.lastSource = "fallback";
+        renderTable();
+        els.status.innerHTML = `<strong class="ok">Reset</strong> fallback defaults loaded. Download and commit to make them global.`;
+      }
+
+      function getSerializedCalendars() {
+        return JSON.stringify(normalizeCalendarList(state.calendars), null, 2);
+      }
+
+      async function copyJson() {
+        try {
+          await navigator.clipboard.writeText(getSerializedCalendars());
+          els.status.innerHTML = `<strong class="ok">Copied</strong> JSON copied to clipboard. Commit as <span class="mono">bookings/calendars.json</span>.`;
+        } catch {
+          els.status.innerHTML = `<strong class="danger">Copy failed</strong> Clipboard permission denied.`;
+        }
+      }
+
+      function downloadJson() {
+        const payload = getSerializedCalendars();
+        const blob = new Blob([payload], { type: "application/json" });
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = objectUrl;
+        anchor.download = "calendars.json";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(objectUrl);
+        els.status.innerHTML = `<strong class="ok">Downloaded</strong> Replace <span class="mono">bookings/calendars.json</span> in repo and push.`;
+      }
+
+      function bindEvents() {
+        els.reloadBtn.addEventListener("click", () => {
+          void loadFromRepo();
+        });
+        els.addRowBtn.addEventListener("click", addRow);
+        els.resetBtn.addEventListener("click", resetDefaults);
+        els.copyJsonBtn.addEventListener("click", () => {
+          void copyJson();
+        });
+        els.downloadJsonBtn.addEventListener("click", downloadJson);
+      }
+
+      function init() {
+        bindEvents();
+        void loadFromRepo();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+
+</html>
