@@ -359,6 +359,90 @@
       gap: 7px;
     }
 
+    .availability-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      padding: 8px 9px;
+      background: rgba(255, 255, 255, 0.02);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.8rem;
+    }
+
+    .availability-controls .input {
+      width: 115px;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .business-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .business-field {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .person-filter-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .person-filter-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 4px 9px 4px 6px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .person-filter-item input {
+      accent-color: var(--accent);
+      margin: 0;
+    }
+
+    .filter-actions {
+      display: inline-flex;
+      gap: 6px;
+      margin-right: 3px;
+    }
+
+    .btn-mini {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.86);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .btn-mini:hover {
+      border-color: rgba(255, 163, 0, 0.54);
+      background: rgba(255, 163, 0, 0.12);
+      color: #fff;
+    }
+
     .legend-item {
       display: inline-flex;
       align-items: center;
@@ -571,6 +655,12 @@
             <button class="btn" type="button" id="refresh-availability-btn">Refresh Availability</button>
           </div>
           <div class="legend-list" id="availability-legend"></div>
+          <div class="availability-controls">
+            <label class="business-toggle"><input id="business-hours-only" type="checkbox" />Business hours only</label>
+            <label class="business-field">From <input class="input mono" id="business-start" type="time" step="900" value="08:00" /></label>
+            <label class="business-field">To <input class="input mono" id="business-end" type="time" step="900" value="18:00" /></label>
+          </div>
+          <div class="person-filter-wrap" id="person-filter-wrap"></div>
           <div class="status" id="availability-status"></div>
           <div class="unified-wrap" id="availability-wrap"></div>
         </section>
@@ -640,11 +730,18 @@
         availabilityLegend: document.getElementById("availability-legend"),
         availabilityStatus: document.getElementById("availability-status"),
         availabilityWrap: document.getElementById("availability-wrap"),
+        personFilterWrap: document.getElementById("person-filter-wrap"),
+        businessHoursOnly: document.getElementById("business-hours-only"),
+        businessStart: document.getElementById("business-start"),
+        businessEnd: document.getElementById("business-end"),
       };
 
       const state = {
         calendars: [],
         availabilityRequestId: 0,
+        availabilityResults: [],
+        selectedPersons: new Set(),
+        personSelectionInitialized: false,
       };
 
       function pad2(value) {
@@ -658,6 +755,11 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#39;");
+      }
+
+      function normalizePersonLabel(value, fallback = "Person") {
+        const token = String(value || "").trim();
+        return token || fallback;
       }
 
       function normalizeHexColor(rawColor, fallbackColor = "#ffa300") {
@@ -686,6 +788,23 @@
         const weekday = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" }).format(date);
         const dayMonth = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "2-digit", timeZone: "UTC" }).format(date);
         return { line1: `${weekday} ${dayMonth}`, line2: dateIso };
+      }
+
+      function parseTimeToMinutes(value) {
+        const match = String(value || "").trim().match(/^(\d{2}):(\d{2})/);
+        if (!match) return null;
+        const hours = Number(match[1]);
+        const minutes = Number(match[2]);
+        if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
+        return (hours * 60) + minutes;
+      }
+
+      function withinTimeWindow(timeToken, startMinutes, endMinutes) {
+        const timeMinutes = parseTimeToMinutes(timeToken);
+        if (timeMinutes === null) return false;
+        if (startMinutes === null || endMinutes === null) return true;
+        if (startMinutes <= endMinutes) return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
+        return timeMinutes >= startMinutes || timeMinutes <= endMinutes;
       }
 
       function toPartsInTimeZone(date, timeZone) {
@@ -753,7 +872,7 @@
             .map((item, index) => ({
               id: String(item.id || createId()),
               name: String(item.name || `Calendar ${index + 1}`),
-              person: String(item.person || item.name || `Person ${index + 1}`),
+              person: normalizePersonLabel(item.person || item.name, `Person ${index + 1}`),
               color: normalizeHexColor(item.color || COLOR_PALETTE[index % COLOR_PALETTE.length], COLOR_PALETTE[index % COLOR_PALETTE.length]),
               url: String(item.url || "").trim(),
             }))
@@ -998,13 +1117,148 @@
           .join("");
       }
 
+      function getDistinctPersons(results) {
+        const set = new Set();
+        for (const result of results) {
+          const person = normalizePersonLabel(result.person, "Person");
+          set.add(person);
+        }
+        return [...set].sort((a, b) => a.localeCompare(b));
+      }
+
+      function syncSelectedPersons(persons) {
+        if (!persons.length) {
+          state.selectedPersons = new Set();
+          state.personSelectionInitialized = false;
+          return;
+        }
+        if (!state.personSelectionInitialized) {
+          state.selectedPersons = new Set(persons);
+          state.personSelectionInitialized = true;
+          return;
+        }
+        const next = new Set();
+        for (const person of persons) {
+          if (state.selectedPersons.has(person)) next.add(person);
+        }
+        state.selectedPersons = next;
+      }
+
+      function renderPersonFilters(persons) {
+        els.personFilterWrap.innerHTML = "";
+        if (!persons.length) return;
+
+        const actions = document.createElement("div");
+        actions.className = "filter-actions";
+
+        const allBtn = document.createElement("button");
+        allBtn.type = "button";
+        allBtn.className = "btn-mini";
+        allBtn.textContent = "All";
+        allBtn.addEventListener("click", () => {
+          state.selectedPersons = new Set(persons);
+          state.personSelectionInitialized = true;
+          renderAvailabilityFromState();
+        });
+
+        const noneBtn = document.createElement("button");
+        noneBtn.type = "button";
+        noneBtn.className = "btn-mini";
+        noneBtn.textContent = "None";
+        noneBtn.addEventListener("click", () => {
+          state.selectedPersons = new Set();
+          state.personSelectionInitialized = true;
+          renderAvailabilityFromState();
+        });
+
+        actions.appendChild(allBtn);
+        actions.appendChild(noneBtn);
+        els.personFilterWrap.appendChild(actions);
+
+        for (const person of persons) {
+          const label = document.createElement("label");
+          label.className = "person-filter-item";
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = state.selectedPersons.has(person);
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+              state.selectedPersons.add(person);
+            } else {
+              state.selectedPersons.delete(person);
+            }
+            state.personSelectionInitialized = true;
+            renderAvailabilityFromState();
+          });
+
+          const text = document.createElement("span");
+          text.textContent = person;
+          label.appendChild(checkbox);
+          label.appendChild(text);
+          els.personFilterWrap.appendChild(label);
+        }
+      }
+
+      function applyAvailabilityFilters(results) {
+        const onlyBusinessHours = Boolean(els.businessHoursOnly.checked);
+        const startMinutes = parseTimeToMinutes(els.businessStart.value || "08:00");
+        const endMinutes = parseTimeToMinutes(els.businessEnd.value || "18:00");
+
+        return results
+          .filter((result) => state.selectedPersons.has(normalizePersonLabel(result.person, "Person")))
+          .map((result) => ({
+            ...result,
+            person: normalizePersonLabel(result.person, "Person"),
+            slots: result.slots.filter((slot) => !onlyBusinessHours || withinTimeWindow(slot.time, startMinutes, endMinutes)),
+          }));
+      }
+
+      function renderAvailabilityFromState() {
+        const results = state.availabilityResults;
+        if (!results.length) {
+          els.personFilterWrap.innerHTML = "";
+          renderAvailabilityLegend([]);
+          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No availability data yet.</strong><div>Use refresh after configuring scheduler links.</div></div>`;
+          els.availabilityStatus.innerHTML = `<strong>Waiting</strong> configure calendar links to load availability.`;
+          return;
+        }
+
+        const persons = getDistinctPersons(results);
+        syncSelectedPersons(persons);
+        renderPersonFilters(persons);
+
+        const filtered = applyAvailabilityFilters(results);
+        const legendByPerson = new Map();
+        for (const item of filtered) {
+          if (!legendByPerson.has(item.person)) {
+            legendByPerson.set(item.person, item.color);
+          }
+        }
+        const legendItems = [...legendByPerson.entries()].map(([person, color]) => ({ person, color }));
+        renderAvailabilityLegend(legendItems);
+        renderUnifiedAvailabilityTable(filtered);
+
+        const totalSlots = results.reduce((sum, item) => sum + item.slots.length, 0);
+        const visibleSlots = filtered.reduce((sum, item) => sum + item.slots.length, 0);
+        const failed = results.filter((item) => item.error);
+        const selectedCount = state.selectedPersons.size;
+
+        if (failed.length) {
+          const first = failed[0];
+          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
+          return;
+        }
+        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected.`;
+      }
+
       async function fetchCalendarAvailability(calendar, startDate, fallbackColor) {
         const publicHash = extractPublicHash(calendar.url);
         const schedulerUrl = getValidatedSchedulerUrl(calendar.url);
         if (!schedulerUrl || !publicHash) {
           return {
             calendarId: calendar.id,
-            person: calendar.person || calendar.name,
+            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
             name: calendar.name,
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots: [],
@@ -1019,7 +1273,7 @@
           if (!response.ok) {
             return {
               calendarId: calendar.id,
-              person: calendar.person || calendar.name,
+              person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
               name: calendar.name,
               color: normalizeHexColor(calendar.color, fallbackColor),
               slots: [],
@@ -1045,7 +1299,7 @@
 
           return {
             calendarId: calendar.id,
-            person: calendar.person || calendar.name || "Person",
+            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
             name: calendar.name || "Calendar",
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots,
@@ -1054,7 +1308,7 @@
         } catch (error) {
           return {
             calendarId: calendar.id,
-            person: calendar.person || calendar.name,
+            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
             name: calendar.name,
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots: [],
@@ -1124,9 +1378,13 @@
 
         const calendars = state.calendars.filter((calendar) => String(calendar.url || "").trim());
         if (!calendars.length) {
+          state.availabilityResults = [];
+          state.selectedPersons = new Set();
+          state.personSelectionInitialized = false;
           els.availabilityStatus.innerHTML = `<strong class="danger">No calendars configured</strong> Add scheduler URLs to load unified availability.`;
           els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No sources configured.</strong><div>Add at least one scheduler URL in the source list.</div></div>`;
           els.availabilityLegend.innerHTML = "";
+          els.personFilterWrap.innerHTML = "";
           return;
         }
 
@@ -1135,19 +1393,8 @@
         );
 
         if (requestId !== state.availabilityRequestId) return;
-
-        const legendItems = results.map((item) => ({ person: item.person || "Person", color: item.color }));
-        renderAvailabilityLegend(legendItems);
-        renderUnifiedAvailabilityTable(results);
-
-        const failed = results.filter((item) => item.error);
-        const availableCount = results.reduce((sum, item) => sum + item.slots.length, 0);
-        if (failed.length) {
-          const first = failed[0];
-          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> ${availableCount} available slot(s) loaded. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
-          return;
-        }
-        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> ${availableCount} available slot(s) from ${results.length} source(s).`;
+        state.availabilityResults = results;
+        renderAvailabilityFromState();
       }
 
       async function copyShareLink() {
@@ -1249,6 +1496,9 @@
         els.refreshAvailabilityBtn.addEventListener("click", () => {
           void refreshUnifiedAvailability();
         });
+        els.businessHoursOnly.addEventListener("change", renderAvailabilityFromState);
+        els.businessStart.addEventListener("change", renderAvailabilityFromState);
+        els.businessEnd.addEventListener("change", renderAvailabilityFromState);
       }
 
       function init() {
