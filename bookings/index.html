@@ -1487,8 +1487,8 @@
                   return `<div class="planner-time-empty">${escapeHtml(seTime)} SE / ${escapeHtml(fiTime)} FI</div>`;
                 }
                 return `<div class="planner-time-row">
-                  <span class="planner-time-secondary">${escapeHtml(seTime)} SE</span>
-                  <a class="planner-time-link" style="--chip-color:${color}; border-color:${color};" href="${escapeHtml(slot.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fiTime)} FI</a>
+                  <a class="planner-time-link" style="--chip-color:${color}; border-color:${color};" href="${escapeHtml(slot.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(seTime)} SE</a>
+                  <span class="planner-time-secondary">${escapeHtml(fiTime)} FI</span>
                 </div>`;
               })
               .join("")
