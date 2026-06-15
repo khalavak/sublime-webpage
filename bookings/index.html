@@ -357,6 +357,20 @@
       align-content: start;
     }
 
+    .planner-time-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+    }
+
+    .planner-time-secondary {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.72);
+      white-space: nowrap;
+    }
+
     .planner-time-link {
       display: inline-flex;
       align-items: center;
@@ -1472,7 +1486,10 @@
                 if (!slot.bookingUrl) {
                   return `<div class="planner-time-empty">${escapeHtml(seTime)} SE / ${escapeHtml(fiTime)} FI</div>`;
                 }
-                return `<a class="planner-time-link" style="--chip-color:${color}; border-color:${color};" href="${escapeHtml(slot.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(seTime)} SE / ${escapeHtml(fiTime)} FI</a>`;
+                return `<div class="planner-time-row">
+                  <span class="planner-time-secondary">${escapeHtml(seTime)} SE</span>
+                  <a class="planner-time-link" style="--chip-color:${color}; border-color:${color};" href="${escapeHtml(slot.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fiTime)} FI</a>
+                </div>`;
               })
               .join("")
             : `<div class="planner-time-empty">No free times</div>`;
