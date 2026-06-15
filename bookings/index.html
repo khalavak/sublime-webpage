@@ -196,6 +196,37 @@
       box-shadow: 0 0 0 2px var(--accent-soft);
     }
 
+    .datetime-wrap {
+      position: relative;
+    }
+
+    .datetime-wrap .input {
+      padding-right: 46px;
+    }
+
+    .datepicker-trigger {
+      position: absolute;
+      right: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 163, 0, 0.6);
+      background: rgba(255, 163, 0, 0.18);
+      color: #ffd28a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .datepicker-trigger:hover {
+      background: rgba(255, 163, 0, 0.28);
+      border-color: rgba(255, 163, 0, 0.9);
+      color: #fff2dc;
+    }
+
     .inline-actions {
       display: flex;
       flex-wrap: wrap;
@@ -575,7 +606,14 @@
           <div class="field-grid" style="grid-template-columns: 1fr;">
             <div class="field">
               <label for="start-datetime">Date &amp; Time</label>
-              <input id="start-datetime" class="input mono" type="text" placeholder="YYYY-MM-DD HH:mm" />
+              <div class="datetime-wrap">
+                <input id="start-datetime" class="input mono" type="text" placeholder="YYYY-MM-DD HH:mm" />
+                <button class="datepicker-trigger" type="button" id="open-picker-btn" aria-label="Open calendar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -664,6 +702,7 @@
 
       const els = {
         startDatetime: document.getElementById("start-datetime"),
+        openPickerBtn: document.getElementById("open-picker-btn"),
         applyBtn: document.getElementById("apply-btn"),
         todayBtn: document.getElementById("today-btn"),
         minusDayBtn: document.getElementById("minus-day-btn"),
@@ -817,7 +856,21 @@
         const compact = raw.replace("T", " ").replace(/\s+/g, " ").trim();
         const match = compact.match(/^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2})/);
         if (!match) return "";
-        return `${match[1]} ${match[2]}`;
+        const [year, month, day] = match[1].split("-").map(Number);
+        const [hour, minute] = match[2].split(":").map(Number);
+        if (
+          !Number.isFinite(year) ||
+          !Number.isFinite(month) ||
+          !Number.isFinite(day) ||
+          !Number.isFinite(hour) ||
+          !Number.isFinite(minute)
+        ) {
+          return "";
+        }
+        const utc = new Date(Date.UTC(year, month - 1, day, hour, minute, 0));
+        if (Number.isNaN(utc.getTime())) return "";
+        utc.setUTCMinutes(Math.round(utc.getUTCMinutes() / 15) * 15, 0, 0);
+        return `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())} ${pad2(utc.getUTCHours())}:${pad2(utc.getUTCMinutes())}`;
       }
 
       function normalizeCalendarRecord(item, index) {
@@ -860,7 +913,7 @@
           time_24hr: true,
           dateFormat: "Y-m-d H:i",
           minuteIncrement: 15,
-          allowInput: true,
+          allowInput: false,
           disableMobile: true,
           clickOpens: true,
         });
@@ -1367,6 +1420,13 @@
 
         els.startDatetime.addEventListener("change", () => {
           void applyStartToAll();
+        });
+        els.openPickerBtn.addEventListener("click", () => {
+          if (state.startPicker) {
+            state.startPicker.open();
+            return;
+          }
+          els.startDatetime.focus();
         });
 
         els.reloadCalendarsBtn.addEventListener("click", () => {
