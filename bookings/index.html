@@ -246,6 +246,153 @@
       align-content: start;
     }
 
+    .unified-wrap {
+      width: 100%;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(12, 12, 12, 0.75);
+    }
+
+    .unified-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 740px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.84rem;
+    }
+
+    .unified-table th,
+    .unified-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+      padding: 8px;
+      min-width: 132px;
+    }
+
+    .unified-table th:last-child,
+    .unified-table td:last-child {
+      border-right: none;
+    }
+
+    .unified-time {
+      width: 94px;
+      min-width: 94px;
+      text-align: center;
+      font-weight: 600;
+      color: #ffe4ba;
+      background: rgba(255, 163, 0, 0.08);
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+
+    .unified-head-time {
+      z-index: 3;
+    }
+
+    .unified-day-head {
+      text-align: left;
+      font-weight: 600;
+      color: #ffddb0;
+      background: rgba(255, 163, 0, 0.08);
+    }
+
+    .unified-day-sub {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.67);
+      font-size: 0.73rem;
+      font-weight: 400;
+    }
+
+    .slot-cell {
+      min-height: 54px;
+    }
+
+    .slot-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .slot-chip {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-left-width: 5px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+      padding: 5px 7px;
+      line-height: 1.2;
+      display: grid;
+      gap: 2px;
+      max-width: 100%;
+    }
+
+    .slot-chip .slot-person {
+      font-weight: 600;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slot-chip .slot-name {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slot-empty {
+      color: rgba(255, 255, 255, 0.35);
+      text-align: center;
+      padding-top: 10px;
+      font-size: 0.8rem;
+    }
+
+    .legend-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 4px 9px 4px 6px;
+      font-size: 0.77rem;
+      font-family: "DM Sans", sans-serif;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex: 0 0 12px;
+    }
+
+    .person-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 3px 8px 3px 6px;
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 0.74rem;
+      font-family: "DM Sans", sans-serif;
+      white-space: nowrap;
+    }
+
     .calendar-card {
       background: rgba(19, 19, 19, 0.95);
       border: 1px solid var(--border);
@@ -395,6 +542,8 @@
                 <tr>
                   <th>#</th>
                   <th>Name</th>
+                  <th>Person</th>
+                  <th>Color</th>
                   <th>Scheduler URL</th>
                   <th>Action</th>
                 </tr>
@@ -412,7 +561,20 @@
         </section>
       </aside>
 
-      <main>
+      <main class="stack">
+        <section class="panel stack">
+          <div class="inline-actions" style="justify-content: space-between; align-items: center;">
+            <div>
+              <h3>Unified Availability</h3>
+              <p>One matrix view from all configured calendars. Cells show available persons for each time slot.</p>
+            </div>
+            <button class="btn" type="button" id="refresh-availability-btn">Refresh Availability</button>
+          </div>
+          <div class="legend-list" id="availability-legend"></div>
+          <div class="status" id="availability-status"></div>
+          <div class="unified-wrap" id="availability-wrap"></div>
+        </section>
+
         <section class="calendar-grid" id="calendar-grid"></section>
       </main>
     </div>
@@ -423,6 +585,7 @@
       const DEFAULT_TIMEZONE = "Europe/Helsinki";
       const CALENDAR_STORAGE_KEY = "sofecta_bookings_calendars_v1";
       const START_STORAGE_KEY = "sofecta_bookings_start_v1";
+      const COLOR_PALETTE = ["#ffa300", "#36a2eb", "#ff6384", "#4bc0c0", "#9966ff", "#ff9f40", "#7bc043", "#f37736"];
       
       function createId() {
         if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -439,16 +602,22 @@
         {
           id: createId(),
           name: "Sublime Demo",
+          person: "Rep 1",
+          color: "#ffa300",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
         },
         {
           id: createId(),
           name: "Sales Rep 2",
+          person: "Rep 2",
+          color: "#36a2eb",
           url: "",
         },
         {
           id: createId(),
           name: "Sales Rep 3",
+          person: "Rep 3",
+          color: "#ff6384",
           url: "",
         },
       ];
@@ -467,14 +636,56 @@
         resetCalendarsBtn: document.getElementById("reset-calendars-btn"),
         saveStatus: document.getElementById("save-status"),
         copyLinkBtn: document.getElementById("copy-link-btn"),
+        refreshAvailabilityBtn: document.getElementById("refresh-availability-btn"),
+        availabilityLegend: document.getElementById("availability-legend"),
+        availabilityStatus: document.getElementById("availability-status"),
+        availabilityWrap: document.getElementById("availability-wrap"),
       };
 
       const state = {
         calendars: [],
+        availabilityRequestId: 0,
       };
 
       function pad2(value) {
         return String(value).padStart(2, "0");
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function normalizeHexColor(rawColor, fallbackColor = "#ffa300") {
+        const token = String(rawColor || "").trim();
+        if (/^#([0-9a-fA-F]{6})$/.test(token)) return token.toLowerCase();
+        if (/^#([0-9a-fA-F]{3})$/.test(token)) {
+          const short = token.slice(1).toLowerCase();
+          return `#${short[0]}${short[0]}${short[1]}${short[1]}${short[2]}${short[2]}`;
+        }
+        return fallbackColor;
+      }
+
+      function extractPublicHash(rawUrl) {
+        const parsed = getValidatedSchedulerUrl(rawUrl);
+        if (!parsed) return "";
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        const schedulerIndex = parts.findIndex((part) => part.toLowerCase() === "scheduler");
+        if (schedulerIndex < 0) return "";
+        return String(parts[schedulerIndex + 1] || "").trim();
+      }
+
+      function formatDayHead(dateIso) {
+        const parts = String(dateIso || "").split("-").map(Number);
+        if (parts.length !== 3 || parts.some((item) => !Number.isFinite(item))) return { line1: dateIso, line2: "" };
+        const date = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0));
+        const weekday = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" }).format(date);
+        const dayMonth = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "2-digit", timeZone: "UTC" }).format(date);
+        return { line1: `${weekday} ${dayMonth}`, line2: dateIso };
       }
 
       function toPartsInTimeZone(date, timeZone) {
@@ -542,6 +753,8 @@
             .map((item, index) => ({
               id: String(item.id || createId()),
               name: String(item.name || `Calendar ${index + 1}`),
+              person: String(item.person || item.name || `Person ${index + 1}`),
+              color: normalizeHexColor(item.color || COLOR_PALETTE[index % COLOR_PALETTE.length], COLOR_PALETTE[index % COLOR_PALETTE.length]),
               url: String(item.url || "").trim(),
             }))
             .slice(0, 20);
@@ -638,8 +851,38 @@
             calendar.name = nameInput.value.trim() || `Calendar ${index + 1}`;
             saveCalendars();
             renderCalendars();
+            void refreshUnifiedAvailability();
           });
           nameCell.appendChild(nameInput);
+
+          const personCell = document.createElement("td");
+          const personInput = document.createElement("input");
+          personInput.className = "input";
+          personInput.type = "text";
+          personInput.value = calendar.person || "";
+          personInput.placeholder = `Person ${index + 1}`;
+          personInput.addEventListener("input", () => {
+            calendar.person = personInput.value.trim() || `Person ${index + 1}`;
+            saveCalendars();
+            renderCalendars();
+            void refreshUnifiedAvailability();
+          });
+          personCell.appendChild(personInput);
+
+          const colorCell = document.createElement("td");
+          const colorInput = document.createElement("input");
+          colorInput.type = "color";
+          colorInput.className = "input";
+          colorInput.value = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
+          colorInput.style.padding = "4px";
+          colorInput.style.height = "38px";
+          colorInput.addEventListener("change", () => {
+            calendar.color = normalizeHexColor(colorInput.value, COLOR_PALETTE[index % COLOR_PALETTE.length]);
+            saveCalendars();
+            renderCalendars();
+            void refreshUnifiedAvailability();
+          });
+          colorCell.appendChild(colorInput);
 
           const urlCell = document.createElement("td");
           const urlInput = document.createElement("input");
@@ -651,6 +894,7 @@
             calendar.url = urlInput.value.trim();
             saveCalendars();
             renderCalendars();
+            void refreshUnifiedAvailability();
           });
           urlCell.appendChild(urlInput);
 
@@ -665,11 +909,14 @@
             saveCalendars();
             renderCalendarConfig();
             renderCalendars();
+            void refreshUnifiedAvailability();
           });
           actionCell.appendChild(removeBtn);
 
           row.appendChild(indexCell);
           row.appendChild(nameCell);
+          row.appendChild(personCell);
+          row.appendChild(colorCell);
           row.appendChild(urlCell);
           row.appendChild(actionCell);
 
@@ -694,6 +941,12 @@
 
           const actions = document.createElement("div");
           actions.className = "inline-actions";
+
+          const personBadge = document.createElement("span");
+          personBadge.className = "person-badge";
+          const personColor = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
+          personBadge.innerHTML = `<span class="legend-dot" style="background:${personColor};"></span><span>${escapeHtml(calendar.person || `Person ${index + 1}`)}</span>`;
+          actions.appendChild(personBadge);
 
           const resolved = startValue ? withStartDate(calendar.url, startValue) : "";
           if (resolved) {
@@ -735,6 +988,168 @@
         });
       }
 
+      function renderAvailabilityLegend(items) {
+        if (!items.length) {
+          els.availabilityLegend.innerHTML = "";
+          return;
+        }
+        els.availabilityLegend.innerHTML = items
+          .map((item) => `<span class="legend-item"><span class="legend-dot" style="background:${item.color};"></span>${escapeHtml(item.person)}</span>`)
+          .join("");
+      }
+
+      async function fetchCalendarAvailability(calendar, startDate, fallbackColor) {
+        const publicHash = extractPublicHash(calendar.url);
+        const schedulerUrl = getValidatedSchedulerUrl(calendar.url);
+        if (!schedulerUrl || !publicHash) {
+          return {
+            calendarId: calendar.id,
+            person: calendar.person || calendar.name,
+            name: calendar.name,
+            color: normalizeHexColor(calendar.color, fallbackColor),
+            slots: [],
+            error: "Invalid scheduler URL",
+          };
+        }
+
+        const endpoint = `${schedulerUrl.origin}/scheduler/v1/availability/${encodeURIComponent(publicHash)}?start_date=${encodeURIComponent(startDate)}`;
+
+        try {
+          const response = await fetch(endpoint, { method: "GET", mode: "cors" });
+          if (!response.ok) {
+            return {
+              calendarId: calendar.id,
+              person: calendar.person || calendar.name,
+              name: calendar.name,
+              color: normalizeHexColor(calendar.color, fallbackColor),
+              slots: [],
+              error: `HTTP ${response.status}`,
+            };
+          }
+
+          const payload = await response.json();
+          const rows = Array.isArray(payload?.data) ? payload.data : [];
+          const slots = [];
+
+          for (const row of rows) {
+            const date = String(row?.date || "").trim();
+            if (!date) continue;
+            const timeslots = Array.isArray(row?.timeslots) ? row.timeslots : [];
+            for (const slot of timeslots) {
+              if (!slot?.available) continue;
+              const time = String(slot?.time || "").trim();
+              if (!time) continue;
+              slots.push({ date, time });
+            }
+          }
+
+          return {
+            calendarId: calendar.id,
+            person: calendar.person || calendar.name || "Person",
+            name: calendar.name || "Calendar",
+            color: normalizeHexColor(calendar.color, fallbackColor),
+            slots,
+            error: "",
+          };
+        } catch (error) {
+          return {
+            calendarId: calendar.id,
+            person: calendar.person || calendar.name,
+            name: calendar.name,
+            color: normalizeHexColor(calendar.color, fallbackColor),
+            slots: [],
+            error: error instanceof Error ? error.message : "Fetch failed",
+          };
+        }
+      }
+
+      function renderUnifiedAvailabilityTable(results) {
+        const daySet = new Set();
+        const timeSet = new Set();
+        const cellMap = new Map();
+
+        for (const result of results) {
+          for (const slot of result.slots) {
+            daySet.add(slot.date);
+            timeSet.add(slot.time);
+            const key = `${slot.date}|${slot.time}`;
+            if (!cellMap.has(key)) cellMap.set(key, []);
+            cellMap.get(key).push({
+              person: result.person,
+              name: result.name,
+              color: result.color,
+            });
+          }
+        }
+
+        const days = [...daySet].sort((left, right) => left.localeCompare(right));
+        const times = [...timeSet].sort((left, right) => left.localeCompare(right));
+
+        if (!days.length || !times.length) {
+          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No available times found.</strong><div>Try another start date or verify calendar links.</div></div>`;
+          return;
+        }
+
+        const thead = [
+          `<tr><th class="unified-time unified-head-time">Time</th>`,
+          ...days.map((day) => {
+            const label = formatDayHead(day);
+            return `<th class="unified-day-head">${escapeHtml(label.line1)}<span class="unified-day-sub mono">${escapeHtml(label.line2)}</span></th>`;
+          }),
+          `</tr>`,
+        ].join("");
+
+        const rows = times.map((time) => {
+          const cells = days.map((day) => {
+            const key = `${day}|${time}`;
+            const items = (cellMap.get(key) || []).slice().sort((a, b) => a.person.localeCompare(b.person));
+            if (!items.length) return `<td class="slot-cell"><div class="slot-empty">—</div></td>`;
+            const chips = items
+              .map((item) => `<div class="slot-chip" style="border-left-color:${item.color};"><span class="slot-person">${escapeHtml(item.person)}</span><span class="slot-name">${escapeHtml(item.name)}</span></div>`)
+              .join("");
+            return `<td class="slot-cell"><div class="slot-chip-list">${chips}</div></td>`;
+          });
+          return `<tr><td class="unified-time mono">${escapeHtml(time)}</td>${cells.join("")}</tr>`;
+        });
+
+        els.availabilityWrap.innerHTML = `<table class="unified-table"><thead>${thead}</thead><tbody>${rows.join("")}</tbody></table>`;
+      }
+
+      async function refreshUnifiedAvailability() {
+        const start = normalizeStartDate(getCurrentStartValue());
+        if (!start) return;
+
+        const requestId = ++state.availabilityRequestId;
+        els.availabilityStatus.innerHTML = `<strong>Loading</strong> unified availability from configured calendars...`;
+
+        const calendars = state.calendars.filter((calendar) => String(calendar.url || "").trim());
+        if (!calendars.length) {
+          els.availabilityStatus.innerHTML = `<strong class="danger">No calendars configured</strong> Add scheduler URLs to load unified availability.`;
+          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No sources configured.</strong><div>Add at least one scheduler URL in the source list.</div></div>`;
+          els.availabilityLegend.innerHTML = "";
+          return;
+        }
+
+        const results = await Promise.all(
+          calendars.map((calendar, index) => fetchCalendarAvailability(calendar, start, COLOR_PALETTE[index % COLOR_PALETTE.length])),
+        );
+
+        if (requestId !== state.availabilityRequestId) return;
+
+        const legendItems = results.map((item) => ({ person: item.person || "Person", color: item.color }));
+        renderAvailabilityLegend(legendItems);
+        renderUnifiedAvailabilityTable(results);
+
+        const failed = results.filter((item) => item.error);
+        const availableCount = results.reduce((sum, item) => sum + item.slots.length, 0);
+        if (failed.length) {
+          const first = failed[0];
+          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> ${availableCount} available slot(s) loaded. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
+          return;
+        }
+        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> ${availableCount} available slot(s) from ${results.length} source(s).`;
+      }
+
       async function copyShareLink() {
         const start = normalizeStartDate(getCurrentStartValue());
         if (!start) return;
@@ -748,7 +1163,7 @@
         }
       }
 
-      function applyStartToAll() {
+      async function applyStartToAll() {
         const start = normalizeStartDate(getCurrentStartValue());
         if (!start) {
           els.saveStatus.innerHTML = `<strong class="danger">Invalid start date/time</strong> Choose valid values first.`;
@@ -758,6 +1173,7 @@
         updateBrowserAndStorageStart(start);
         renderTimezoneStatus();
         renderCalendars();
+        await refreshUnifiedAvailability();
         els.saveStatus.innerHTML = `<strong class="ok">Applied</strong> start date to all calendars.`;
       }
 
@@ -778,36 +1194,46 @@
       }
 
       function bindEvents() {
-        els.applyBtn.addEventListener("click", applyStartToAll);
+        els.applyBtn.addEventListener("click", () => {
+          void applyStartToAll();
+        });
 
         els.todayBtn.addEventListener("click", () => {
           const now = getRoundedHelsinkiNow();
           setStartControls(`${now.date} ${now.time}`);
-          applyStartToAll();
+          void applyStartToAll();
         });
 
         els.minusDayBtn.addEventListener("click", () => {
           shiftCurrentStartDays(-1);
-          applyStartToAll();
+          void applyStartToAll();
         });
 
         els.plusDayBtn.addEventListener("click", () => {
           shiftCurrentStartDays(1);
-          applyStartToAll();
+          void applyStartToAll();
         });
 
-        els.startDate.addEventListener("change", applyStartToAll);
-        els.startTime.addEventListener("change", applyStartToAll);
+        els.startDate.addEventListener("change", () => {
+          void applyStartToAll();
+        });
+        els.startTime.addEventListener("change", () => {
+          void applyStartToAll();
+        });
 
         els.addCalendarBtn.addEventListener("click", () => {
+          const color = COLOR_PALETTE[state.calendars.length % COLOR_PALETTE.length];
           state.calendars.push({
             id: createId(),
             name: `Calendar ${state.calendars.length + 1}`,
+            person: `Person ${state.calendars.length + 1}`,
+            color,
             url: "",
           });
           saveCalendars();
           renderCalendarConfig();
           renderCalendars();
+          void refreshUnifiedAvailability();
         });
 
         els.resetCalendarsBtn.addEventListener("click", () => {
@@ -815,10 +1241,14 @@
           saveCalendars();
           renderCalendarConfig();
           renderCalendars();
+          void refreshUnifiedAvailability();
           els.saveStatus.innerHTML = `<strong class="ok">Reset</strong> calendar list restored to defaults.`;
         });
 
         els.copyLinkBtn.addEventListener("click", copyShareLink);
+        els.refreshAvailabilityBtn.addEventListener("click", () => {
+          void refreshUnifiedAvailability();
+        });
       }
 
       function init() {
@@ -828,7 +1258,7 @@
         renderCalendarConfig();
         renderTimezoneStatus();
         renderCalendars();
-        applyStartToAll();
+        void applyStartToAll();
       }
 
       init();
