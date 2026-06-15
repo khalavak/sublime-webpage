@@ -10,6 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&family=DM+Sans:wght@400;500;700&display=swap"
     rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <style>
     :root {
       --bg: #0e0e0e;
@@ -574,7 +575,7 @@
           <div class="field-grid" style="grid-template-columns: 1fr;">
             <div class="field">
               <label for="start-datetime">Date &amp; Time</label>
-              <input id="start-datetime" class="input mono" type="datetime-local" step="900" />
+              <input id="start-datetime" class="input mono" type="text" placeholder="YYYY-MM-DD HH:mm" />
             </div>
           </div>
 
@@ -592,7 +593,7 @@
         <section class="panel stack">
           <div>
             <h3>Calendar Configuration</h3>
-            <p>Manage person names, scheduler links, and colors in a separate admin page.</p>
+            <p>Manage calendar names, scheduler links, and colors in a separate admin page.</p>
           </div>
           <div class="inline-actions">
             <a class="btn-link" href="/bookings/admin/">Open Calendar Admin</a>
@@ -627,6 +628,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     (function () {
       const DEFAULT_TIMEZONE = "Europe/Helsinki";
@@ -643,21 +645,18 @@
         {
           id: "kim",
           name: "Kim",
-          person: "Kim",
           color: "#ffa300",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
         },
         {
           id: "jan",
           name: "Jan",
-          person: "Jan",
           color: "#36a2eb",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/W2p8prUy/sublime-demo",
         },
         {
           id: "amos",
           name: "Amos",
-          person: "Amos",
           color: "#ff6384",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/qYLDLlC5/sublime-demo",
         },
@@ -687,6 +686,7 @@
         availabilityResults: [],
         selectedPersons: new Set(),
         personSelectionInitialized: false,
+        startPicker: null,
       };
 
       function pad2(value) {
@@ -702,7 +702,7 @@
           .replace(/'/g, "&#39;");
       }
 
-      function normalizePersonLabel(value, fallback = "Person") {
+      function normalizeNameLabel(value, fallback = "Calendar") {
         const token = String(value || "").trim();
         return token || fallback;
       }
@@ -824,7 +824,6 @@
         return {
           id: String(item && item.id ? item.id : `calendar-${index + 1}`),
           name: String((item && item.name) || `Calendar ${index + 1}`),
-          person: normalizePersonLabel(item && (item.person || item.name), `Person ${index + 1}`),
           color: normalizeHexColor(item && item.color, COLOR_PALETTE[index % COLOR_PALETTE.length]),
           url: String((item && item.url) || "").trim(),
         };
@@ -854,11 +853,27 @@
         }
       }
 
+      function initializeDateTimePicker() {
+        if (typeof window.flatpickr !== "function") return;
+        state.startPicker = window.flatpickr(els.startDatetime, {
+          enableTime: true,
+          time_24hr: true,
+          dateFormat: "Y-m-d H:i",
+          minuteIncrement: 15,
+          allowInput: true,
+          disableMobile: true,
+          clickOpens: true,
+        });
+      }
+
       function setStartControls(startDateValue) {
         const normalized = normalizeStartDate(startDateValue);
         if (!normalized) return;
-        const [date, time] = normalized.split(" ");
-        els.startDatetime.value = `${date}T${time}`;
+        if (state.startPicker) {
+          state.startPicker.setDate(normalized, false, "Y-m-d H:i");
+          return;
+        }
+        els.startDatetime.value = normalized;
       }
 
       function getCurrentStartValue() {
@@ -935,7 +950,7 @@
           const personBadge = document.createElement("span");
           personBadge.className = "person-badge";
           const personColor = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
-          personBadge.innerHTML = `<span class="legend-dot" style="background:${personColor};"></span><span>${escapeHtml(calendar.person || `Person ${index + 1}`)}</span>`;
+          personBadge.innerHTML = `<span class="legend-dot" style="background:${personColor};"></span><span>${escapeHtml(normalizeNameLabel(calendar.name, `Calendar ${index + 1}`))}</span>`;
           actions.appendChild(personBadge);
 
           const resolved = startValue ? withStartDate(calendar.url, startValue) : "";
@@ -957,7 +972,7 @@
           if (!calendar.url.trim()) {
             const empty = document.createElement("div");
             empty.className = "empty-calendar";
-            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Open Calendar Admin to add scheduler links for this person.</div>`;
+            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Open Calendar Admin to add scheduler links for this calendar.</div>`;
             card.appendChild(empty);
           } else if (!resolved) {
             const invalid = document.createElement("div");
@@ -997,7 +1012,7 @@
       function getDistinctPersons(results) {
         const set = new Set();
         for (const result of results) {
-          const person = normalizePersonLabel(result.person, "Person");
+          const person = normalizeNameLabel(result.person, "Calendar");
           set.add(person);
         }
         return [...set].sort((a, b) => a.localeCompare(b));
@@ -1079,10 +1094,10 @@
 
       function applyAvailabilityFilters(results) {
         return results
-          .filter((result) => state.selectedPersons.has(normalizePersonLabel(result.person, "Person")))
+          .filter((result) => state.selectedPersons.has(normalizeNameLabel(result.person, "Calendar")))
           .map((result) => ({
             ...result,
-            person: normalizePersonLabel(result.person, "Person"),
+            person: normalizeNameLabel(result.person, "Calendar"),
             slots: result.slots.filter((slot) => withinTimeWindow(slot.time, FI_BUSINESS_START_MINUTES, FI_BUSINESS_END_MINUTES)),
           }));
       }
@@ -1119,10 +1134,10 @@
 
         if (failed.length) {
           const first = failed[0];
-          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. Business hours locked to FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
+          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} name(s) selected. Business hours locked to FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
           return;
         }
-        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. Business hours: FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}.`;
+        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} name(s) selected. Business hours: FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}.`;
       }
 
       async function fetchCalendarAvailability(calendar, startDate, fallbackColor) {
@@ -1131,7 +1146,7 @@
         if (!schedulerUrl || !publicHash) {
           return {
             calendarId: calendar.id,
-            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
+            person: normalizeNameLabel(calendar.name, "Calendar"),
             name: calendar.name,
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots: [],
@@ -1146,7 +1161,7 @@
           if (!response.ok) {
             return {
               calendarId: calendar.id,
-              person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
+              person: normalizeNameLabel(calendar.name, "Calendar"),
               name: calendar.name,
               color: normalizeHexColor(calendar.color, fallbackColor),
               slots: [],
@@ -1172,7 +1187,7 @@
 
           return {
             calendarId: calendar.id,
-            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
+            person: normalizeNameLabel(calendar.name, "Calendar"),
             name: calendar.name || "Calendar",
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots,
@@ -1181,7 +1196,7 @@
         } catch (error) {
           return {
             calendarId: calendar.id,
-            person: normalizePersonLabel(calendar.person || calendar.name, "Person"),
+            person: normalizeNameLabel(calendar.name, "Calendar"),
             name: calendar.name,
             color: normalizeHexColor(calendar.color, fallbackColor),
             slots: [],
@@ -1365,6 +1380,7 @@
       }
 
       async function init() {
+        initializeDateTimePicker();
         initializeStart();
         const start = normalizeStartDate(getCurrentStartValue());
         if (start) updateBrowserAndStorageStart(start);

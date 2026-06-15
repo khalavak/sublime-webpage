@@ -292,7 +292,6 @@
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Person</th>
               <th>Color</th>
               <th>Scheduler URL</th>
               <th>Action</th>
@@ -314,21 +313,18 @@
         {
           id: "kim",
           name: "Kim",
-          person: "Kim",
           color: "#ffa300",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
         },
         {
           id: "jan",
           name: "Jan",
-          person: "Jan",
           color: "#36a2eb",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/W2p8prUy/sublime-demo",
         },
         {
           id: "amos",
           name: "Amos",
-          person: "Amos",
           color: "#ff6384",
           url: "https://sofectalabsoy.pipedrive.com/scheduler/qYLDLlC5/sublime-demo",
         },
@@ -348,11 +344,6 @@
         calendars: [],
         lastSource: "repo",
       };
-
-      function normalizePersonLabel(value, fallback = "Person") {
-        const token = String(value || "").trim();
-        return token || fallback;
-      }
 
       function normalizeHexColor(rawColor, fallbackColor = "#ffa300") {
         const token = String(rawColor || "").trim();
@@ -381,7 +372,6 @@
         return {
           id: String(item && item.id ? item.id : `calendar-${index + 1}`),
           name: String((item && item.name) || `Calendar ${index + 1}`),
-          person: normalizePersonLabel(item && (item.person || item.name), `Person ${index + 1}`),
           color: normalizeHexColor(item && item.color, COLOR_PALETTE[index % COLOR_PALETTE.length]),
           url: String((item && item.url) || "").trim(),
         };
@@ -443,19 +433,6 @@
           });
           nameCell.appendChild(nameInput);
 
-          const personCell = document.createElement("td");
-          const personInput = document.createElement("input");
-          personInput.className = "input";
-          personInput.type = "text";
-          personInput.value = calendar.person || "";
-          personInput.placeholder = `Person ${index + 1}`;
-          personInput.addEventListener("change", () => {
-            calendar.person = normalizePersonLabel(personInput.value, `Person ${index + 1}`);
-            updateStatusDraft();
-            renderTable();
-          });
-          personCell.appendChild(personInput);
-
           const colorCell = document.createElement("td");
           const colorInput = document.createElement("input");
           colorInput.type = "color";
@@ -502,7 +479,6 @@
 
           row.appendChild(indexCell);
           row.appendChild(nameCell);
-          row.appendChild(personCell);
           row.appendChild(colorCell);
           row.appendChild(urlCell);
           row.appendChild(actionCell);
@@ -523,7 +499,6 @@
         state.calendars.push({
           id: `calendar-${index + 1}`,
           name: `Calendar ${index + 1}`,
-          person: `Person ${index + 1}`,
           color: COLOR_PALETTE[index % COLOR_PALETTE.length],
           url: "",
         });

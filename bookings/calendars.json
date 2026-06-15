@@ -2,21 +2,18 @@
   {
     "id": "kim",
     "name": "Kim",
-    "person": "Kim",
     "color": "#ffa300",
     "url": "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo"
   },
   {
     "id": "jan",
     "name": "Jan",
-    "person": "Jan",
     "color": "#36a2eb",
     "url": "https://sofectalabsoy.pipedrive.com/scheduler/W2p8prUy/sublime-demo"
   },
   {
     "id": "amos",
     "name": "Amos",
-    "person": "Amos",
     "color": "#ff6384",
     "url": "https://sofectalabsoy.pipedrive.com/scheduler/qYLDLlC5/sublime-demo"
   }
