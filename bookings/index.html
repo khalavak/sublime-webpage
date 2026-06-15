@@ -279,7 +279,7 @@
     .unified-time {
       width: 94px;
       min-width: 94px;
-      text-align: center;
+      text-align: left;
       font-weight: 600;
       color: #ffe4ba;
       background: rgba(255, 163, 0, 0.08);
@@ -290,6 +290,23 @@
 
     .unified-head-time {
       z-index: 3;
+      text-align: center;
+    }
+
+    .time-dual {
+      display: grid;
+      gap: 2px;
+      line-height: 1.15;
+    }
+
+    .time-primary {
+      font-size: 0.78rem;
+      color: #ffe9c5;
+    }
+
+    .time-secondary {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.72);
     }
 
     .unified-day-head {
@@ -357,40 +374,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
-    }
-
-    .availability-controls {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      border: 1px dashed rgba(255, 255, 255, 0.18);
-      border-radius: 10px;
-      padding: 8px 9px;
-      background: rgba(255, 255, 255, 0.02);
-      font-family: "DM Sans", sans-serif;
-      font-size: 0.8rem;
-    }
-
-    .availability-controls .input {
-      width: 115px;
-      padding: 7px 8px;
-      font-size: 0.8rem;
-      border-radius: 8px;
-    }
-
-    .business-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .business-field {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: rgba(255, 255, 255, 0.82);
     }
 
     .person-filter-wrap {
@@ -482,7 +465,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      min-height: 580px;
+      min-height: 180px;
       display: flex;
       flex-direction: column;
     }
@@ -506,12 +489,11 @@
       overflow: hidden;
     }
 
-    .calendar-iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-      flex: 1;
-      background: #111;
+    .calendar-url {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.76rem;
+      line-height: 1.35;
+      word-break: break-all;
     }
 
     .empty-calendar {
@@ -558,10 +540,6 @@
 
       .calendar-grid {
         grid-template-columns: 1fr;
-      }
-
-      .calendar-card {
-        min-height: 520px;
       }
 
       .topbar {
@@ -634,18 +612,17 @@
             </div>
             <button class="btn" type="button" id="refresh-availability-btn">Refresh Availability</button>
           </div>
+          <div class="hint">Business-hours filter is always on: <span class="mono">FI 09:00-17:00</span> and <span class="mono">SE 08:00-16:00</span>.</div>
           <div class="legend-list" id="availability-legend"></div>
-          <div class="availability-controls">
-            <label class="business-toggle"><input id="business-hours-only" type="checkbox" />Business hours only</label>
-            <label class="business-field">From <input class="input mono" id="business-start" type="time" step="900" value="08:00" /></label>
-            <label class="business-field">To <input class="input mono" id="business-end" type="time" step="900" value="18:00" /></label>
-          </div>
           <div class="person-filter-wrap" id="person-filter-wrap"></div>
           <div class="status" id="availability-status"></div>
           <div class="unified-wrap" id="availability-wrap"></div>
         </section>
 
-        <section class="calendar-grid" id="calendar-grid"></section>
+        <section class="stack">
+          <div class="hint">Pipedrive calendar links are shown below. Use them to open the selected person scheduler with current start date.</div>
+          <section class="calendar-grid" id="calendar-grid"></section>
+        </section>
       </main>
     </div>
   </div>
@@ -656,6 +633,11 @@
       const START_STORAGE_KEY = "sofecta_bookings_start_v1";
       const CALENDARS_JSON_URL = "/bookings/calendars.json";
       const COLOR_PALETTE = ["#ffa300", "#36a2eb", "#ff6384", "#4bc0c0", "#9966ff", "#ff9f40", "#7bc043", "#f37736"];
+      const FI_BUSINESS_START_MINUTES = 9 * 60;
+      const FI_BUSINESS_END_MINUTES = 17 * 60;
+      const SE_TIME_OFFSET_MINUTES = -60;
+      const FI_BUSINESS_LABEL = "09:00-17:00";
+      const SE_BUSINESS_LABEL = "08:00-16:00";
 
       const FALLBACK_CALENDARS = [
         {
@@ -697,9 +679,6 @@
         availabilityStatus: document.getElementById("availability-status"),
         availabilityWrap: document.getElementById("availability-wrap"),
         personFilterWrap: document.getElementById("person-filter-wrap"),
-        businessHoursOnly: document.getElementById("business-hours-only"),
-        businessStart: document.getElementById("business-start"),
-        businessEnd: document.getElementById("business-end"),
       };
 
       const state = {
@@ -763,6 +742,19 @@
         const minutes = Number(match[2]);
         if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
         return (hours * 60) + minutes;
+      }
+
+      function formatMinutesToTimeToken(totalMinutes) {
+        let cursor = totalMinutes;
+        while (cursor < 0) cursor += 24 * 60;
+        while (cursor >= 24 * 60) cursor -= 24 * 60;
+        return `${pad2(Math.floor(cursor / 60))}:${pad2(cursor % 60)}`;
+      }
+
+      function shiftTimeToken(timeToken, offsetMinutes) {
+        const minutes = parseTimeToMinutes(timeToken);
+        if (minutes === null) return String(timeToken || "");
+        return formatMinutesToTimeToken(minutes + offsetMinutes);
       }
 
       function withinTimeWindow(timeToken, startMinutes, endMinutes) {
@@ -973,13 +965,19 @@
             invalid.innerHTML = `<strong class="danger">Invalid scheduler URL</strong><div>Only <span class="mono">https://.../scheduler/...</span> links are accepted.</div>`;
             card.appendChild(invalid);
           } else {
-            const iframe = document.createElement("iframe");
-            iframe.className = "calendar-iframe";
-            iframe.loading = "lazy";
-            iframe.referrerPolicy = "strict-origin-when-cross-origin";
-            iframe.src = resolved;
-            iframe.title = `${calendar.name || `Calendar ${index + 1}`} booking scheduler`;
-            card.appendChild(iframe);
+            const linkBlock = document.createElement("div");
+            linkBlock.className = "empty-calendar";
+            linkBlock.innerHTML = `<strong>Open In Pipedrive</strong><div class="calendar-url mono">${escapeHtml(resolved)}</div>`;
+
+            const openBtn = document.createElement("a");
+            openBtn.className = "btn-link";
+            openBtn.href = resolved;
+            openBtn.target = "_blank";
+            openBtn.rel = "noopener noreferrer";
+            openBtn.textContent = "Open Scheduler";
+            openBtn.style.marginTop = "8px";
+            linkBlock.appendChild(openBtn);
+            card.appendChild(linkBlock);
           }
 
           els.calendarGrid.appendChild(card);
@@ -1080,16 +1078,12 @@
       }
 
       function applyAvailabilityFilters(results) {
-        const onlyBusinessHours = Boolean(els.businessHoursOnly.checked);
-        const startMinutes = parseTimeToMinutes(els.businessStart.value || "08:00");
-        const endMinutes = parseTimeToMinutes(els.businessEnd.value || "18:00");
-
         return results
           .filter((result) => state.selectedPersons.has(normalizePersonLabel(result.person, "Person")))
           .map((result) => ({
             ...result,
             person: normalizePersonLabel(result.person, "Person"),
-            slots: result.slots.filter((slot) => !onlyBusinessHours || withinTimeWindow(slot.time, startMinutes, endMinutes)),
+            slots: result.slots.filter((slot) => withinTimeWindow(slot.time, FI_BUSINESS_START_MINUTES, FI_BUSINESS_END_MINUTES)),
           }));
       }
 
@@ -1125,10 +1119,10 @@
 
         if (failed.length) {
           const first = failed[0];
-          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
+          els.availabilityStatus.innerHTML = `<strong class="danger">Partial</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. Business hours locked to FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}. ${failed.length} source(s) failed. First issue: ${escapeHtml(first.person)} (${escapeHtml(first.error)})`;
           return;
         }
-        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected.`;
+        els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} person(s) selected. Business hours: FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}.`;
       }
 
       async function fetchCalendarAvailability(calendar, startDate, fallbackColor) {
@@ -1224,7 +1218,7 @@
         }
 
         const thead = [
-          `<tr><th class="unified-time unified-head-time">Time</th>`,
+          `<tr><th class="unified-time unified-head-time">Time FI / SE</th>`,
           ...days.map((day) => {
             const label = formatDayHead(day);
             return `<th class="unified-day-head">${escapeHtml(label.line1)}<span class="unified-day-sub mono">${escapeHtml(label.line2)}</span></th>`;
@@ -1233,6 +1227,8 @@
         ].join("");
 
         const rows = times.map((time) => {
+          const fiTime = shiftTimeToken(time, 0);
+          const seTime = shiftTimeToken(time, SE_TIME_OFFSET_MINUTES);
           const cells = days.map((day) => {
             const key = `${day}|${time}`;
             const items = (cellMap.get(key) || []).slice().sort((a, b) => a.person.localeCompare(b.person));
@@ -1242,7 +1238,7 @@
               .join("");
             return `<td class="slot-cell"><div class="slot-chip-list">${chips}</div></td>`;
           });
-          return `<tr><td class="unified-time mono">${escapeHtml(time)}</td>${cells.join("")}</tr>`;
+          return `<tr><td class="unified-time mono"><div class="time-dual"><span class="time-primary">FI ${escapeHtml(fiTime)}</span><span class="time-secondary">SE ${escapeHtml(seTime)}</span></div></td>${cells.join("")}</tr>`;
         });
 
         els.availabilityWrap.innerHTML = `<table class="unified-table"><thead>${thead}</thead><tbody>${rows.join("")}</tbody></table>`;
@@ -1366,9 +1362,6 @@
         els.refreshAvailabilityBtn.addEventListener("click", () => {
           void refreshUnifiedAvailability();
         });
-        els.businessHoursOnly.addEventListener("change", renderAvailabilityFromState);
-        els.businessStart.addEventListener("change", renderAvailabilityFromState);
-        els.businessEnd.addEventListener("change", renderAvailabilityFromState);
       }
 
       async function init() {
