@@ -127,7 +127,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(310px, 390px) minmax(0, 1fr);
+      grid-template-columns: 1fr;
       gap: 14px;
     }
 
@@ -284,6 +284,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       background: rgba(12, 12, 12, 0.75);
+      min-height: calc(100vh - 310px);
     }
 
     .unified-table {
@@ -385,6 +386,25 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .slot-person-link {
+      color: #ffe7bf;
+      text-decoration: underline;
+      text-decoration-color: rgba(255, 163, 0, 0.72);
+      text-underline-offset: 2px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    .slot-person-link:hover {
+      color: #fff7e7;
+      text-decoration-color: rgba(255, 163, 0, 1);
     }
 
     .slot-chip .slot-name {
@@ -643,11 +663,11 @@
       </aside>
 
       <main class="stack">
-        <section class="panel stack">
+        <section class="panel stack calendar-panel">
           <div class="inline-actions" style="justify-content: space-between; align-items: center;">
             <div>
               <h3>Unified Availability</h3>
-              <p>One matrix view from all configured calendars. Cells show available persons for each time slot.</p>
+              <p>Full-screen calendar board of available times from all linked calendars. Click a name to continue booking in Pipedrive.</p>
             </div>
             <button class="btn" type="button" id="refresh-availability-btn">Refresh Availability</button>
           </div>
@@ -656,11 +676,6 @@
           <div class="person-filter-wrap" id="person-filter-wrap"></div>
           <div class="status" id="availability-status"></div>
           <div class="unified-wrap" id="availability-wrap"></div>
-        </section>
-
-        <section class="stack">
-          <div class="hint">Pipedrive calendar links are shown below. Use them to open the selected person scheduler with current start date.</div>
-          <section class="calendar-grid" id="calendar-grid"></section>
         </section>
       </main>
     </div>
@@ -983,6 +998,7 @@
       }
 
       function renderCalendars() {
+        if (!els.calendarGrid) return;
         const startValue = normalizeStartDate(getCurrentStartValue());
         els.calendarGrid.innerHTML = "";
 
@@ -1234,7 +1250,9 @@
               if (!slot?.available) continue;
               const time = String(slot?.time || "").trim();
               if (!time) continue;
-              slots.push({ date, time });
+              const slotStart = normalizeStartDate(`${date} ${time}`);
+              const bookingUrl = slotStart ? withStartDate(calendar.url, slotStart) : withStartDate(calendar.url, startDate);
+              slots.push({ date, time, bookingUrl });
             }
           }
 
@@ -1273,6 +1291,7 @@
               person: result.person,
               name: result.name,
               color: result.color,
+              bookingUrl: slot.bookingUrl || "",
             });
           }
         }
@@ -1302,7 +1321,12 @@
             const items = (cellMap.get(key) || []).slice().sort((a, b) => a.person.localeCompare(b.person));
             if (!items.length) return `<td class="slot-cell"><div class="slot-empty">—</div></td>`;
             const chips = items
-              .map((item) => `<div class="slot-chip" style="border-left-color:${item.color};"><span class="slot-person">${escapeHtml(item.person)}</span><span class="slot-name">${escapeHtml(item.name)}</span></div>`)
+              .map((item) => {
+                const personContent = item.bookingUrl
+                  ? `<a class="slot-person-link" href="${escapeHtml(item.bookingUrl)}">${escapeHtml(item.person)}</a>`
+                  : `<span class="slot-person">${escapeHtml(item.person)}</span>`;
+                return `<div class="slot-chip" style="border-left-color:${item.color};">${personContent}<span class="slot-name">${escapeHtml(item.name)}</span></div>`;
+              })
               .join("");
             return `<td class="slot-cell"><div class="slot-chip-list">${chips}</div></td>`;
           });
