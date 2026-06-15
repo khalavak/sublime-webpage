@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofecta Labs | Booking Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --panel: #171717;
+      --panel-2: #1f1f1f;
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #ffffff;
+      --text-dim: rgba(255, 255, 255, 0.72);
+      --accent: #ffa300;
+      --accent-soft: rgba(255, 163, 0, 0.2);
+      --danger: #ff5a5a;
+      --ok: #31ad60;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Readex Pro", sans-serif;
+      background: radial-gradient(circle at 15% -10%, rgba(255, 163, 0, 0.14), transparent 42%), var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 18px 18px 26px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      background: rgba(12, 12, 12, 0.86);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand img {
+      height: 34px;
+      width: auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn,
+    .btn-link {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn:hover,
+    .btn-link:hover {
+      border-color: rgba(255, 163, 0, 0.54);
+      background: rgba(255, 163, 0, 0.14);
+    }
+
+    .btn-primary {
+      border-color: rgba(255, 163, 0, 0.65);
+      background: var(--accent);
+      color: #171717;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: #ffb730;
+      border-color: #ffb730;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(310px, 390px) minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .panel {
+      background: linear-gradient(160deg, rgba(255, 163, 0, 0.05), transparent 22%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.02em;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 9px 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: rgba(255, 163, 0, 0.7);
+      box-shadow: 0 0 0 2px var(--accent-soft);
+    }
+
+    .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      border: 1px dashed rgba(255, 255, 255, 0.24);
+      border-radius: 10px;
+      padding: 8px 9px;
+    }
+
+    .status strong {
+      color: #ffe5b7;
+    }
+
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.83rem;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 4px;
+    }
+
+    .calendar-table th {
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .calendar-table td:last-child,
+    .calendar-table th:last-child {
+      text-align: right;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(355px, 1fr));
+      gap: 12px;
+      align-content: start;
+    }
+
+    .calendar-card {
+      background: rgba(19, 19, 19, 0.95);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .calendar-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(90deg, rgba(255, 163, 0, 0.18), rgba(255, 163, 0, 0.03) 38%);
+    }
+
+    .calendar-card-title {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .calendar-iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      background: #111;
+    }
+
+    .empty-calendar {
+      margin: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.26);
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      gap: 8px;
+      color: var(--text-dim);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.35;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .danger {
+      color: var(--danger);
+    }
+
+    .ok {
+      color: var(--ok);
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-card {
+        min-height: 520px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/assets/sofecta-logo-full-color.png" alt="Sofecta Labs" />
+        <h1>Booking Board</h1>
+      </div>
+      <div class="topbar-actions">
+        <a class="btn-link" href="/">Back to Main Site</a>
+        <button class="btn" type="button" id="copy-link-btn">Copy Share Link</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="stack">
+        <section class="panel stack">
+          <div>
+            <h2>Global Date Control</h2>
+            <p>Set one date/time and all configured Pipedrive calendars reload together using the same <span class="mono">startDate</span>.</p>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="start-date">Date</label>
+              <input id="start-date" class="input" type="date" />
+            </div>
+            <div class="field">
+              <label for="start-time">Time</label>
+              <input id="start-time" class="input" type="time" step="900" />
+            </div>
+          </div>
+
+          <div class="inline-actions">
+            <button class="btn" type="button" id="today-btn">Now (Helsinki)</button>
+            <button class="btn" type="button" id="minus-day-btn">-1 Day</button>
+            <button class="btn" type="button" id="plus-day-btn">+1 Day</button>
+            <button class="btn btn-primary" type="button" id="apply-btn">Apply To All</button>
+          </div>
+
+          <div class="status" id="timezone-status"></div>
+          <div class="hint">Default timezone is fixed to <span class="mono">Europe/Helsinki</span> as requested.</div>
+        </section>
+
+        <section class="panel stack">
+          <div>
+            <h3>Calendar Sources</h3>
+            <p>Add at least three Pipedrive scheduler links. Values are saved in your browser local storage.</p>
+          </div>
+
+          <div style="overflow:auto; max-height: 360px;">
+            <table class="calendar-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Scheduler URL</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-config-body"></tbody>
+            </table>
+          </div>
+
+          <div class="inline-actions">
+            <button class="btn" type="button" id="add-calendar-btn">Add Calendar</button>
+            <button class="btn" type="button" id="reset-calendars-btn">Reset Defaults</button>
+          </div>
+          <div class="hint">Use links in format <span class="mono">https://&lt;company&gt;.pipedrive.com/scheduler/&lt;hash&gt;/&lt;name&gt;</span>.</div>
+          <div class="status" id="save-status"></div>
+        </section>
+      </aside>
+
+      <main>
+        <section class="calendar-grid" id="calendar-grid"></section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const DEFAULT_TIMEZONE = "Europe/Helsinki";
+      const CALENDAR_STORAGE_KEY = "sofecta_bookings_calendars_v1";
+      const START_STORAGE_KEY = "sofecta_bookings_start_v1";
+      
+      function createId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+        return `id-${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
+      }
+
+      function cloneDefaultCalendars() {
+        return JSON.parse(JSON.stringify(DEFAULT_CALENDARS));
+      }
+
+      const DEFAULT_CALENDARS = [
+        {
+          id: createId(),
+          name: "Sublime Demo",
+          url: "https://sofectalabsoy.pipedrive.com/scheduler/1BLyLmu8/sublime-demo",
+        },
+        {
+          id: createId(),
+          name: "Sales Rep 2",
+          url: "",
+        },
+        {
+          id: createId(),
+          name: "Sales Rep 3",
+          url: "",
+        },
+      ];
+
+      const els = {
+        startDate: document.getElementById("start-date"),
+        startTime: document.getElementById("start-time"),
+        applyBtn: document.getElementById("apply-btn"),
+        todayBtn: document.getElementById("today-btn"),
+        minusDayBtn: document.getElementById("minus-day-btn"),
+        plusDayBtn: document.getElementById("plus-day-btn"),
+        timezoneStatus: document.getElementById("timezone-status"),
+        calendarGrid: document.getElementById("calendar-grid"),
+        configBody: document.getElementById("calendar-config-body"),
+        addCalendarBtn: document.getElementById("add-calendar-btn"),
+        resetCalendarsBtn: document.getElementById("reset-calendars-btn"),
+        saveStatus: document.getElementById("save-status"),
+        copyLinkBtn: document.getElementById("copy-link-btn"),
+      };
+
+      const state = {
+        calendars: [],
+      };
+
+      function pad2(value) {
+        return String(value).padStart(2, "0");
+      }
+
+      function toPartsInTimeZone(date, timeZone) {
+        const formatter = new Intl.DateTimeFormat("sv-SE", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hourCycle: "h23",
+        });
+        const parts = formatter.formatToParts(date);
+        const map = Object.create(null);
+        for (const part of parts) {
+          map[part.type] = part.value;
+        }
+        return {
+          year: Number(map.year),
+          month: Number(map.month),
+          day: Number(map.day),
+          hour: Number(map.hour),
+          minute: Number(map.minute),
+          second: Number(map.second),
+        };
+      }
+
+      function getRoundedHelsinkiNow() {
+        const parts = toPartsInTimeZone(new Date(), DEFAULT_TIMEZONE);
+        let hour = parts.hour;
+        let minute = parts.minute;
+        const rounded = Math.ceil(minute / 15) * 15;
+
+        if (rounded >= 60) {
+          hour += 1;
+          minute = 0;
+        } else {
+          minute = rounded;
+        }
+
+        const utc = new Date(Date.UTC(parts.year, parts.month - 1, parts.day, hour, minute, 0));
+        return {
+          date: `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())}`,
+          time: `${pad2(utc.getUTCHours())}:${pad2(utc.getUTCMinutes())}`,
+        };
+      }
+
+      function normalizeStartDate(rawValue) {
+        const raw = String(rawValue || "").trim();
+        if (!raw) return "";
+        const compact = raw.replace("T", " ").replace(/\s+/g, " ").trim();
+        const match = compact.match(/^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2})/);
+        if (!match) return "";
+        return `${match[1]} ${match[2]}`;
+      }
+
+      function loadCalendars() {
+        try {
+          const raw = localStorage.getItem(CALENDAR_STORAGE_KEY);
+          if (!raw) return cloneDefaultCalendars();
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed) || parsed.length === 0) return cloneDefaultCalendars();
+          return parsed
+            .map((item, index) => ({
+              id: String(item.id || createId()),
+              name: String(item.name || `Calendar ${index + 1}`),
+              url: String(item.url || "").trim(),
+            }))
+            .slice(0, 20);
+        } catch {
+          return cloneDefaultCalendars();
+        }
+      }
+
+      function saveCalendars() {
+        localStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(state.calendars));
+        els.saveStatus.innerHTML = `<strong class="ok">Saved</strong> ${state.calendars.length} calendar row(s) locally.`;
+      }
+
+      function setStartControls(startDateValue) {
+        const normalized = normalizeStartDate(startDateValue);
+        if (!normalized) return;
+        const [date, time] = normalized.split(" ");
+        els.startDate.value = date;
+        els.startTime.value = time;
+      }
+
+      function getCurrentStartValue() {
+        const date = String(els.startDate.value || "").trim();
+        const time = String(els.startTime.value || "").trim();
+        if (!date || !time) return "";
+        return `${date} ${time}`;
+      }
+
+      function shiftCurrentStartDays(delta) {
+        const current = getCurrentStartValue();
+        const normalized = normalizeStartDate(current);
+        if (!normalized) return;
+        const [datePart, timePart] = normalized.split(" ");
+        const [year, month, day] = datePart.split("-").map(Number);
+        const [hour, minute] = timePart.split(":").map(Number);
+        const utc = new Date(Date.UTC(year, month - 1, day, hour, minute, 0));
+        utc.setUTCDate(utc.getUTCDate() + delta);
+        const next = `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())} ${pad2(utc.getUTCHours())}:${pad2(utc.getUTCMinutes())}`;
+        setStartControls(next);
+      }
+
+      function getValidatedSchedulerUrl(rawUrl) {
+        const token = String(rawUrl || "").trim();
+        if (!token) return "";
+        try {
+          const url = new URL(token);
+          if (url.protocol !== "https:") return "";
+          if (!url.pathname.toLowerCase().includes("/scheduler/")) return "";
+          return url;
+        } catch {
+          return "";
+        }
+      }
+
+      function withStartDate(rawUrl, startDate) {
+        const url = getValidatedSchedulerUrl(rawUrl);
+        if (!url) return "";
+        url.searchParams.set("startDate", startDate);
+        return url.toString();
+      }
+
+      function updateBrowserAndStorageStart(startValue) {
+        const normalized = normalizeStartDate(startValue);
+        if (!normalized) return;
+
+        localStorage.setItem(START_STORAGE_KEY, normalized);
+
+        const url = new URL(window.location.href);
+        url.searchParams.set("startDate", normalized);
+        window.history.replaceState({}, "", url.toString());
+      }
+
+      function renderTimezoneStatus() {
+        const start = getCurrentStartValue();
+        els.timezoneStatus.innerHTML = `Timezone: <strong>${DEFAULT_TIMEZONE}</strong><br/>Current synchronized start: <span class="mono">${start || "-"}</span>`;
+      }
+
+      function renderCalendarConfig() {
+        els.configBody.innerHTML = "";
+
+        state.calendars.forEach((calendar, index) => {
+          const row = document.createElement("tr");
+
+          const indexCell = document.createElement("td");
+          indexCell.textContent = String(index + 1);
+
+          const nameCell = document.createElement("td");
+          const nameInput = document.createElement("input");
+          nameInput.className = "input";
+          nameInput.type = "text";
+          nameInput.value = calendar.name;
+          nameInput.placeholder = `Calendar ${index + 1}`;
+          nameInput.addEventListener("input", () => {
+            calendar.name = nameInput.value.trim() || `Calendar ${index + 1}`;
+            saveCalendars();
+            renderCalendars();
+          });
+          nameCell.appendChild(nameInput);
+
+          const urlCell = document.createElement("td");
+          const urlInput = document.createElement("input");
+          urlInput.className = "input mono";
+          urlInput.type = "url";
+          urlInput.value = calendar.url;
+          urlInput.placeholder = "https://.../scheduler/...";
+          urlInput.addEventListener("change", () => {
+            calendar.url = urlInput.value.trim();
+            saveCalendars();
+            renderCalendars();
+          });
+          urlCell.appendChild(urlInput);
+
+          const actionCell = document.createElement("td");
+          const removeBtn = document.createElement("button");
+          removeBtn.className = "btn";
+          removeBtn.type = "button";
+          removeBtn.textContent = "Remove";
+          removeBtn.disabled = state.calendars.length <= 1;
+          removeBtn.addEventListener("click", () => {
+            state.calendars = state.calendars.filter((item) => item.id !== calendar.id);
+            saveCalendars();
+            renderCalendarConfig();
+            renderCalendars();
+          });
+          actionCell.appendChild(removeBtn);
+
+          row.appendChild(indexCell);
+          row.appendChild(nameCell);
+          row.appendChild(urlCell);
+          row.appendChild(actionCell);
+
+          els.configBody.appendChild(row);
+        });
+      }
+
+      function renderCalendars() {
+        const startValue = normalizeStartDate(getCurrentStartValue());
+        els.calendarGrid.innerHTML = "";
+
+        state.calendars.forEach((calendar, index) => {
+          const card = document.createElement("article");
+          card.className = "calendar-card";
+
+          const header = document.createElement("div");
+          header.className = "calendar-card-header";
+
+          const title = document.createElement("h3");
+          title.className = "calendar-card-title";
+          title.textContent = calendar.name || `Calendar ${index + 1}`;
+
+          const actions = document.createElement("div");
+          actions.className = "inline-actions";
+
+          const resolved = startValue ? withStartDate(calendar.url, startValue) : "";
+          if (resolved) {
+            const openLink = document.createElement("a");
+            openLink.className = "btn-link";
+            openLink.href = resolved;
+            openLink.target = "_blank";
+            openLink.rel = "noopener noreferrer";
+            openLink.textContent = "Open";
+            actions.appendChild(openLink);
+          }
+
+          header.appendChild(title);
+          header.appendChild(actions);
+
+          card.appendChild(header);
+
+          if (!calendar.url.trim()) {
+            const empty = document.createElement("div");
+            empty.className = "empty-calendar";
+            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Set a Pipedrive scheduler link in the left panel for this row.</div>`;
+            card.appendChild(empty);
+          } else if (!resolved) {
+            const invalid = document.createElement("div");
+            invalid.className = "empty-calendar";
+            invalid.innerHTML = `<strong class="danger">Invalid scheduler URL</strong><div>Only <span class="mono">https://.../scheduler/...</span> links are accepted.</div>`;
+            card.appendChild(invalid);
+          } else {
+            const iframe = document.createElement("iframe");
+            iframe.className = "calendar-iframe";
+            iframe.loading = "lazy";
+            iframe.referrerPolicy = "strict-origin-when-cross-origin";
+            iframe.src = resolved;
+            iframe.title = `${calendar.name || `Calendar ${index + 1}`} booking scheduler`;
+            card.appendChild(iframe);
+          }
+
+          els.calendarGrid.appendChild(card);
+        });
+      }
+
+      async function copyShareLink() {
+        const start = normalizeStartDate(getCurrentStartValue());
+        if (!start) return;
+        const url = new URL(window.location.href);
+        url.searchParams.set("startDate", start);
+        try {
+          await navigator.clipboard.writeText(url.toString());
+          els.saveStatus.innerHTML = `<strong class="ok">Copied</strong> share link with current <span class="mono">startDate</span>.`;
+        } catch {
+          els.saveStatus.innerHTML = `<strong class="danger">Copy failed</strong> Clipboard permission denied.`;
+        }
+      }
+
+      function applyStartToAll() {
+        const start = normalizeStartDate(getCurrentStartValue());
+        if (!start) {
+          els.saveStatus.innerHTML = `<strong class="danger">Invalid start date/time</strong> Choose valid values first.`;
+          return;
+        }
+
+        updateBrowserAndStorageStart(start);
+        renderTimezoneStatus();
+        renderCalendars();
+        els.saveStatus.innerHTML = `<strong class="ok">Applied</strong> start date to all calendars.`;
+      }
+
+      function initializeStart() {
+        const queryStart = normalizeStartDate(new URLSearchParams(window.location.search).get("startDate"));
+        const storedStart = normalizeStartDate(localStorage.getItem(START_STORAGE_KEY));
+        const fallback = getRoundedHelsinkiNow();
+
+        if (queryStart) {
+          setStartControls(queryStart);
+          return;
+        }
+        if (storedStart) {
+          setStartControls(storedStart);
+          return;
+        }
+        setStartControls(`${fallback.date} ${fallback.time}`);
+      }
+
+      function bindEvents() {
+        els.applyBtn.addEventListener("click", applyStartToAll);
+
+        els.todayBtn.addEventListener("click", () => {
+          const now = getRoundedHelsinkiNow();
+          setStartControls(`${now.date} ${now.time}`);
+          applyStartToAll();
+        });
+
+        els.minusDayBtn.addEventListener("click", () => {
+          shiftCurrentStartDays(-1);
+          applyStartToAll();
+        });
+
+        els.plusDayBtn.addEventListener("click", () => {
+          shiftCurrentStartDays(1);
+          applyStartToAll();
+        });
+
+        els.startDate.addEventListener("change", applyStartToAll);
+        els.startTime.addEventListener("change", applyStartToAll);
+
+        els.addCalendarBtn.addEventListener("click", () => {
+          state.calendars.push({
+            id: createId(),
+            name: `Calendar ${state.calendars.length + 1}`,
+            url: "",
+          });
+          saveCalendars();
+          renderCalendarConfig();
+          renderCalendars();
+        });
+
+        els.resetCalendarsBtn.addEventListener("click", () => {
+          state.calendars = cloneDefaultCalendars();
+          saveCalendars();
+          renderCalendarConfig();
+          renderCalendars();
+          els.saveStatus.innerHTML = `<strong class="ok">Reset</strong> calendar list restored to defaults.`;
+        });
+
+        els.copyLinkBtn.addEventListener("click", copyShareLink);
+      }
+
+      function init() {
+        state.calendars = loadCalendars();
+        initializeStart();
+        bindEvents();
+        renderCalendarConfig();
+        renderTimezoneStatus();
+        renderCalendars();
+        applyStartToAll();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+
+</html>
