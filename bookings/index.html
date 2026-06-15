@@ -592,14 +592,10 @@
             <p>Set one date/time and all configured Pipedrive calendars reload together using the same <span class="mono">startDate</span>.</p>
           </div>
 
-          <div class="field-grid">
+          <div class="field-grid" style="grid-template-columns: 1fr;">
             <div class="field">
-              <label for="start-date">Date</label>
-              <input id="start-date" class="input" type="date" />
-            </div>
-            <div class="field">
-              <label for="start-time">Time</label>
-              <input id="start-time" class="input" type="time" step="900" />
+              <label for="start-datetime">Date &amp; Time</label>
+              <input id="start-datetime" class="input mono" type="datetime-local" step="900" />
             </div>
           </div>
 
@@ -713,8 +709,7 @@
       ];
 
       const els = {
-        startDate: document.getElementById("start-date"),
-        startTime: document.getElementById("start-time"),
+        startDatetime: document.getElementById("start-datetime"),
         applyBtn: document.getElementById("apply-btn"),
         todayBtn: document.getElementById("today-btn"),
         minusDayBtn: document.getElementById("minus-day-btn"),
@@ -891,15 +886,11 @@
         const normalized = normalizeStartDate(startDateValue);
         if (!normalized) return;
         const [date, time] = normalized.split(" ");
-        els.startDate.value = date;
-        els.startTime.value = time;
+        els.startDatetime.value = `${date}T${time}`;
       }
 
       function getCurrentStartValue() {
-        const date = String(els.startDate.value || "").trim();
-        const time = String(els.startTime.value || "").trim();
-        if (!date || !time) return "";
-        return `${date} ${time}`;
+        return normalizeStartDate(els.startDatetime.value);
       }
 
       function shiftCurrentStartDays(delta) {
@@ -1461,10 +1452,7 @@
           void applyStartToAll();
         });
 
-        els.startDate.addEventListener("change", () => {
-          void applyStartToAll();
-        });
-        els.startTime.addEventListener("change", () => {
+        els.startDatetime.addEventListener("change", () => {
           void applyStartToAll();
         });
 
