@@ -10,7 +10,6 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&family=DM+Sans:wght@400;500;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <style>
     :root {
       --bg: #0e0e0e;
@@ -33,7 +32,7 @@
     body {
       margin: 0;
       font-family: "Readex Pro", sans-serif;
-      background: radial-gradient(circle at 15% -10%, rgba(255, 163, 0, 0.14), transparent 42%), var(--bg);
+      background: var(--bg);
       color: var(--text);
     }
 
@@ -132,7 +131,7 @@
     }
 
     .panel {
-      background: linear-gradient(160deg, rgba(255, 163, 0, 0.05), transparent 22%), var(--panel);
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 14px;
@@ -242,6 +241,10 @@
       padding: 8px 9px;
     }
 
+    .status:empty {
+      display: none;
+    }
+
     .status strong {
       color: #ffe5b7;
     }
@@ -285,6 +288,196 @@
       border-radius: 12px;
       background: rgba(12, 12, 12, 0.75);
       min-height: calc(100vh - 310px);
+    }
+
+    .planner-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(420px, 0.85fr);
+      gap: 12px;
+      min-height: calc(100vh - 310px);
+    }
+
+    .planner-times,
+    .planner-month {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(12, 12, 12, 0.75);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-height: 100%;
+    }
+
+    .planner-day-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffe7bf;
+    }
+
+    .planner-day-sub {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.82rem;
+      font-family: "DM Sans", sans-serif;
+    }
+
+    .planner-time-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .planner-person-column {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .planner-person-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.16);
+      padding-bottom: 8px;
+    }
+
+    .planner-time-list {
+      display: grid;
+      gap: 7px;
+      align-content: start;
+    }
+
+    .planner-time-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+      color: #fff;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      background: rgba(255, 255, 255, 0.03);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .planner-time-link:hover {
+      border-color: var(--chip-color, rgba(255, 163, 0, 0.72));
+      background: color-mix(in srgb, var(--chip-color, #ffa300) 22%, transparent);
+    }
+
+    .planner-time-empty {
+      font-family: "DM Sans", sans-serif;
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 0.78rem;
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .month-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .month-label {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffe7bf;
+      text-align: center;
+      flex: 1;
+    }
+
+    .month-nav-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .month-nav-btn:hover {
+      border-color: rgba(255, 163, 0, 0.72);
+      background: rgba(255, 163, 0, 0.12);
+    }
+
+    .month-weekdays,
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .month-weekday {
+      text-align: center;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.62);
+      font-family: "DM Sans", sans-serif;
+      padding: 2px 0;
+    }
+
+    .month-day {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      color: #fff;
+      min-height: 68px;
+      display: grid;
+      align-content: start;
+      gap: 3px;
+      padding: 8px 7px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .month-day:hover {
+      border-color: rgba(255, 163, 0, 0.58);
+      background: rgba(255, 163, 0, 0.1);
+    }
+
+    .month-day.out-month {
+      opacity: 0.45;
+    }
+
+    .month-day.selected {
+      border-color: rgba(255, 163, 0, 0.95);
+      box-shadow: inset 0 0 0 1px rgba(255, 163, 0, 0.72);
+      background: rgba(255, 163, 0, 0.18);
+    }
+
+    .month-day.has-slots .month-day-count {
+      color: #ffdeab;
+    }
+
+    .month-day-number {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .month-day-count {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.58);
+      font-family: "DM Sans", sans-serif;
     }
 
     .unified-table {
@@ -529,7 +722,7 @@
       gap: 10px;
       padding: 10px 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      background: linear-gradient(90deg, rgba(255, 163, 0, 0.18), rgba(255, 163, 0, 0.03) 38%);
+      background: rgba(255, 163, 0, 0.08);
     }
 
     .calendar-card-title {
@@ -594,6 +787,10 @@
         grid-template-columns: 1fr;
       }
 
+      .planner-wrap {
+        grid-template-columns: 1fr;
+      }
+
       .topbar {
         align-items: flex-start;
       }
@@ -616,52 +813,6 @@
     </header>
 
     <div class="layout">
-      <aside class="stack">
-        <section class="panel stack">
-          <div>
-            <h2>Global Date Control</h2>
-            <p>Set one date/time and all configured Pipedrive calendars reload together using the same <span class="mono">startDate</span>.</p>
-          </div>
-
-          <div class="field-grid" style="grid-template-columns: 1fr;">
-            <div class="field">
-              <label for="start-datetime">Date &amp; Time</label>
-              <div class="datetime-wrap">
-                <input id="start-datetime" class="input mono" type="text" placeholder="YYYY-MM-DD HH:mm" />
-                <button class="datepicker-trigger" type="button" id="open-picker-btn" aria-label="Open calendar">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="inline-actions">
-            <button class="btn" type="button" id="today-btn">Now (Helsinki)</button>
-            <button class="btn" type="button" id="minus-day-btn">-1 Day</button>
-            <button class="btn" type="button" id="plus-day-btn">+1 Day</button>
-            <button class="btn btn-primary" type="button" id="apply-btn">Apply To All</button>
-          </div>
-
-          <div class="status" id="timezone-status"></div>
-          <div class="hint">Default timezone is fixed to <span class="mono">Europe/Helsinki</span> as requested.</div>
-        </section>
-
-        <section class="panel stack">
-          <div>
-            <h3>Calendar Configuration</h3>
-            <p>Manage calendar names, scheduler links, and colors in a separate admin page.</p>
-          </div>
-          <div class="inline-actions">
-            <a class="btn-link" href="/bookings/admin/">Open Calendar Admin</a>
-            <button class="btn" type="button" id="reload-calendars-btn">Reload Calendars</button>
-          </div>
-          <div class="hint">Calendars persist in browser storage and can be exported/imported from the admin page.</div>
-          <div class="status" id="save-status"></div>
-        </section>
-      </aside>
-
       <main class="stack">
         <section class="panel stack calendar-panel">
           <div class="inline-actions" style="justify-content: space-between; align-items: center;">
@@ -672,20 +823,22 @@
             <button class="btn" type="button" id="refresh-availability-btn">Refresh Availability</button>
           </div>
           <div class="hint">Business-hours filter is always on: <span class="mono">FI 09:00-17:00</span> and <span class="mono">SE 08:00-16:00</span>.</div>
+          <div class="status" id="save-status"></div>
           <div class="legend-list" id="availability-legend"></div>
           <div class="person-filter-wrap" id="person-filter-wrap"></div>
           <div class="status" id="availability-status"></div>
-          <div class="unified-wrap" id="availability-wrap"></div>
+          <div class="planner-wrap">
+            <section class="planner-month" id="planner-month"></section>
+            <section class="planner-times" id="planner-times"></section>
+          </div>
         </section>
       </main>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     (function () {
       const DEFAULT_TIMEZONE = "Europe/Helsinki";
-      const START_STORAGE_KEY = "sofecta_bookings_start_v1";
       const CALENDARS_JSON_URL = "/bookings/calendars.json";
       const COLOR_PALETTE = ["#ffa300", "#36a2eb", "#ff6384", "#4bc0c0", "#9966ff", "#ff9f40", "#7bc043", "#f37736"];
       const FI_BUSINESS_START_MINUTES = 9 * 60;
@@ -716,21 +869,13 @@
       ];
 
       const els = {
-        startDatetime: document.getElementById("start-datetime"),
-        openPickerBtn: document.getElementById("open-picker-btn"),
-        applyBtn: document.getElementById("apply-btn"),
-        todayBtn: document.getElementById("today-btn"),
-        minusDayBtn: document.getElementById("minus-day-btn"),
-        plusDayBtn: document.getElementById("plus-day-btn"),
-        timezoneStatus: document.getElementById("timezone-status"),
-        calendarGrid: document.getElementById("calendar-grid"),
-        reloadCalendarsBtn: document.getElementById("reload-calendars-btn"),
         saveStatus: document.getElementById("save-status"),
         copyLinkBtn: document.getElementById("copy-link-btn"),
         refreshAvailabilityBtn: document.getElementById("refresh-availability-btn"),
         availabilityLegend: document.getElementById("availability-legend"),
         availabilityStatus: document.getElementById("availability-status"),
-        availabilityWrap: document.getElementById("availability-wrap"),
+        plannerTimes: document.getElementById("planner-times"),
+        plannerMonth: document.getElementById("planner-month"),
         personFilterWrap: document.getElementById("person-filter-wrap"),
       };
 
@@ -740,7 +885,8 @@
         availabilityResults: [],
         selectedPersons: new Set(),
         personSelectionInitialized: false,
-        startPicker: null,
+        selectedDate: "",
+        visibleMonthKey: "",
       };
 
       function pad2(value) {
@@ -780,15 +926,6 @@
         return String(parts[schedulerIndex + 1] || "").trim();
       }
 
-      function formatDayHead(dateIso) {
-        const parts = String(dateIso || "").split("-").map(Number);
-        if (parts.length !== 3 || parts.some((item) => !Number.isFinite(item))) return { line1: dateIso, line2: "" };
-        const date = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0));
-        const weekday = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" }).format(date);
-        const dayMonth = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "2-digit", timeZone: "UTC" }).format(date);
-        return { line1: `${weekday} ${dayMonth}`, line2: dateIso };
-      }
-
       function parseTimeToMinutes(value) {
         const match = String(value || "").trim().match(/^(\d{2}):(\d{2})/);
         if (!match) return null;
@@ -817,6 +954,49 @@
         if (startMinutes === null || endMinutes === null) return true;
         if (startMinutes <= endMinutes) return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
         return timeMinutes >= startMinutes || timeMinutes <= endMinutes;
+      }
+
+      function toIsoDateFromParts(parts) {
+        return `${parts.year}-${pad2(parts.month)}-${pad2(parts.day)}`;
+      }
+
+      function toIsoTimeFromParts(parts) {
+        return `${pad2(parts.hour)}:${pad2(parts.minute)}`;
+      }
+
+      function toUtcDateFromIso(dateIso, timeToken) {
+        const dateMatch = String(dateIso || "").trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        const timeMatch = String(timeToken || "").trim().match(/^(\d{2}):(\d{2})$/);
+        if (!dateMatch || !timeMatch) return null;
+        const year = Number(dateMatch[1]);
+        const month = Number(dateMatch[2]);
+        const day = Number(dateMatch[3]);
+        const hour = Number(timeMatch[1]);
+        const minute = Number(timeMatch[2]);
+        if (
+          !Number.isFinite(year) ||
+          !Number.isFinite(month) ||
+          !Number.isFinite(day) ||
+          !Number.isFinite(hour) ||
+          !Number.isFinite(minute)
+        ) {
+          return null;
+        }
+        const utc = new Date(Date.UTC(year, month - 1, day, hour, minute, 0));
+        if (Number.isNaN(utc.getTime())) return null;
+        return utc;
+      }
+
+      function convertUtcSlotToRegionalTimes(dateIso, timeToken) {
+        const utcDate = toUtcDateFromIso(dateIso, timeToken);
+        if (!utcDate) return null;
+        const fiParts = toPartsInTimeZone(utcDate, DEFAULT_TIMEZONE);
+        const seParts = toPartsInTimeZone(utcDate, "Europe/Stockholm");
+        return {
+          fiDate: toIsoDateFromParts(fiParts),
+          fiTime: toIsoTimeFromParts(fiParts),
+          seTime: toIsoTimeFromParts(seParts),
+        };
       }
 
       function toPartsInTimeZone(date, timeZone) {
@@ -921,44 +1101,83 @@
         }
       }
 
-      function initializeDateTimePicker() {
-        if (typeof window.flatpickr !== "function") return;
-        state.startPicker = window.flatpickr(els.startDatetime, {
-          enableTime: true,
-          time_24hr: true,
-          dateFormat: "Y-m-d H:i",
-          minuteIncrement: 15,
-          allowInput: false,
-          disableMobile: true,
-          clickOpens: true,
-        });
+      function normalizeMonthKey(rawValue) {
+        const token = String(rawValue || "").trim();
+        if (!/^\d{4}-\d{2}$/.test(token)) return "";
+        return token;
       }
 
-      function setStartControls(startDateValue) {
-        const normalized = normalizeStartDate(startDateValue);
-        if (!normalized) return;
-        if (state.startPicker) {
-          state.startPicker.setDate(normalized, false, "Y-m-d H:i");
-          return;
-        }
-        els.startDatetime.value = normalized;
+      function getTodayDateIso() {
+        return getRoundedHelsinkiNow().date;
       }
 
-      function getCurrentStartValue() {
-        return normalizeStartDate(els.startDatetime.value);
+      function compareDateIso(left, right) {
+        return String(left || "").localeCompare(String(right || ""));
       }
 
-      function shiftCurrentStartDays(delta) {
-        const current = getCurrentStartValue();
-        const normalized = normalizeStartDate(current);
-        if (!normalized) return;
-        const [datePart, timePart] = normalized.split(" ");
-        const [year, month, day] = datePart.split("-").map(Number);
-        const [hour, minute] = timePart.split(":").map(Number);
-        const utc = new Date(Date.UTC(year, month - 1, day, hour, minute, 0));
+      function getDefaultDateForMonth(monthKey) {
+        const normalizedMonth = normalizeMonthKey(monthKey);
+        if (!normalizedMonth) return getTodayDateIso();
+        const today = getTodayDateIso();
+        if (toMonthKey(today) === normalizedMonth) return today;
+        return `${normalizedMonth}-01`;
+      }
+
+      function shiftDateIsoDays(dateIso, delta) {
+        const parts = String(dateIso || "").split("-").map(Number);
+        if (parts.length !== 3 || parts.some((value) => !Number.isFinite(value))) return "";
+        const utc = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0));
         utc.setUTCDate(utc.getUTCDate() + delta);
-        const next = `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())} ${pad2(utc.getUTCHours())}:${pad2(utc.getUTCMinutes())}`;
-        setStartControls(next);
+        return `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())}`;
+      }
+
+      function getMonthLastDate(monthKey) {
+        const parts = String(monthKey || "").split("-").map(Number);
+        if (parts.length !== 2 || parts.some((value) => !Number.isFinite(value))) return "";
+        const utc = new Date(Date.UTC(parts[0], parts[1], 0, 0, 0, 0));
+        return `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}-${pad2(utc.getUTCDate())}`;
+      }
+
+      function buildMonthAnchorStartDates(monthKey) {
+        const normalizedMonth = normalizeMonthKey(monthKey);
+        if (!normalizedMonth) return [];
+
+        const monthStart = `${normalizedMonth}-01`;
+        const monthEnd = getMonthLastDate(normalizedMonth);
+        if (!monthEnd) return [];
+
+        let cursor = monthStart;
+        const today = getTodayDateIso();
+        if (normalizedMonth === toMonthKey(today) && compareDateIso(cursor, today) < 0) {
+          cursor = today;
+        }
+
+        const anchors = [];
+        for (let guard = 0; guard < 8 && compareDateIso(cursor, monthEnd) <= 0; guard += 1) {
+          const start = normalizeStartDate(`${cursor} 00:00`);
+          if (start) anchors.push(start);
+          cursor = shiftDateIsoDays(cursor, 7);
+          if (!cursor) break;
+        }
+        return anchors;
+      }
+
+      function getInitialMonthKey() {
+        const queryStart = normalizeStartDate(new URLSearchParams(window.location.search).get("startDate"));
+        if (queryStart) return queryStart.slice(0, 7);
+        return getTodayDateIso().slice(0, 7);
+      }
+
+      function getEffectiveStartDate() {
+        const monthKey = normalizeMonthKey(state.visibleMonthKey) || getInitialMonthKey();
+        const selectedInMonth = /^\d{4}-\d{2}-\d{2}$/.test(String(state.selectedDate || ""))
+          && toMonthKey(state.selectedDate) === monthKey;
+        let effectiveDate = selectedInMonth ? state.selectedDate : getDefaultDateForMonth(monthKey);
+        const today = getTodayDateIso();
+        if (monthKey === toMonthKey(today) && compareDateIso(effectiveDate, today) < 0) {
+          effectiveDate = today;
+        }
+        return normalizeStartDate(`${effectiveDate} 00:00`);
       }
 
       function getValidatedSchedulerUrl(rawUrl) {
@@ -981,91 +1200,13 @@
         return url.toString();
       }
 
-      function updateBrowserAndStorageStart(startValue) {
+      function updateBrowserStart(startValue) {
         const normalized = normalizeStartDate(startValue);
         if (!normalized) return;
-
-        localStorage.setItem(START_STORAGE_KEY, normalized);
 
         const url = new URL(window.location.href);
         url.searchParams.set("startDate", normalized);
         window.history.replaceState({}, "", url.toString());
-      }
-
-      function renderTimezoneStatus() {
-        const start = getCurrentStartValue();
-        els.timezoneStatus.innerHTML = `Timezone: <strong>${DEFAULT_TIMEZONE}</strong><br/>Current synchronized start: <span class="mono">${start || "-"}</span>`;
-      }
-
-      function renderCalendars() {
-        if (!els.calendarGrid) return;
-        const startValue = normalizeStartDate(getCurrentStartValue());
-        els.calendarGrid.innerHTML = "";
-
-        state.calendars.forEach((calendar, index) => {
-          const card = document.createElement("article");
-          card.className = "calendar-card";
-
-          const header = document.createElement("div");
-          header.className = "calendar-card-header";
-
-          const title = document.createElement("h3");
-          title.className = "calendar-card-title";
-          title.textContent = calendar.name || `Calendar ${index + 1}`;
-
-          const actions = document.createElement("div");
-          actions.className = "inline-actions";
-
-          const personBadge = document.createElement("span");
-          personBadge.className = "person-badge";
-          const personColor = normalizeHexColor(calendar.color, COLOR_PALETTE[index % COLOR_PALETTE.length]);
-          personBadge.innerHTML = `<span class="legend-dot" style="background:${personColor};"></span><span>${escapeHtml(normalizeNameLabel(calendar.name, `Calendar ${index + 1}`))}</span>`;
-          actions.appendChild(personBadge);
-
-          const resolved = startValue ? withStartDate(calendar.url, startValue) : "";
-          if (resolved) {
-            const openLink = document.createElement("a");
-            openLink.className = "btn-link";
-            openLink.href = resolved;
-            openLink.target = "_blank";
-            openLink.rel = "noopener noreferrer";
-            openLink.textContent = "Open";
-            actions.appendChild(openLink);
-          }
-
-          header.appendChild(title);
-          header.appendChild(actions);
-
-          card.appendChild(header);
-
-          if (!calendar.url.trim()) {
-            const empty = document.createElement("div");
-            empty.className = "empty-calendar";
-            empty.innerHTML = `<strong>No scheduler URL configured.</strong><div>Open Calendar Admin to add scheduler links for this calendar.</div>`;
-            card.appendChild(empty);
-          } else if (!resolved) {
-            const invalid = document.createElement("div");
-            invalid.className = "empty-calendar";
-            invalid.innerHTML = `<strong class="danger">Invalid scheduler URL</strong><div>Only <span class="mono">https://.../scheduler/...</span> links are accepted.</div>`;
-            card.appendChild(invalid);
-          } else {
-            const linkBlock = document.createElement("div");
-            linkBlock.className = "empty-calendar";
-            linkBlock.innerHTML = `<strong>Open In Pipedrive</strong><div class="calendar-url mono">${escapeHtml(resolved)}</div>`;
-
-            const openBtn = document.createElement("a");
-            openBtn.className = "btn-link";
-            openBtn.href = resolved;
-            openBtn.target = "_blank";
-            openBtn.rel = "noopener noreferrer";
-            openBtn.textContent = "Open Scheduler";
-            openBtn.style.marginTop = "8px";
-            linkBlock.appendChild(openBtn);
-            card.appendChild(linkBlock);
-          }
-
-          els.calendarGrid.appendChild(card);
-        });
       }
 
       function renderAvailabilityLegend(items) {
@@ -1171,13 +1312,206 @@
           }));
       }
 
+      function parseDateKey(dateIso) {
+        const parts = String(dateIso || "").split("-").map(Number);
+        if (parts.length !== 3 || parts.some((value) => !Number.isFinite(value))) return null;
+        return { year: parts[0], month: parts[1], day: parts[2] };
+      }
+
+      function toMonthKey(dateIso) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateIso || ""))) return "";
+        return String(dateIso).slice(0, 7);
+      }
+
+      function shiftMonthKey(monthKey, delta) {
+        const parts = String(monthKey || "").split("-").map(Number);
+        if (parts.length !== 2 || parts.some((value) => !Number.isFinite(value))) return monthKey;
+        const utc = new Date(Date.UTC(parts[0], parts[1] - 1, 1, 0, 0, 0));
+        utc.setUTCMonth(utc.getUTCMonth() + delta);
+        return `${utc.getUTCFullYear()}-${pad2(utc.getUTCMonth() + 1)}`;
+      }
+
+      function formatMonthLabel(monthKey) {
+        const parts = String(monthKey || "").split("-").map(Number);
+        if (parts.length !== 2 || parts.some((value) => !Number.isFinite(value))) return monthKey;
+        const date = new Date(Date.UTC(parts[0], parts[1] - 1, 1, 0, 0, 0));
+        return new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" }).format(date);
+      }
+
+      function formatFullDayLabel(dateIso) {
+        const parsed = parseDateKey(dateIso);
+        if (!parsed) return dateIso;
+        const date = new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day, 0, 0, 0));
+        return new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(date);
+      }
+
+      function buildAvailabilityModel(results) {
+        const byDate = new Map();
+        const dateTotals = new Map();
+        const personColors = new Map();
+
+        for (const result of results) {
+          const person = normalizeNameLabel(result.person, "Calendar");
+          const color = normalizeHexColor(result.color, "#ffa300");
+          if (!personColors.has(person)) personColors.set(person, color);
+
+          for (const slot of result.slots) {
+            const date = String(slot.date || "").trim();
+            const time = String(slot.time || "").trim();
+            const timeSe = String(slot.timeSe || "").trim();
+            if (!date || !time) continue;
+
+            if (!byDate.has(date)) byDate.set(date, new Map());
+            const byPerson = byDate.get(date);
+            if (!byPerson.has(person)) byPerson.set(person, []);
+            byPerson.get(person).push({
+              time,
+              timeSe,
+              bookingUrl: String(slot.bookingUrl || "").trim(),
+            });
+            dateTotals.set(date, (dateTotals.get(date) || 0) + 1);
+          }
+        }
+
+        for (const byPerson of byDate.values()) {
+          for (const slots of byPerson.values()) {
+            slots.sort((left, right) => left.time.localeCompare(right.time));
+          }
+        }
+
+        return { byDate, dateTotals, personColors };
+      }
+
+      function syncPlannerState(model) {
+        const availableDates = [...model.byDate.keys()].sort((left, right) => left.localeCompare(right));
+        if (!state.visibleMonthKey) state.visibleMonthKey = getInitialMonthKey();
+        const fallbackDate = getDefaultDateForMonth(state.visibleMonthKey);
+
+        if (!state.selectedDate || toMonthKey(state.selectedDate) !== state.visibleMonthKey) {
+          const firstInMonth = availableDates.find((dateIso) => toMonthKey(dateIso) === state.visibleMonthKey);
+          state.selectedDate = firstInMonth || fallbackDate;
+        }
+        if (state.selectedDate && !model.byDate.has(state.selectedDate)) {
+          const firstInMonth = availableDates.find((dateIso) => toMonthKey(dateIso) === state.visibleMonthKey);
+          state.selectedDate = firstInMonth || fallbackDate;
+        }
+      }
+
+      function renderMonthPanel(model) {
+        const monthKey = state.visibleMonthKey;
+        const [year, month] = monthKey.split("-").map(Number);
+        const first = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0));
+        const mondayOffset = (first.getUTCDay() + 6) % 7;
+        const gridStart = new Date(first.getTime());
+        gridStart.setUTCDate(gridStart.getUTCDate() - mondayOffset);
+
+        const weekdayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        const weekdayRow = weekdayLabels.map((label) => `<div class="month-weekday">${label}</div>`).join("");
+
+        const cells = [];
+        for (let index = 0; index < 42; index += 1) {
+          const cellDate = new Date(gridStart.getTime());
+          cellDate.setUTCDate(gridStart.getUTCDate() + index);
+          const dateIso = `${cellDate.getUTCFullYear()}-${pad2(cellDate.getUTCMonth() + 1)}-${pad2(cellDate.getUTCDate())}`;
+          const inMonth = cellDate.getUTCMonth() === (month - 1);
+          const selected = dateIso === state.selectedDate;
+          const slotCount = model.dateTotals.get(dateIso) || 0;
+          const dayClasses = [
+            "month-day",
+            inMonth ? "" : "out-month",
+            selected ? "selected" : "",
+            slotCount ? "has-slots" : "",
+          ].filter(Boolean).join(" ");
+          cells.push(
+            `<button class="${dayClasses}" type="button" data-date="${dateIso}">
+              <span class="month-day-number">${cellDate.getUTCDate()}</span>
+              <span class="month-day-count">${slotCount ? `${slotCount} free` : "No slots"}</span>
+            </button>`,
+          );
+        }
+
+        els.plannerMonth.innerHTML = `
+          <div class="month-head">
+            <button class="month-nav-btn" type="button" data-month-shift="-1" aria-label="Previous month">&#8249;</button>
+            <h4 class="month-label">${escapeHtml(formatMonthLabel(monthKey))}</h4>
+            <button class="month-nav-btn" type="button" data-month-shift="1" aria-label="Next month">&#8250;</button>
+          </div>
+          <div class="month-weekdays">${weekdayRow}</div>
+          <div class="month-grid">${cells.join("")}</div>
+        `;
+      }
+
+      function renderTimesPanel(model) {
+        const selectedDate = state.selectedDate;
+        const selectedLabel = selectedDate ? formatFullDayLabel(selectedDate) : "No day selected";
+        const byPerson = model.byDate.get(selectedDate) || new Map();
+        const personNames = [...state.selectedPersons].sort((left, right) => left.localeCompare(right));
+
+        if (!selectedDate) {
+          els.plannerTimes.innerHTML = `<div class="empty-calendar"><strong>No day selected.</strong><div>Choose a day from the month calendar.</div></div>`;
+          return;
+        }
+
+        const columns = personNames.map((person) => {
+          const color = model.personColors.get(person) || "#ffa300";
+          const slots = (byPerson.get(person) || []).slice();
+          const unique = [];
+          const seen = new Set();
+          for (const slot of slots) {
+            const key = `${slot.time}|${slot.timeSe}|${slot.bookingUrl}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            unique.push(slot);
+          }
+
+          const slotMarkup = unique.length
+            ? unique
+              .map((slot) => {
+                const fiTime = slot.time;
+                const seTime = slot.timeSe || shiftTimeToken(slot.time, SE_TIME_OFFSET_MINUTES);
+                if (!slot.bookingUrl) {
+                  return `<div class="planner-time-empty">${escapeHtml(seTime)} SE / ${escapeHtml(fiTime)} FI</div>`;
+                }
+                return `<a class="planner-time-link" style="--chip-color:${color}; border-color:${color};" href="${escapeHtml(slot.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(seTime)} SE / ${escapeHtml(fiTime)} FI</a>`;
+              })
+              .join("")
+            : `<div class="planner-time-empty">No free times</div>`;
+
+          return `
+            <article class="planner-person-column">
+              <div class="planner-person-head">
+                <span class="legend-dot" style="background:${color};"></span>
+                <span>${escapeHtml(person)}</span>
+              </div>
+              <div class="planner-time-list">${slotMarkup}</div>
+            </article>
+          `;
+        }).join("");
+
+        els.plannerTimes.innerHTML = `
+          <h4 class="planner-day-title">${escapeHtml(selectedLabel)}</h4>
+          <p class="planner-day-sub">Click a time to open the selected calendar in Pipedrive.</p>
+          <div class="planner-time-columns">${columns || `<div class="empty-calendar"><strong>No names selected.</strong><div>Select one or more names from filters above.</div></div>`}</div>
+        `;
+      }
+
+      function renderBookingPlanner(filtered) {
+        const model = buildAvailabilityModel(filtered);
+        syncPlannerState(model);
+        renderTimesPanel(model);
+        renderMonthPanel(model);
+      }
+
       function renderAvailabilityFromState() {
         const results = state.availabilityResults;
         if (!results.length) {
           els.personFilterWrap.innerHTML = "";
           renderAvailabilityLegend([]);
-          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No availability data yet.</strong><div>Use refresh after configuring scheduler links.</div></div>`;
+          els.plannerTimes.innerHTML = `<div class="empty-calendar"><strong>No availability data yet.</strong><div>Use refresh after configuring scheduler links.</div></div>`;
+          els.plannerMonth.innerHTML = `<div class="empty-calendar"><strong>No calendar data.</strong><div>Load calendars to show available dates.</div></div>`;
           els.availabilityStatus.innerHTML = `<strong>Waiting</strong> configure calendar links to load availability.`;
+          state.selectedDate = "";
+          state.visibleMonthKey = "";
           return;
         }
 
@@ -1194,7 +1528,7 @@
         }
         const legendItems = [...legendByPerson.entries()].map(([person, color]) => ({ person, color }));
         renderAvailabilityLegend(legendItems);
-        renderUnifiedAvailabilityTable(filtered);
+        renderBookingPlanner(filtered);
 
         const totalSlots = results.reduce((sum, item) => sum + item.slots.length, 0);
         const visibleSlots = filtered.reduce((sum, item) => sum + item.slots.length, 0);
@@ -1209,7 +1543,7 @@
         els.availabilityStatus.innerHTML = `<strong class="ok">Loaded</strong> showing ${visibleSlots}/${totalSlots} slot(s), ${selectedCount} name(s) selected. Business hours: FI ${FI_BUSINESS_LABEL} / SE ${SE_BUSINESS_LABEL}.`;
       }
 
-      async function fetchCalendarAvailability(calendar, startDate, fallbackColor) {
+      async function fetchCalendarAvailabilityChunk(calendar, startDate, fallbackColor) {
         const publicHash = extractPublicHash(calendar.url);
         const schedulerUrl = getValidatedSchedulerUrl(calendar.url);
         if (!schedulerUrl || !publicHash) {
@@ -1250,9 +1584,16 @@
               if (!slot?.available) continue;
               const time = String(slot?.time || "").trim();
               if (!time) continue;
+              const converted = convertUtcSlotToRegionalTimes(date, time);
+              if (!converted) continue;
               const slotStart = normalizeStartDate(`${date} ${time}`);
               const bookingUrl = slotStart ? withStartDate(calendar.url, slotStart) : withStartDate(calendar.url, startDate);
-              slots.push({ date, time, bookingUrl });
+              slots.push({
+                date: converted.fiDate,
+                time: converted.fiTime,
+                timeSe: converted.seTime,
+                bookingUrl,
+              });
             }
           }
 
@@ -1276,69 +1617,60 @@
         }
       }
 
-      function renderUnifiedAvailabilityTable(results) {
-        const daySet = new Set();
-        const timeSet = new Set();
-        const cellMap = new Map();
+      async function fetchCalendarAvailability(calendar, monthKey, fallbackColor) {
+        const anchors = buildMonthAnchorStartDates(monthKey);
+        if (!anchors.length) {
+          return {
+            calendarId: calendar.id,
+            person: normalizeNameLabel(calendar.name, "Calendar"),
+            name: calendar.name,
+            color: normalizeHexColor(calendar.color, fallbackColor),
+            slots: [],
+            error: "No valid month anchor dates",
+          };
+        }
 
-        for (const result of results) {
-          for (const slot of result.slots) {
-            daySet.add(slot.date);
-            timeSet.add(slot.time);
-            const key = `${slot.date}|${slot.time}`;
-            if (!cellMap.has(key)) cellMap.set(key, []);
-            cellMap.get(key).push({
-              person: result.person,
-              name: result.name,
-              color: result.color,
-              bookingUrl: slot.bookingUrl || "",
-            });
+        const chunks = await Promise.all(
+          anchors.map((startDate) => fetchCalendarAvailabilityChunk(calendar, startDate, fallbackColor)),
+        );
+
+        const slots = [];
+        const seen = new Set();
+        const errors = [];
+        let base = null;
+
+        for (const chunk of chunks) {
+          if (!base) base = chunk;
+          if (chunk.error) errors.push(chunk.error);
+          for (const slot of chunk.slots || []) {
+            const key = `${slot.date}|${slot.time}|${slot.bookingUrl || ""}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            slots.push(slot);
           }
         }
 
-        const days = [...daySet].sort((left, right) => left.localeCompare(right));
-        const times = [...timeSet].sort((left, right) => left.localeCompare(right));
-
-        if (!days.length || !times.length) {
-          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No available times found.</strong><div>Try another start date or verify calendar links.</div></div>`;
-          return;
-        }
-
-        const thead = [
-          `<tr><th class="unified-time unified-head-time">Time FI / SE</th>`,
-          ...days.map((day) => {
-            const label = formatDayHead(day);
-            return `<th class="unified-day-head">${escapeHtml(label.line1)}<span class="unified-day-sub mono">${escapeHtml(label.line2)}</span></th>`;
-          }),
-          `</tr>`,
-        ].join("");
-
-        const rows = times.map((time) => {
-          const fiTime = shiftTimeToken(time, 0);
-          const seTime = shiftTimeToken(time, SE_TIME_OFFSET_MINUTES);
-          const cells = days.map((day) => {
-            const key = `${day}|${time}`;
-            const items = (cellMap.get(key) || []).slice().sort((a, b) => a.person.localeCompare(b.person));
-            if (!items.length) return `<td class="slot-cell"><div class="slot-empty">—</div></td>`;
-            const chips = items
-              .map((item) => {
-                const personContent = item.bookingUrl
-                  ? `<a class="slot-person-link" href="${escapeHtml(item.bookingUrl)}">${escapeHtml(item.person)}</a>`
-                  : `<span class="slot-person">${escapeHtml(item.person)}</span>`;
-                return `<div class="slot-chip" style="border-left-color:${item.color};">${personContent}<span class="slot-name">${escapeHtml(item.name)}</span></div>`;
-              })
-              .join("");
-            return `<td class="slot-cell"><div class="slot-chip-list">${chips}</div></td>`;
-          });
-          return `<tr><td class="unified-time mono"><div class="time-dual"><span class="time-primary">FI ${escapeHtml(fiTime)}</span><span class="time-secondary">SE ${escapeHtml(seTime)}</span></div></td>${cells.join("")}</tr>`;
+        slots.sort((left, right) => {
+          const dateCompare = String(left.date || "").localeCompare(String(right.date || ""));
+          if (dateCompare) return dateCompare;
+          return String(left.time || "").localeCompare(String(right.time || ""));
         });
 
-        els.availabilityWrap.innerHTML = `<table class="unified-table"><thead>${thead}</thead><tbody>${rows.join("")}</tbody></table>`;
+        return {
+          calendarId: base?.calendarId || calendar.id,
+          person: base?.person || normalizeNameLabel(calendar.name, "Calendar"),
+          name: base?.name || calendar.name || "Calendar",
+          color: base?.color || normalizeHexColor(calendar.color, fallbackColor),
+          slots,
+          error: errors.length ? `Anchors failed: ${errors.length}/${anchors.length}` : "",
+        };
       }
 
       async function refreshUnifiedAvailability() {
-        const start = normalizeStartDate(getCurrentStartValue());
+        const start = getEffectiveStartDate();
         if (!start) return;
+        updateBrowserStart(start);
+        const monthKey = normalizeMonthKey(state.visibleMonthKey) || getInitialMonthKey();
 
         const requestId = ++state.availabilityRequestId;
         els.availabilityStatus.innerHTML = `<strong>Loading</strong> unified availability from configured calendars...`;
@@ -1348,15 +1680,17 @@
           state.availabilityResults = [];
           state.selectedPersons = new Set();
           state.personSelectionInitialized = false;
+          state.selectedDate = "";
           els.availabilityStatus.innerHTML = `<strong class="danger">No calendars configured</strong> Add scheduler URLs to load unified availability.`;
-          els.availabilityWrap.innerHTML = `<div class="empty-calendar"><strong>No sources configured.</strong><div>Add at least one scheduler URL in the source list.</div></div>`;
+          els.plannerTimes.innerHTML = `<div class="empty-calendar"><strong>No sources configured.</strong><div>Add at least one scheduler URL in the source list.</div></div>`;
+          els.plannerMonth.innerHTML = `<div class="empty-calendar"><strong>No calendar data.</strong><div>Add linked calendars to load days.</div></div>`;
           els.availabilityLegend.innerHTML = "";
           els.personFilterWrap.innerHTML = "";
           return;
         }
 
         const results = await Promise.all(
-          calendars.map((calendar, index) => fetchCalendarAvailability(calendar, start, COLOR_PALETTE[index % COLOR_PALETTE.length])),
+          calendars.map((calendar, index) => fetchCalendarAvailability(calendar, monthKey, COLOR_PALETTE[index % COLOR_PALETTE.length])),
         );
 
         if (requestId !== state.availabilityRequestId) return;
@@ -1370,7 +1704,8 @@
         state.availabilityResults = [];
         state.selectedPersons = new Set();
         state.personSelectionInitialized = false;
-        renderCalendars();
+        const monthKey = normalizeMonthKey(state.visibleMonthKey) || getInitialMonthKey();
+        state.selectedDate = getDefaultDateForMonth(monthKey);
         await refreshUnifiedAvailability();
         if (showStatusMessage && els.saveStatus) {
           const sourceLabel = source === "repo" ? "GitHub config" : "fallback defaults";
@@ -1379,98 +1714,64 @@
       }
 
       async function copyShareLink() {
-        const start = normalizeStartDate(getCurrentStartValue());
+        const start = getEffectiveStartDate();
         if (!start) return;
         const url = new URL(window.location.href);
         url.searchParams.set("startDate", start);
         try {
           await navigator.clipboard.writeText(url.toString());
-          els.saveStatus.innerHTML = `<strong class="ok">Copied</strong> share link with current <span class="mono">startDate</span>.`;
+          if (els.saveStatus) {
+            els.saveStatus.innerHTML = `<strong class="ok">Copied</strong> share link for month ${escapeHtml(start.slice(0, 7))}.`;
+          }
         } catch {
-          els.saveStatus.innerHTML = `<strong class="danger">Copy failed</strong> Clipboard permission denied.`;
+          if (els.saveStatus) {
+            els.saveStatus.innerHTML = `<strong class="danger">Copy failed</strong> Clipboard permission denied.`;
+          }
         }
-      }
-
-      async function applyStartToAll() {
-        const start = normalizeStartDate(getCurrentStartValue());
-        if (!start) {
-          els.saveStatus.innerHTML = `<strong class="danger">Invalid start date/time</strong> Choose valid values first.`;
-          return;
-        }
-
-        updateBrowserAndStorageStart(start);
-        renderTimezoneStatus();
-        renderCalendars();
-        await refreshUnifiedAvailability();
-        els.saveStatus.innerHTML = `<strong class="ok">Applied</strong> start date to all calendars.`;
-      }
-
-      function initializeStart() {
-        const queryStart = normalizeStartDate(new URLSearchParams(window.location.search).get("startDate"));
-        const storedStart = normalizeStartDate(localStorage.getItem(START_STORAGE_KEY));
-        const fallback = getRoundedHelsinkiNow();
-
-        if (queryStart) {
-          setStartControls(queryStart);
-          return;
-        }
-        if (storedStart) {
-          setStartControls(storedStart);
-          return;
-        }
-        setStartControls(`${fallback.date} ${fallback.time}`);
       }
 
       function bindEvents() {
-        els.applyBtn.addEventListener("click", () => {
-          void applyStartToAll();
-        });
-
-        els.todayBtn.addEventListener("click", () => {
-          const now = getRoundedHelsinkiNow();
-          setStartControls(`${now.date} ${now.time}`);
-          void applyStartToAll();
-        });
-
-        els.minusDayBtn.addEventListener("click", () => {
-          shiftCurrentStartDays(-1);
-          void applyStartToAll();
-        });
-
-        els.plusDayBtn.addEventListener("click", () => {
-          shiftCurrentStartDays(1);
-          void applyStartToAll();
-        });
-
-        els.startDatetime.addEventListener("change", () => {
-          void applyStartToAll();
-        });
-        els.openPickerBtn.addEventListener("click", () => {
-          if (state.startPicker) {
-            state.startPicker.open();
-            return;
-          }
-          els.startDatetime.focus();
-        });
-
-        els.reloadCalendarsBtn.addEventListener("click", () => {
-          void reloadCalendarsFromSource(true);
-        });
-
-        els.copyLinkBtn.addEventListener("click", copyShareLink);
+        if (els.copyLinkBtn) {
+          els.copyLinkBtn.addEventListener("click", copyShareLink);
+        }
         els.refreshAvailabilityBtn.addEventListener("click", () => {
           void refreshUnifiedAvailability();
+        });
+        els.plannerMonth.addEventListener("click", (event) => {
+          const shiftButton = event.target.closest("[data-month-shift]");
+          if (shiftButton) {
+            const delta = Number(shiftButton.dataset.monthShift || "0");
+            if (!Number.isFinite(delta) || !delta) return;
+            const current = normalizeMonthKey(state.visibleMonthKey) || getInitialMonthKey();
+            state.visibleMonthKey = shiftMonthKey(current, delta);
+            state.selectedDate = getDefaultDateForMonth(state.visibleMonthKey);
+            void refreshUnifiedAvailability();
+            return;
+          }
+
+          const dayButton = event.target.closest("[data-date]");
+          if (!dayButton) return;
+          const dateIso = String(dayButton.dataset.date || "").trim();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(dateIso)) return;
+          const nextMonth = toMonthKey(dateIso);
+          const monthChanged = nextMonth && nextMonth !== state.visibleMonthKey;
+          state.selectedDate = dateIso;
+          state.visibleMonthKey = nextMonth || state.visibleMonthKey;
+          if (monthChanged) {
+            void refreshUnifiedAvailability();
+            return;
+          }
+          renderAvailabilityFromState();
         });
       }
 
       async function init() {
-        initializeDateTimePicker();
-        initializeStart();
-        const start = normalizeStartDate(getCurrentStartValue());
-        if (start) updateBrowserAndStorageStart(start);
+        state.visibleMonthKey = getInitialMonthKey();
+        state.selectedDate = getDefaultDateForMonth(state.visibleMonthKey);
+        const start = getEffectiveStartDate();
+        if (start) updateBrowserStart(start);
         bindEvents();
-        renderTimezoneStatus();
-        await reloadCalendarsFromSource(true);
+        await reloadCalendarsFromSource(false);
       }
 
       void init();
