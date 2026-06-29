@@ -2129,7 +2129,7 @@
                 class="w-full sm:w-fit flex items-center flex-col sm:flex-row justify-center gap-1 bg-gradient-to-br from-sofecta-primary/20 to-sofecta-primary/5 px-8 py-4 rounded-2xl border-2 border-sofecta-primary/30 shadow-lg">
                 <input type="number" id="inbox-input"
                   class="w-fit px-2 py-1 text-center text-4xl font-normal bg-transparent border-none text-sofecta-primary focus:outline-none transition-all"
-                  min="20" max="1000" value="0" />
+                  min="20" max="10000" value="0" />
                 <span class="text-white/70 text-xl font-medium" data-i18n="pricing.inboxes">inboxes</span>
               </div>
             </div>
@@ -2139,7 +2139,7 @@
             <div class="relative pb-4">
               <div class="relative">
                 <input type="range" id="inbox-range"
-                  class="inbox-slider w-full h-3 appearance-none bg-transparent cursor-pointer" min="20" max="1000"
+                  class="inbox-slider w-full h-3 appearance-none bg-transparent cursor-pointer" min="20" max="10000"
                   value="0" />
                 <div id="slider-progress"
                   class="absolute top-1/2 -translate-y-1/2 left-0 h-3 bg-gradient-to-r from-sofecta-primary to-sofecta-primary/60 rounded-full pointer-events-none transition-all duration-200"
@@ -2152,19 +2152,19 @@
                 </div>
                 <div class="flex flex-col items-center" style="margin-right: -2%">
                   <div class="w-0.5 h-4 bg-white/40"></div>
-                  <span class="text-xs text-white/60 mt-1 font-medium">250</span>
+                  <span class="text-xs text-white/60 mt-1 font-medium">2500</span>
                 </div>
                 <div class="flex flex-col items-center" style="margin-right: -2%">
                   <div class="w-0.5 h-4 bg-white/40"></div>
-                  <span class="text-xs text-white/60 mt-1 font-medium">500</span>
+                  <span class="text-xs text-white/60 mt-1 font-medium">5000</span>
                 </div>
                 <div class="flex flex-col items-center" style="margin-right: -2%">
                   <div class="w-0.5 h-4 bg-white/40"></div>
-                  <span class="text-xs text-white/60 mt-1 font-medium">750</span>
+                  <span class="text-xs text-white/60 mt-1 font-medium">7500</span>
                 </div>
                 <div class="flex flex-col items-center" style="margin-right: 0%">
                   <div class="w-0.5 h-4 bg-white/30"></div>
-                  <span class="text-xs text-white/50 mt-1">1000</span>
+                  <span class="text-xs text-white/50 mt-1">10000</span>
                 </div>
               </div>
             </div>
@@ -2188,7 +2188,7 @@
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
                 id="tier-large">
                 <div class="text-xs font-semibold text-white/60" data-i18n="pricing.large">Large</div>
-                <div class="text-xs text-white/40">251-1000</div>
+                <div class="text-xs text-white/40">251-999</div>
               </div>
               <div
                 class="text-center px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300"
@@ -2196,7 +2196,7 @@
                 <div class="text-xs font-semibold text-white/60" data-i18n="pricing.enterprise">
                   Enterprise
                 </div>
-                <div class="text-xs text-white/40">1000+</div>
+                <div class="text-xs text-white/40">1000-10000</div>
               </div>
             </div>
           </div>
@@ -5081,6 +5081,8 @@
       const inboxInput = document.getElementById("inbox-input");
       // const tierBadge = document.getElementById("tier-badge");
       const sliderProgress = document.getElementById("slider-progress");
+      const mailboxMin = parseInt(inboxRange?.min || "20", 10);
+      const mailboxMax = parseInt(inboxRange?.max || "10000", 10);
       const tierSmall = document.getElementById("tier-small");
       const tierMid = document.getElementById("tier-mid");
       const tierLarge = document.getElementById("tier-large");
@@ -5154,7 +5156,8 @@
 
         // Update progress bar
         if (sliderProgress) {
-          const percentage = ((value - 1) / (1000 - 1)) * 100;
+          const clamped = Math.min(Math.max(value, mailboxMin), mailboxMax);
+          const percentage = ((clamped - mailboxMin) / (mailboxMax - mailboxMin)) * 100;
           sliderProgress.style.width = `${percentage}%`;
         }
       }
@@ -5423,7 +5426,7 @@
             e.target.value = 0;
             value = 0;
           }
-          if (value > 1000) value = 1000;
+          if (value > mailboxMax) value = mailboxMax;
           // Clamp value between min and max
 
 
@@ -5443,8 +5446,8 @@
           let value = parseInt(e.target.value);
           if (isNaN(value) || value < 0) {
             value = 0;
-          } else if (value > 1000) {
-            value = 1000;
+          } else if (value > mailboxMax) {
+            value = mailboxMax;
           }
           inboxInput.value = value;
           inboxRange.value = value;
